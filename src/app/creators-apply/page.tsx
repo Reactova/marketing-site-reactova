@@ -28,7 +28,7 @@ const BENEFITS = [
 const REQUIREMENTS = [
   'Send at least 300 automated DMs per month',
   'Run at least 2 automation campaigns every 30 days',
-  'Keep "Powered by Reactova" footer on your bio link page',
+  'Keep the "⚡︎ Powered by @Reactova" tag in your automated DM messages',
 ]
 
 export default function CreatorsView() {
@@ -61,6 +61,11 @@ export default function CreatorsView() {
         <p className="subhead">
           Join 50 selected creators who get full platform access at zero cost. 
           Automate your Instagram DMs and convert more followers into customers.
+        </p>
+
+        {/* Social proof */}
+        <p className="creators-social-proof">
+          🌍 Creators from 10+ countries have already applied — spots are filling fast
         </p>
 
         {/* Benefits Grid */}

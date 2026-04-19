@@ -62,6 +62,7 @@ export default function CreatorsForm() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    country: '',
     instagramUsername: '',
     instagramUrl: '',
     followerRange: '' as FollowerRange | '',
@@ -104,6 +105,7 @@ export default function CreatorsForm() {
     const errors: Record<string, boolean> = {}
     if (!formData.name.trim()) errors.name = true
     if (!formData.email.trim() || !formData.email.includes('@')) errors.email = true
+    if (!formData.country.trim()) errors.country = true
     if (!formData.instagramUsername.trim()) errors.instagramUsername = true
     if (!formData.followerRange) errors.followerRange = true
     if (!formData.contentNiche) errors.contentNiche = true
@@ -225,6 +227,18 @@ export default function CreatorsForm() {
               onChange={(e) => updateField('email', e.target.value)}
               disabled={loading}
               hasError={fieldErrors.email}
+            />
+          </div>
+
+          <div className="creators-input-group">
+            <Label required>Country</Label>
+            <Input
+              type="text"
+              placeholder="Where are you based? e.g. India, United States"
+              value={formData.country}
+              onChange={(e) => updateField('country', e.target.value)}
+              disabled={loading}
+              hasError={fieldErrors.country}
             />
           </div>
         </div>

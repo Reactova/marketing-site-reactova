@@ -161,7 +161,7 @@ export default function CreatorsView() {
             </div>
             <div className="cp-how-steps">
               {HOW_STEPS.map((step) => (
-                <div key={step.num} className="cp-step">
+                <div key={step.num} className="cp-step max-md:!flex-col">
                   <div className="cp-step-num">{step.num}</div>
                   <div className="cp-step-title">{step.title}</div>
                   <p className="cp-step-desc">{step.desc}</p>

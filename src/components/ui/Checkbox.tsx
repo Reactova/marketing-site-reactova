@@ -56,7 +56,7 @@ const CheckboxBase = forwardRef<HTMLLabelElement, CheckboxProps>(
         isDisabled={disabled || isDisabled}
         className={`
           group inline-flex items-center gap-2.5 cursor-pointer
-          disabled:opacity-60 disabled:cursor-not-allowed
+          disabled:opacity-50 disabled:cursor-not-allowed
           ${className}
         `}
         {...props}
@@ -64,12 +64,12 @@ const CheckboxBase = forwardRef<HTMLLabelElement, CheckboxProps>(
         <HeroCheckbox.Control
           className={`
             inline-flex shrink-0 items-center justify-center
-            rounded-md border border-[rgba(60,60,80,0.5)] bg-[rgba(15,15,26,0.8)]
-            text-[#c8c8d8] transition-all duration-200
-            hover:border-primary/40
-            group-data-[selected=true]:border-primary group-data-[selected=true]:bg-primary
+            rounded-[6px] border border-[#E2E2EE] bg-white
+            text-[#6D6D8A] transition-all duration-150
+            hover:border-[#CBCBDF]
+            group-data-[selected=true]:border-[#4F46E5] group-data-[selected=true]:bg-[#4F46E5]
             group-data-[selected=true]:text-white
-            group-data-[selected=true]:shadow-[0_0_10px_rgba(124,106,247,0.4)]
+            group-data-[selected=true]:shadow-[0_0_0_3px_rgba(79,70,229,0.1)]
             ${controlSize}
           `}
         >
@@ -77,16 +77,14 @@ const CheckboxBase = forwardRef<HTMLLabelElement, CheckboxProps>(
         </HeroCheckbox.Control>
         {showContent ? (
           <HeroCheckbox.Content
-            className={`
-              font-['DM_Sans',sans-serif] text-[13px] text-[#c8c8d8] sm:text-[14px]
-            `}
+            className="font-['Inter',sans-serif] text-[13px] text-[#3D3D5C] sm:text-[14px]"
           >
             {children}
           </HeroCheckbox.Content>
         ) : null}
       </HeroCheckbox>
     )
-  }
+  },
 )
 
 CheckboxBase.displayName = 'Checkbox'

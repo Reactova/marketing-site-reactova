@@ -12,37 +12,38 @@ export interface ButtonProps extends Omit<HeroButtonProps, 'variant' | 'color' |
 
 const variantClasses = {
   primary: `
-    bg-gradient-to-r from-accent to-[#e86a10]
-    text-white font-bold
-    shadow-lg shadow-accent/30
-    hover:shadow-xl hover:shadow-accent/40
+    bg-[#4F46E5]
+    text-white font-semibold
+    shadow-[0_1px_3px_rgba(79,70,229,0.18),0_6px_20px_rgba(79,70,229,0.12)]
+    hover:bg-[#3730A3]
+    hover:shadow-[0_2px_6px_rgba(79,70,229,0.22),0_10px_28px_rgba(79,70,229,0.16)]
     hover:-translate-y-0.5
     active:translate-y-0
   `,
   secondary: `
-    bg-gradient-to-r from-primary to-[#6558d4]
-    text-white font-bold
-    shadow-lg shadow-primary/30
-    hover:shadow-xl hover:shadow-primary/40
+    bg-[#7C3AED]
+    text-white font-semibold
+    shadow-[0_1px_3px_rgba(124,58,237,0.18),0_6px_20px_rgba(124,58,237,0.12)]
+    hover:bg-[#6D28D9]
     hover:-translate-y-0.5
     active:translate-y-0
   `,
   outline: `
     bg-transparent
-    border-2 border-primary/50
-    text-primary font-semibold
-    hover:bg-primary/10 hover:border-primary
+    border border-[#E2E2EE]
+    text-[#0E0E18] font-medium
+    hover:bg-[#F7F7FB] hover:border-[#CBCBDF]
   `,
   ghost: `
     bg-transparent
-    text-[#a0a0b8] font-medium
-    hover:bg-primary/10 hover:text-primary
+    text-[#6D6D8A] font-medium
+    hover:bg-[#F7F7FB] hover:text-[#0E0E18]
   `,
   danger: `
-    bg-gradient-to-r from-error to-[#dc2626]
-    text-white font-bold
-    shadow-lg shadow-error/30
-    hover:shadow-xl hover:shadow-error/40
+    bg-[#DC2626]
+    text-white font-semibold
+    shadow-[0_1px_3px_rgba(220,38,38,0.18)]
+    hover:bg-[#B91C1C]
     hover:-translate-y-0.5
     active:translate-y-0
   `,

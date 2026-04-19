@@ -256,7 +256,7 @@ export default function CreatorsForm() {
               disabled={loading}
               hasError={fieldErrors.instagramUsername}
               startContent="@"
-              startContentClassName="border-r border-gray-500 !pr-2"
+              startContentClassName="border-r border-gray-500 !p-2"
             />
           </div>
 
@@ -316,8 +316,9 @@ export default function CreatorsForm() {
               isDisabled={loading}
               variant='primary'
               size='md'
+              id='asksForComments'
             />
-            <Label>I already ask followers to comment on posts (e.g. "comment LINK to get the guide")</Label>
+            <Label htmlFor='asksForComments'>I already ask followers to comment on posts (e.g. "comment LINK to get the guide")</Label>
           </div>
         </div>
 

@@ -10,42 +10,49 @@ export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ hasError, minRows = 4, className = '', disabled, ...props }, ref) => {
     return (
-      <div
-        className={`
-          relative w-full
-          bg-[rgba(15,15,26,0.8)] rounded-xl !p-2.5
-          border transition-all duration-200
-          ${hasError 
-            ? 'border-error/50 hover:border-error/70 focus-within:border-error/80 focus-within:shadow-[0_0_12px_rgba(239,68,68,0.15)]' 
-            : 'border-[rgba(60,60,80,0.5)] hover:border-primary/40 focus-within:border-primary/60 focus-within:shadow-[0_0_16px_rgba(124,106,247,0.12)]'
-          }
-          ${disabled ? 'opacity-60 cursor-not-allowed' : ''}
-          ${className}
-        `}
-        tabIndex={-1}
-        onClick={(e) => {
-          if (disabled) return
-          const textareaElement = e.currentTarget.querySelector('textarea') as HTMLTextAreaElement | null
-          if (textareaElement) textareaElement.focus()
-        }}
-      >
-        <textarea
-          ref={ref}
-          disabled={disabled}
-          rows={minRows}
-          className="
-            w-full bg-transparent border-none outline-none
-            text-[#E8E8F0] placeholder:text-[#5a5a70]
-            font-['DM_Sans',sans-serif] text-[15px]
-            py-3 sm:py-3.5 px-3.5 sm:px-4
-            resize-y min-h-[120px]
-            disabled:cursor-not-allowed
-          "
-          {...props}
-        />
-      </div>
+      <textarea
+        ref={ref}
+        disabled={disabled}
+        rows={minRows}
+        aria-invalid={hasError || undefined}
+        className={[
+          // Layout & sizing
+          'w-full resize-y min-h-[120px]',
+          'py-3 px-3.5',
+
+          // Typography
+          "font-['Inter',sans-serif] text-[14px]",
+          'text-[#0E0E18] placeholder:text-[#A0A0BC]',
+
+          // Background & shape
+          'bg-white rounded-[9px]',
+
+          // Border
+          'border',
+          hasError ? 'border-red-300' : 'border-[#E2E2EE]',
+
+          // Hover
+          hasError ? 'hover:border-red-400' : 'hover:border-[#CBCBDF]',
+
+          // Focus
+          'outline-none',
+          hasError
+            ? 'focus:border-red-400 focus:ring-[3px] focus:ring-red-100'
+            : 'focus:border-[#4F46E5] focus:ring-[3px] focus:ring-[rgba(79,70,229,0.1)]',
+
+          // Disabled
+          disabled ? 'opacity-50 cursor-not-allowed bg-[#F7F7FB]' : '',
+
+          'transition-all duration-150',
+
+          className,
+        ]
+          .filter(Boolean)
+          .join(' ')}
+        {...props}
+      />
     )
-  }
+  },
 )
 
 Textarea.displayName = 'Textarea'

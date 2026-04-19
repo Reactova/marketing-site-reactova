@@ -1,65 +1,136 @@
 'use client'
 
-import { forwardRef, InputHTMLAttributes } from 'react'
+import { forwardRef } from 'react'
+import { Input as HeroInput } from '@heroui/react'
+import type { ComponentPropsWithRef } from 'react'
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+// HeroUI's Input extends react-aria-components/Input which extends all standard
+// HTML <input> attributes. We add our own hasError / startContent props on top.
+export interface InputProps extends Omit<ComponentPropsWithRef<'input'>, 'size'> {
+  /** Marks the field as invalid — red border + focus ring */
   hasError?: boolean
+  /** Content rendered to the left of the input (e.g. "@" prefix) */
   startContent?: React.ReactNode
-  endContent?: React.ReactNode
   startContentClassName?: string
+  /** Content rendered to the right of the input */
+  endContent?: React.ReactNode
   endContentClassName?: string
+  /** HeroUI variant — "primary" (with shadow) or "secondary" (no shadow) */
+  variant?: 'primary' | 'secondary'
+  /** Stretch to fill its container */
+  fullWidth?: boolean
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ hasError, startContent, endContent, startContentClassName, endContentClassName, className = '', disabled, ...props }, ref) => {
+  (
+    {
+      hasError,
+      startContent,
+      endContent,
+      startContentClassName,
+      endContentClassName,
+      className = '',
+      variant = 'secondary',
+      fullWidth = true,
+      disabled,
+      ...rest
+    },
+    ref,
+  ) => {
+    // Build the className string we'll pass to HeroUI:
+    // HeroUI applies it to the native <input> element via the `.input` slot.
+    const inputClass = [
+      // Base styling — fonts, sizing, padding
+      "font-['Inter',sans-serif] text-[14px] text-[#0E0E18] !p-2 border !border-black/20",
+      'placeholder:text-[#A0A0BC]',
+      'py-3',
+      startContent ? '!pl-2' : '!pl-3.5',
+      endContent ? '!pr-2' : '!pr-3.5',
+
+      // Background / border — override HeroUI's defaults
+      'bg-white',
+      'rounded-[9px]',
+      'border',
+      hasError
+        ? 'border-red-300'
+        : 'border-[#E2E2EE]',
+
+      // Hover state (react-aria sets data-hovered)
+      hasError
+        ? '[&[data-hovered]]:border-red-400'
+        : '[&[data-hovered]]:border-[#CBCBDF]',
+
+      // Focus visible state (react-aria sets data-focus-visible)
+      hasError
+        ? '[&[data-focus-visible]]:border-red-400 [&[data-focus-visible]]:ring-[3px] [&[data-focus-visible]]:ring-red-100'
+        : '[&[data-focus-visible]]:border-[#4F46E5] [&[data-focus-visible]]:ring-[3px] [&[data-focus-visible]]:ring-[rgba(79,70,229,0.1)] [&[data-focus-visible]]:outline-none',
+
+      // Disabled state
+      disabled ? 'opacity-50 cursor-not-allowed bg-[#F7F7FB]' : '',
+
+      // Transition
+      'transition-all duration-150',
+
+      // Invalid ARIA state
+      '[&[aria-invalid]]:border-red-300',
+
+      className,
+    ]
+      .filter(Boolean)
+      .join(' ')
+
+    // If there's a startContent or endContent, we need to wrap in a relative div
+    if (startContent || endContent) {
+      return (
+        <div className="relative flex items-center w-full">
+          {startContent && (
+            <span
+              className={[
+                'absolute left-0 flex items-center h-full pl-3.5',
+                'text-[13px] font-medium text-[#6D6D8A]',
+                'border-r border-[#E2E2EE] pr-2.5 mr-0 select-none',
+                startContentClassName ?? '',
+              ].join(' ')}
+            >
+              {startContent}
+            </span>
+          )}
+          <HeroInput
+            ref={ref}
+            variant={variant}
+            fullWidth={fullWidth}
+            disabled={disabled}
+            aria-invalid={hasError || undefined}
+            className={[inputClass, startContent ? '!pl-12' : '', endContent ? '!pr-10' : ''].join(' ')}
+            {...rest}
+          />
+          {endContent && (
+            <span
+              className={[
+                'absolute right-0 flex items-center h-full pr-3.5',
+                'text-[13px] text-[#6D6D8A]',
+                endContentClassName ?? '',
+              ].join(' ')}
+            >
+              {endContent}
+            </span>
+          )}
+        </div>
+      )
+    }
+
     return (
-      <div
-        className={`
-          relative flex items-center w-full !p-2
-          bg-[rgba(15,15,26,0.8)] rounded-xl !p-0
-          border transition-all duration-200
-          min-h-12 sm:min-h-[52px]
-          ${hasError 
-            ? 'border-error/50 hover:border-error/70 focus-within:border-error/80 focus-within:shadow-[0_0_12px_rgba(239,68,68,0.15)]' 
-            : 'border-[rgba(60,60,80,0.5)] hover:border-primary/40 focus-within:border-primary/60 focus-within:shadow-[0_0_16px_rgba(124,106,247,0.12)]'
-          }
-          ${disabled ? 'opacity-60 cursor-not-allowed' : ''}
-          ${className}
-        `}
-        tabIndex={-1}
-        onClick={(e) => {
-          if (disabled) return
-          const inputElement = e.currentTarget.querySelector('input') as HTMLInputElement | null
-          if (inputElement) inputElement.focus()
-        }}
-      >
-        {startContent && (
-          <span className={`pl-3.5 !mr-3.5 !sm:pl-4 !sm:mr-4 shrink-0 text-primary text-[15px] font-semibold ${startContentClassName || ''}`}>
-            {startContent}
-          </span>
-        )}
-        <input
-          ref={ref}
-          disabled={disabled}
-          className={`
-            w-full h-full bg-transparent border-none outline-none
-            text-[#E8E8F0] placeholder:text-[#5a5a70]
-            font-['DM_Sans',sans-serif] text-[15px]
-            py-3 sm:py-3.5
-            disabled:cursor-not-allowed
-            ${startContent ? 'pl-2' : 'pl-3.5 sm:pl-4'}
-            ${endContent ? 'pr-1.5' : 'pr-3.5 sm:pr-4'}
-          `}
-          {...props}
-        />
-        {endContent && (
-          <span className={`pr-3.5 sm:pr-4 shrink-0 ${endContentClassName || ''}`}>
-            {endContent}
-          </span>
-        )}
-      </div>
+      <HeroInput
+        ref={ref}
+        variant={variant}
+        fullWidth={fullWidth}
+        disabled={disabled}
+        aria-invalid={hasError || undefined}
+        className={inputClass}
+        {...rest}
+      />
     )
-  }
+  },
 )
 
 Input.displayName = 'Input'

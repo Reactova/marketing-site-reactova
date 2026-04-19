@@ -1,36 +1,94 @@
 import Background from '@/components/Background'
 import CreatorsForm from '@/components/CreatorsForm'
+import Navbar from '@/components/Navbar'
 import { siteConfig } from '@/config/site.config'
-import { span } from 'framer-motion/client'
 import Link from 'next/link'
 
 const BENEFITS = [
   {
     icon: '💎',
     title: 'Free Business Plan',
-    description: 'Get full access to our $79/mo Business plan at zero cost',
+    description:
+      'Full, unrestricted access to our $79/mo Business plan — at zero cost. Every feature, every workflow, every integration unlocked.',
+    tag: 'Worth $79/month',
   },
   {
-    icon: '🚀',
+    icon: '♾️',
     title: 'Unlimited Automations',
-    description: 'Create unlimited comment-to-DM workflows for your content',
+    description:
+      'Create unlimited comment-to-DM workflows across all your posts. No caps, no throttling, no limits.',
+    tag: 'Unlimited workflows',
   },
   {
     icon: '📊',
     title: 'Advanced Analytics',
-    description: 'Track conversions, engagement, and optimize your funnel',
+    description:
+      "Full conversion tracking: comment → DM → click → sale. See exactly what's driving your revenue at every step.",
+    tag: 'Full attribution',
+  },
+  {
+    icon: '🔗',
+    title: 'Smart Link System',
+    description:
+      'Short branded links with click tracking and UTM attribution built in — every link in your DMs is tracked end-to-end.',
+    tag: 'Click-level tracking',
+  },
+  {
+    icon: '👥',
+    title: 'Team Members',
+    description:
+      'Invite your VA, manager, or team to collaborate on your workspace. Full role-based access at no extra cost.',
+    tag: 'Up to 5 seats',
   },
   {
     icon: '⚡',
     title: 'Priority Support',
-    description: 'Get direct access to our team for any questions or issues',
+    description:
+      'Skip the queue. Direct access to our core team for onboarding, strategy calls, and technical help — whenever you need.',
+    tag: 'Direct team access',
   },
 ]
 
+const QUALIFICATIONS = [
+  '5,000 – 100,000 Instagram followers',
+  'Engagement rate above 3%',
+  'Posts content at least once per week',
+  'Business, marketing, fitness or creator niche',
+  'Already drives comment engagement on posts',
+  'Actively sells products, courses, or services',
+]
+
 const REQUIREMENTS = [
-  'Send at least 300 automated DMs per month',
-  'Run at least 2 automation campaigns every 30 days',
-  'Keep the "⚡Powered by @Reactova tag in your automated DM messages',
+  {
+    label: 'Volume',
+    text: 'Send at least 300 automated DMs per month via Reactova',
+  },
+  {
+    label: 'Activity',
+    text: 'Keep at least 2 active automation campaigns running every 30 days',
+  },
+  {
+    label: 'Branding',
+    text: 'Keep the "⚡ Powered by @Reactova" tag in your bio link page footer',
+  },
+]
+
+const HOW_STEPS = [
+  {
+    num: '1',
+    title: 'Apply in 2 Minutes',
+    desc: 'Fill out the short form below. Tell us about your profile and how you engage your audience.',
+  },
+  {
+    num: '2',
+    title: 'Manual Review',
+    desc: 'Our team reviews every application personally. You will hear back within 48–72 hours.',
+  },
+  {
+    num: '3',
+    title: 'Start for Free',
+    desc: 'Accepted creators get immediate Business plan access — zero cost, full features.',
+  },
 ]
 
 export default function CreatorsView() {
@@ -39,89 +97,182 @@ export default function CreatorsView() {
   return (
     <>
       <Background />
+      <Navbar
+        ctaHref="/comingsoon"
+        ctaLabel="← Back to waitlist"
+        ctaVariant="ghost"
+      />
 
-      <div className="page creators-page container">
-        {/* Logo */}
-        <Link href="/" className="logo">
-          <span className="logo-dot" />
-          {brand.name}
-        </Link>
+      <main className="cp-wrap">
+        <div className="container">
 
-        {/* Badge */}
-        <div className="badge creators-badge">
-          <span className="badge-dot" />
-          Creators Program
-        </div>
-
-        {/* Headline */}
-        <h1 className="headline creators-headline flex flex-col items-center">
-          <span className="inline-block">Get <span className="headline-accent">free access</span></span>
-          <span className="inline-block">to our Business plan</span>
-        </h1>
-
-        {/* Subheadline */}
-        <p className="subhead">
-          Join 50 selected creators who get full platform access at zero cost.
-          Automate your Instagram DMs and convert more followers into customers.
-        </p>
-
-        {/* Social proof */}
-        <p className="creators-social-proof">
-          🌍 Creators from 10+ countries have already applied — spots are filling fast
-        </p>
-
-        {/* Benefits Grid */}
-        <div className="creators-benefits">
-          {BENEFITS.map((benefit, i) => (
-            <div key={i} className="creators-benefit-card">
-              <div className="creators-benefit-icon">{benefit.icon}</div>
-              <h3 className="creators-benefit-title">{benefit.title}</h3>
-              <p className="creators-benefit-desc">{benefit.description}</p>
+          {/* ── HERO ── */}
+          <section className="cp-hero">
+            <div className="badge creators-badge">
+              <span className="badge-dot" />
+              Creators Program · Only 50 Spots
             </div>
-          ))}
-        </div>
 
-        {/* Requirements */}
-        <div className="creators-requirements">
-          <h3 className="creators-requirements-title !text-xl font-bold !text-left">What we ask in return</h3>
-          <ul className="creators-requirements-list">
-            {REQUIREMENTS.slice(0, REQUIREMENTS.length - 1).map((req, i) => (
-              <li key={i} className="creators-requirements-item">
-                <span className="creators-requirements-check">✓</span>
-                {req}
-              </li>
-            ))}
-            {REQUIREMENTS.slice(REQUIREMENTS.length - 1, REQUIREMENTS.length).map((req, i) => (
-              <li key={i} className="creators-requirements-item">
-                <span className="creators-requirements-check">→</span>
-                {req.split("@Reactova").map((part, i, arr) => (
-                  <span key={i}>
-                    {part}
-                    {i < arr.length - 1 && (
-                      <>
-                        <span className="text-primary">
-                          @Reactova{" "}
-                        </span>
-                        <span className="text-white">
-                          "
-                        </span>
-                      </>
-                    )}
-                  </span>
+            <h1 className="cp-headline">
+              Get <span className="grad-text">Business Plan</span> access
+              — completely free
+            </h1>
+
+            <p className="cp-subhead">
+              We are selecting 50 creators who already drive Instagram engagement
+              to use Reactova at zero cost — in exchange for real usage that
+              helps us grow organically.
+            </p>
+
+            <div className="cp-social-proof max-md:flex-col">
+              <span className="cp-social-proof-dot" />
+              Creators from 10+ countries have already applied —{' '}
+              <span style={{ color: 'var(--success)', fontWeight: 600 }}>only a few spots remain</span>
+            </div>
+          </section>
+
+          {/* ── STATS BAR ── */}
+          <div className="cp-stats-bar">
+            <div className="cp-stat">
+              <span className="cp-stat-num">
+                <span className="">50</span>
+              </span>
+              <span className="cp-stat-label">Total spots available</span>
+            </div>
+            <div className="cp-stat">
+              <span className="cp-stat-num">$79<span style={{ fontSize: 14, fontWeight: 500 }}>/mo</span></span>
+              <span className="cp-stat-label">Value — completely free</span>
+            </div>
+            <div className="cp-stat">
+              <span className="cp-stat-num">48h</span>
+              <span className="cp-stat-label">Review turnaround</span>
+            </div>
+            <div className="cp-stat">
+              <span className="cp-stat-num">10+</span>
+              <span className="cp-stat-label">Countries represented</span>
+            </div>
+          </div>
+
+          {/* ── HOW IT WORKS ── */}
+          <section className="cp-how-wrap">
+            <div className="cp-how-header">
+              <p className="section-eyebrow">Getting started</p>
+              <h2 className="section-title">How It Works</h2>
+            </div>
+            <div className="cp-how-steps">
+              {HOW_STEPS.map((step) => (
+                <div key={step.num} className="cp-step">
+                  <div className="cp-step-num">{step.num}</div>
+                  <div className="cp-step-title">{step.title}</div>
+                  <p className="cp-step-desc">{step.desc}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ── BENEFITS — 3-col grid ── */}
+          <section>
+            <div style={{ textAlign: 'center', marginBottom: 28 }}>
+              <p className="section-eyebrow">What you get</p>
+              <h2 className="section-title">Everything Included, No Strings</h2>
+              <p className="section-sub" style={{ maxWidth: 480, margin: '8px auto 0' }}>
+                Accepted creators get the full Business plan — not a trial, not
+                limited access. Every feature, from day one.
+              </p>
+            </div>
+            <div className="cp-benefits">
+              {BENEFITS.map((b, i) => (
+                <div key={i} className="cp-benefit-card max-md:flex-col">
+                  <span className="cp-benefit-icon">{b.icon}</span>
+                  <h3 className="cp-benefit-title">{b.title}</h3>
+                  <p className="cp-benefit-desc">{b.description}</p>
+                  <span className="cp-benefit-tag">{b.tag}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <hr className="section-divider" />
+
+          {/* ── SPLIT: Who Qualifies + Requirements ── */}
+          <section className="cp-split">
+
+            {/* Who Qualifies */}
+            <div className="cp-split-card">
+              <h3 className="cp-split-title">
+                <span className="cp-split-title-icon green">✅</span>
+                Who Qualifies
+              </h3>
+              <ul className="cp-qualifies-list">
+                {QUALIFICATIONS.map((q, i) => (
+                  <li key={i} className="cp-qualify-item">
+                    <span className="cp-qualify-check">✓</span>
+                    {q}
+                  </li>
                 ))}
-              </li>
-            ))}
-          </ul>
-        </div>
+              </ul>
+            </div>
 
-        {/* Application Form */}
-        <CreatorsForm />
+            {/* Requirements */}
+            <div className="cp-split-card">
+              <h3 className="cp-split-title">
+                <span className="cp-split-title-icon violet">📋</span>
+                What We Ask in Return
+              </h3>
+              <p style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 18, lineHeight: 1.6 }}>
+                The program is free — but it is not passive. We need creators who actively use the platform.
+              </p>
+              <ul className="cp-reqs-list">
+                {REQUIREMENTS.map((r, i) => (
+                  <li key={i} className="cp-req-item">
+                    <span className="cp-req-num">{i + 1}</span>
+                    <div>
+                      <span style={{ color: 'var(--primary-light)', fontWeight: 600, fontSize: 11, letterSpacing: '0.04em', textTransform: 'uppercase', display: 'block', marginBottom: 3 }}>
+                        {r.label}
+                      </span>
+                      <span>
+                        {r.text.split('@Reactova').map((part, j, arr) => (
+                          <span key={j}>
+                            {part}
+                            {j < arr.length - 1 && (
+                              <span style={{ color: 'var(--primary-light)', fontWeight: 600 }}>@{brand.name}</span>
+                            )}
+                          </span>
+                        ))}
+                      </span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-        {/* Footer */}
-        <div className="creators-footer">
-          <p>Limited to 50 creators in the initial launch phase</p>
+          </section>
+
+          {/* ── APPLICATION FORM ── */}
+          <section className="cp-form-wrap">
+            <div className="glass-card cp-form-card">
+              <div className="cp-form-header">
+                <h2 className="cp-form-title">Apply to the Creators Program</h2>
+                <p className="cp-form-subtitle">
+                  Takes under 2 minutes · Reviewed within 48 hours · No credit card needed
+                </p>
+              </div>
+              <CreatorsForm />
+            </div>
+          </section>
+
+          {/* Footer */}
+          <footer className="cp-footer">
+            <p>
+              Limited to 50 creators in the initial launch phase ·{' '}
+              <Link href="/comingsoon" style={{ color: 'var(--muted)', textDecoration: 'none' }}>
+                Not a creator? Join the regular waitlist →
+              </Link>
+            </p>
+          </footer>
+
         </div>
-      </div>
+      </main>
     </>
   )
 }

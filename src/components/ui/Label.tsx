@@ -13,7 +13,7 @@ export const Label = forwardRef<HTMLLabelElement, LabelProps>(
         ref={ref}
         className={`
           block text-[13px] sm:text-[14px]
-          text-[#a0a0b8]
+          text-secondary
           mb-2 sm:mb-2.5
           font-['DM_Sans',sans-serif] font-medium
           ${className}

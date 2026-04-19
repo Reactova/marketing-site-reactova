@@ -26,9 +26,9 @@ export default function ComingSoonView() {
         </div>
 
         {/* Headline */}
-        <h1 className="headline">
-          Instagram DMs,<br />
-          <span className="headline-accent">fully automated</span>
+        <h1 className="headline flex flex-col items-center">
+          <span className="inline-block">Automate your</span>
+          <span className="headline-accent">Instagram DMs</span>
         </h1>
 
         {/* Subheadline */}

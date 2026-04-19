@@ -52,9 +52,9 @@ export default function CreatorsView() {
         </div>
 
         {/* Headline */}
-        <h1 className="headline creators-headline">
-          Get <span className="headline-accent">free access</span>
-          <br />to our Business plan
+        <h1 className="headline creators-headline flex flex-col items-center">
+          <span className="inline-block">Get <span className="headline-accent">free access</span></span>
+          <span className="inline-block">to our Business plan</span>
         </h1>
 
         {/* Subheadline */}

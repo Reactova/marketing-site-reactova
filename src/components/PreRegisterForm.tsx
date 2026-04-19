@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { siteConfig } from '@/config/site.config'
 import { useAnalytics } from './AnalyticsTracker'
-import { Input } from '@/components/ui'
+import { Input, Button } from '@/components/ui'
 
 function getDeviceInfo() {
   if (typeof window === 'undefined') return {}
@@ -220,7 +220,7 @@ export default function PreRegisterForm() {
                 if (errors.name) setErrors((err) => ({ ...err, name: false }))
                 if (error) setError(null)
               }}
-              isDisabled={loading}
+              disabled={loading}
               hasError={errors.name}
             />
             <Input
@@ -232,18 +232,19 @@ export default function PreRegisterForm() {
                 if (errors.email) setErrors((err) => ({ ...err, email: false }))
                 if (error) setError(null)
               }}
-              isDisabled={loading}
+              disabled={loading}
               hasError={errors.email}
             />
           </div>
-          <button 
-            className="cta-btn" 
-            onClick={handleSubmit}
-            disabled={loading}
-            style={{ opacity: loading ? 0.7 : 1, cursor: loading ? 'wait' : 'pointer' }}
+          <Button 
+            variant="primary"
+            className="w-full"
+            onPress={handleSubmit}
+            isDisabled={loading}
+            isLoading={loading}
           >
             {loading ? 'Submitting...' : <>{getCtaText()} &rarr;</>}
-          </button>
+          </Button>
         </div>
       ) : (
         <div

@@ -1,6 +1,7 @@
 import './globals.css'
 import { defaultMetadata, viewport } from '@/config/metadata'
 import AnalyticsTracker from '@/components/AnalyticsTracker'
+import { Providers } from './providers'
 
 export const metadata = defaultMetadata
 export { viewport }
@@ -11,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -21,8 +22,10 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <AnalyticsTracker />
-        {children}
+        <Providers>
+          <AnalyticsTracker />
+          {children}
+        </Providers>
       </body>
     </html>
   )

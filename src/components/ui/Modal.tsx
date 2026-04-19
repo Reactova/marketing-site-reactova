@@ -53,7 +53,6 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
         <ModalBackdrop className="bg-black/60 backdrop-blur-sm" />
         <ModalContainer>
           <ModalDialog
-            ref={ref}
             className={`
               bg-gradient-to-br from-[#1A1A2E] to-[#141424]
               border border-primary/15
@@ -62,6 +61,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               ${sizeClasses[size]}
             `}
           >
+            <div ref={ref} className="relative flex min-h-0 w-full flex-col">
             <ModalCloseTrigger className="
               absolute top-4 right-4
               p-1.5 rounded-lg
@@ -89,6 +89,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                 </div>
               </HeroModalFooter>
             )}
+            </div>
           </ModalDialog>
         </ModalContainer>
       </HeroModal>

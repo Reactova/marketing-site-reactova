@@ -414,6 +414,64 @@ body::before {
   z-index: 1;
 }
 
+/* Spots counter */
+.creators-spots-counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #22c55e;
+  font-weight: 600;
+  margin-bottom: 20px;
+  letter-spacing: 0.01em;
+}
+
+.creators-spots-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  display: inline-block;
+  animation: pulse 2s infinite;
+}
+
+/* Social proof line */
+.creators-social-proof {
+  font-size: 13px;
+  color: #6b6b85;
+  text-align: center;
+  margin-top: -12px;
+  margin-bottom: 8px;
+}
+
+/* Success next steps */
+.creators-success-next {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.creators-success-next-title {
+  font-size: 13px;
+  color: #6b6b85;
+  margin-bottom: 4px;
+}
+
+.creators-success-link {
+  font-size: 14px;
+  color: var(--primary);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.creators-success-link:hover {
+  opacity: 0.75;
+}
+
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }

@@ -1,0 +1,301 @@
+ALWAYS use Tailwind utility classes reference @https://tailwindcss.com/docs/styling-with-utility-classes
+# ============================================================
+#  INSTAGRAM DM AUTOMATION SAAS — CURSOR RULES & PROJECT CONTEXT
+#  Version: 2.0 | Confidential — Internal Use Only
+# ============================================================
+
+## PRODUCT OVERVIEW
+You are helping build an Instagram DM Automation SaaS platform. This product:
+- Automates comment-to-DM interactions on Instagram
+- Converts public engagement into private conversations, leads, and paying customers
+- Monitors comments on Instagram posts and triggers DM responses based on predefined rules
+- Targets creators, influencers, agencies, marketers, and online businesses
+
+Core products in the platform:
+1. Comment-to-DM automation engine
+2. Bio-link pages with analytics
+3. Short link system (go.yourplatform.com/xxx) with click tracking
+4. Analytics and conversion dashboard
+5. Affiliate program
+6. Creator and influencer program
+7. White label solution for agencies
+
+---
+
+## CORE AUTOMATION WORKFLOW
+When building or discussing the automation engine, always follow this exact flow:
+1. User comments on Instagram post
+2. Platform receives webhook via Instagram API
+3. Automation engine checks trigger rules (keyword matching)
+4. DM is queued with a human-like random delay of **30–90 seconds** (CRITICAL — protects from spam detection)
+5. DM delivered via button-based CTA (NOT raw links)
+6. Analytics logged: click, conversion, and lead data
+
+A **workflow** = one complete automation rule (trigger keywords → DM action). Multiple keywords can be grouped into one workflow and still count as one workflow.
+
+---
+
+## DM MESSAGE STRUCTURE
+- All DMs sent via Instagram's official Messaging API
+- Use **button-based CTAs** — never raw hyperlinks in DM text
+- Buttons: always clickable, no ugly URL previews, work on all devices
+- **Instagram DMs do NOT support hyperlinked text or custom font sizes**
+- Bold text = Unicode bold characters in message templates
+- Branding footer (`Powered by @YourPlatform`) placed on the **bio link landing page footer**, not in the DM itself
+
+DM Elements (vary by plan):
+- Personalised greeting + context (all plans)
+- Button 1: Main CTA e.g. 'Get Your Link' (all plans)
+- Branding footer in DM: Free & Creator only
+- Bio link page branding: Free & Creator only; removed on paid plans
+
+---
+
+## SHORT LINK SYSTEM
+- Standard users: `go.yourplatform.co/abc123`
+- White label agencies: `go.theiragency.com/abc123`
+- Every click is tracked: records which automation, post, and keyword triggered it
+- Redirects silently to destination URL
+- Powers the full conversion attribution dashboard
+- Raw Instagram URLs are long and untrustworthy — always use the short link system
+
+---
+
+## WORKSPACE & BILLING SYSTEM
+- A **workspace** = one connected Instagram account
+- One user account can have **multiple independent workspaces**
+- Each workspace has its own plan, billing date, and subscription — **NO combined billing**
+- Plans per workspace can differ (e.g. Workspace 1 on Starter, Workspace 2 on Business)
+- Cancelling one workspace does NOT affect others
+- "My Workspaces" page: overview of all workspaces, plans, billing dates, status
+- Status indicators: Active / Paused / Payment Failed / Instagram Disconnected
+- Billing alert banner shown **3 days before renewal**
+- Per-workspace billing naturally spreads revenue across the month (better cash flow)
+
+---
+
+## PRICING PLANS
+Use psychological pricing (ending in 9) across all plans.
+
+| Plan     | Monthly | Quarterly | Yearly  |
+|----------|---------|-----------|---------|
+| Free     | $0      | —         | —       |
+| Starter  | $9      | $23       | $89     |
+| Pro      | $29     | $79       | $279    |
+| Business | $79     | $199      | $759    |
+| Agency   | $299    | —         | $2,799  |
+
+- Agency plan: automated signup (no manual approval)
+- Agency overage: $9 per workspace above 30 included
+- Stripe metered billing handles agency workspace overages automatically at month-end
+
+---
+
+## FEATURE FLAGS BY PLAN
+When implementing feature gating, use this as the source of truth:
+
+| Feature                  | Free | Starter | Pro | Business | Agency |
+|--------------------------|------|---------|-----|----------|--------|
+| Workflows                | 1    | ∞       | ∞   | ∞        | ∞      |
+| Unlimited DMs            | ✓    | ✓       | ✓   | ✓        | ✓      |
+| Link in Bio              | ✓    | ✓       | ✓   | ✓        | ✓      |
+| Lead Capture             | ✓    | ✓       | ✓   | ✓        | ✓      |
+| Analytics                | Basic| Standard| Adv | Adv      | Adv    |
+| Conversion Tracking      | ✗    | ✗       | ✓   | ✓        | ✓      |
+| Follow Before DM         | ✗    | ✗       | ✓   | ✓        | ✓      |
+| DM Follow-up Sequences   | ✗    | ✗       | ✓   | ✓        | ✓      |
+| Team Members             | ✗    | ✗       | ✗   | ✓        | ✓      |
+| API Access               | ✗    | ✗       | ✗   | ✓        | ✓      |
+| White Label Branding     | ✗    | ✗       | ✗   | ✗        | ✓      |
+| Custom Domain            | ✗    | ✗       | ✗   | ✗        | ✓      |
+| Master Client Dashboard  | ✗    | ✗       | ✗   | ✗        | ✓      |
+| Client Isolation         | ✗    | ✗       | ✗   | ✗        | ✓      |
+| Priority Support         | ✗    | ✗       | ✗   | ✗        | ✓      |
+| Workspaces Included      | 1    | 1       | 1   | 1        | 30     |
+| Extra Workspaces         | —    | Add-on  | Add-on | Add-on | $9 each |
+| Powered By Branding      | Yes  | No      | No  | No       | Hidden |
+
+---
+
+## WHITE LABEL / AGENCY ARCHITECTURE
+- Agency points custom domain (e.g. `app.theiragency.com`) to your server IP via DNS A record
+- Cloudflare wildcard SSL secures all custom domains — **cost: $0**
+- Server reads incoming `Host` header on every request → loads matching branding from DB
+- **One codebase, one server** — multiple branded skins rendered dynamically
+- No separate server per agency — branding is a DB + domain layer only
+- Client isolation: each client only sees their own workspace
+- Master dashboard: agency sees all client workspaces in one view
+- Known limitation: Instagram OAuth screen shows underlying app name (industry-wide, unavoidable)
+
+Agency billing flow:
+- Platform charges agency $299/month
+- Agency charges their clients independently ($200–500/month) via their own Stripe/PayPal
+- Platform has **zero involvement** in agency-client billing
+- Clients never see or interact with the platform's payment system
+
+---
+
+## BIO LINK PRODUCT
+- Serves as standalone tool AND primary viral growth funnel
+- Free users: bio link page with platform branding in footer
+- Paid users: branding removed
+
+Features:
+- Profile photo, name, short bio
+- Customisable links and buttons (plan-based limits)
+- Product, offer, lead magnet buttons
+- Contact CTA buttons
+- Theme colors, button styles, light/dark mode, custom icons
+
+Analytics:
+- Total page views & unique visitors
+- Total link clicks + per-link clicks
+- Automation-driven conversion tracking
+- Daily, weekly, monthly insights
+
+---
+
+## ANALYTICS & CONVERSION TRACKING
+Full conversion attribution: comment → DM → click → sale (via short link + UTM params).
+This is a key differentiator vs competitors who only show DM volume.
+
+| Metric                    | Plan        |
+|---------------------------|-------------|
+| DMs sent/failed/queued    | All         |
+| Automation performance    | All         |
+| Post-level breakdown      | Standard+   |
+| Keyword conversion rate   | Advanced    |
+| Link click tracking       | Advanced    |
+| Sale attribution          | Advanced    |
+| Automation ROI            | Advanced    |
+
+---
+
+## PAYMENT GATEWAYS
+- **Stripe**: International — Cards, Apple Pay, Google Pay. Handles subscriptions + metered agency billing.
+- **Razorpay**: India only — UPI, Cards, Netbanking. Faster payouts for Indian users.
+- Use Stripe metered billing for the $9/workspace overage on Agency plan (charged at month-end).
+
+---
+
+## CREATOR / INFLUENCER PROGRAM
+- Free Business-level access to selected creators
+- Max 50 creators at initial launch
+- Requirements: minimum 300 DMs/month + 2 active automation campaigns per 30 days
+- Auto-alert sent on Day 25 if creator is below 300 DM threshold
+- Branding: `Powered by @YourPlatform` footer on bio link page only
+- Creators are NOT paid sales — they are an organic acquisition channel
+
+Green flag creators: >3% engagement rate, 5k–100k followers, post weekly, niche-aligned (business/marketing/creator/fitness)
+Red flag creators: high follower + low engagement, generic bot-like comments, irregular posting, promoting competing tools
+
+---
+
+## AFFILIATE PROGRAM
+- Eligible: ALL users including Free plan
+- Commission: 25% one-time per referred sale (NOT recurring — protects cash flow)
+- Minimum payout: $25
+- Approval delay: 14–30 days (fraud buffer)
+- Eligible plans: Starter, Pro, Business, Agency
+- Self-referrals: strictly prohibited → account suspension
+- Affiliate links: manually shared only, NEVER auto-inserted into automation messages
+
+---
+
+## INFRASTRUCTURE & COSTS
+Target: lean at launch, scale with usage.
+
+| Item                | Provider              | Cost          |
+|---------------------|-----------------------|---------------|
+| Server hosting      | Hetzner (recommended) | €5–80/mo      |
+| Domain              | Namecheap / GoDaddy   | ~$1           |
+| SSL                 | Cloudflare (free)     | $0            |
+| CDN & DDoS          | Cloudflare (free)     | $0            |
+| Payment (global)    | Stripe                | 2.9% + $0.30  |
+| Payment (India)     | Razorpay              | 2% per txn    |
+| Email (transactional)| Resend / Postmark    | $0–20/mo      |
+| Instagram API       | Meta Developer        | $0            |
+
+**Hetzner is the recommended server** — significantly cheaper than AWS/DigitalOcean with comparable performance.
+
+---
+
+## DEVELOPMENT PHASES
+Always scope features to the correct phase:
+
+**Phase 1 — Core:**
+- Comment-to-DM automation engine
+- Workspace system
+- Per-workspace billing (Stripe + Razorpay)
+- Basic analytics
+- Bio link pages
+- My Workspaces dashboard
+- Creator program onboarding
+
+**Phase 2 — Growth:**
+- Advanced analytics & conversion tracking
+- Short link system
+- DM follow-up sequences
+- Safety engine (human-like delays, follow verification)
+- Affiliate program
+- Regional pricing
+
+**Phase 3 — Agency:**
+- White label custom domain support
+- Master agency dashboard
+- Client isolation and client login system
+- API access
+- Team members
+- PDF client reports
+
+---
+
+## DOMAIN & BRANDING
+- 'Relixo' is unavailable — a new name is needed (under 8 chars, easy to spell, .co or .io)
+- Suggested directions: Trigly, Komvo, Replyx, Funnlio, Dmify, Nuvio, Zaplead
+- Once name is chosen, use this URL structure:
+  - `yourplatform.co` — Main marketing site
+  - `app.yourplatform.co` — Dashboard
+  - `go.yourplatform.co/xxx` — Short links & bio links
+
+---
+
+## REVENUE TARGETS
+- Month 1 post-launch: 10–20 workspace sales
+- Month 2: 50–80 workspace sales
+- Month 2–3: **100 workspace sales** (primary milestone)
+- Month 8–12: 500 workspace sales
+
+Estimated MRR at 100 workspaces:
+- Starter 40x$9 = $360
+- Pro 40x$29 = $1,160
+- Business 15x$79 = $1,185
+- Agency 5x$299 = $1,495
+- **Total ~$4,200 MRR**
+
+---
+
+## CODING RULES & CONVENTIONS
+When writing code for this project:
+
+1. **Always scope features to the correct Phase** — do not implement Phase 3 features in Phase 1 code unless explicitly asked.
+2. **Feature gating** — every restricted feature must check the workspace's active plan before rendering/executing. Use a centralised plan-feature map (the table above) as the single source of truth.
+3. **Workspace isolation** — all database queries must be scoped to `workspace_id`. Never leak data across workspaces.
+4. **Instagram API compliance** — always use the official Instagram Messaging API. Never bypass rate limits. Always apply the 30–90 second human-like delay before sending DMs.
+5. **Billing** — use Stripe for international, Razorpay for Indian users. Agency workspace overages must use Stripe metered billing.
+6. **Short links** — always use the platform's short link system for any URLs in DMs. Never embed raw URLs in DM text.
+7. **White label** — all UI strings, logos, and brand references must be loaded dynamically from the database based on the incoming request domain. Hard-coding the platform name in UI is not allowed except in the Instagram OAuth screen (known limitation).
+8. **Analytics** — every DM send, link click, and workflow trigger must be logged. Never skip analytics events.
+9. **Security** — enforce workspace-level auth on every API route. Affiliate self-referrals must be detected and blocked.
+10. **Delays** — the 30–90 second random delay before DMs is NOT optional. It is a safety feature that protects creator accounts.
+
+---
+
+## WHAT THIS PROJECT IS NOT
+- Not a grey-area scraper — uses official Instagram API only
+- Not a bulk spam tool — human-like delays and official API protect accounts
+- Affiliate links are NEVER auto-inserted into DMs — manually shared only
+- The platform has zero involvement in agency-client billing
+
+---
+# END OF CURSORRULES

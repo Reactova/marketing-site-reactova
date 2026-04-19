@@ -1,0 +1,89 @@
+import nodemailer from 'nodemailer'
+import { siteConfig } from '@/config/site.config'
+import { getWelcomeEmailHtml, getWelcomeEmailText, getWelcomeEmailSubject } from './templates/welcome'
+import { getCreatorsEmailHtml, getCreatorsEmailText, getCreatorsEmailSubject } from './templates/creators'
+
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: parseInt(process.env.SMTP_PORT || '587'),
+  secure: process.env.SMTP_SECURE === 'true',
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+})
+
+export type OfferTier = 'tier1' | 'tier2' | 'tier3'
+
+export function getOfferTier(spotNumber: number): OfferTier {
+  const { offers } = siteConfig
+  if (spotNumber <= offers.tier1.maxSpots) return 'tier1'
+  if (spotNumber <= offers.tier2.maxSpots) return 'tier2'
+  return 'tier3'
+}
+
+export function getOfferDetails(tier: OfferTier) {
+  return siteConfig.offers[tier]
+}
+
+interface SendWelcomeEmailParams {
+  name: string
+  email: string
+  discountCode: string | null
+  spotNumber: number
+  tier: OfferTier
+}
+
+export async function sendWelcomeEmail({ name, email, discountCode, spotNumber, tier }: SendWelcomeEmailParams) {
+  const { brand } = siteConfig
+  const offer = getOfferDetails(tier)
+  const hasDiscount = tier !== 'tier3' && discountCode !== null
+
+  const emailData = {
+    name,
+    spotNumber,
+    discountCode,
+    discount: offer.discount,
+    hasDiscount,
+  }
+
+  try {
+    await transporter.sendMail({
+      from: `"${brand.name}" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+      to: email,
+      subject: getWelcomeEmailSubject(emailData),
+      text: getWelcomeEmailText(emailData),
+      html: getWelcomeEmailHtml(emailData),
+    })
+    return { success: true }
+  } catch (error) {
+    console.error('Failed to send welcome email:', error)
+    return { success: false, error }
+  }
+}
+
+interface SendCreatorsEmailParams {
+  name: string
+  email: string
+  instagramUsername: string
+}
+
+export async function sendCreatorsEmail({ name, email, instagramUsername }: SendCreatorsEmailParams) {
+  const { brand } = siteConfig
+
+  const emailData = { name, instagramUsername }
+
+  try {
+    await transporter.sendMail({
+      from: `"${brand.name} Creators" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+      to: email,
+      subject: getCreatorsEmailSubject(emailData),
+      text: getCreatorsEmailText(emailData),
+      html: getCreatorsEmailHtml(emailData),
+    })
+    return { success: true }
+  } catch (error) {
+    console.error('Failed to send creators email:', error)
+    return { success: false, error }
+  }
+}

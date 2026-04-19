@@ -149,7 +149,7 @@ export default function RegistrationsPage() {
             <Chip
               size="sm"
               color={getTierColor(item.spotNumber)}
-              variant="flat"
+              variant="soft"
               className="text-xs"
             >
               {getTierLabel(item.spotNumber)}
@@ -239,11 +239,8 @@ export default function RegistrationsPage() {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         startContent={<Search className="w-4 h-4 text-[var(--muted)]" />}
-        classNames={{
-          input: 'text-[var(--text)]',
-          inputWrapper: 'bg-[var(--surface)] border-[var(--border)]',
-        }}
-        className="max-w-md"
+        className="max-w-md text-[var(--text)] bg-[var(--surface)] border-[var(--border)]"
+
       />
     </div>
   ), [search, pagination.total])
@@ -251,13 +248,13 @@ export default function RegistrationsPage() {
   const bottomContent = useMemo(() => {
     const pages = Array.from({ length: pagination.totalPages }, (_, i) => i + 1)
     const currentPage = pagination.page
-    
+
     return (
       <div className="flex justify-center py-2">
         <Pagination>
           <Pagination.Content>
             <Pagination.Item>
-              <Pagination.Previous 
+              <Pagination.Previous
                 isDisabled={currentPage <= 1}
                 onPress={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))}
               >

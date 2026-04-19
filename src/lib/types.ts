@@ -105,6 +105,7 @@ export interface CreatorApplication {
   _id?: string
   name: string
   email: string
+  country: string
   instagramUsername: string
   instagramUrl: string
   followerRange: FollowerRange

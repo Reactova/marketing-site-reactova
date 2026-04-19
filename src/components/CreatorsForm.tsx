@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAnalytics } from './AnalyticsTracker'
 import { FollowerRange, ContentNiche } from '@/lib/types'
 import { Input, Label, Textarea, Checkbox } from '@/components/ui'
@@ -56,6 +56,8 @@ function getSourceInfo() {
   }
 }
 
+const MAX_SPOTS = 50
+
 export default function CreatorsForm() {
   const [formData, setFormData] = useState({
     name: '',
@@ -73,7 +75,19 @@ export default function CreatorsForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [fieldErrors, setFieldErrors] = useState<Record<string, boolean>>({})
+  const [spotsRemaining, setSpotsRemaining] = useState<number | null>(null)
   const { markConversion } = useAnalytics()
+
+  useEffect(() => {
+    fetch('/api/creators')
+      .then(res => res.json())
+      .then(data => {
+        if (typeof data.spotsRemaining === 'number') {
+          setSpotsRemaining(data.spotsRemaining)
+        }
+      })
+      .catch(() => {})
+  }, [])
 
   const updateField = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }))
@@ -108,6 +122,7 @@ export default function CreatorsForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
+          instagramUrl: `https://instagram.com/${formData.instagramUsername}`,
           device: getDeviceInfo(),
           source: getSourceInfo(),
         }),
@@ -141,11 +156,27 @@ export default function CreatorsForm() {
           <div className="creators-success-icon">🎉</div>
           <h3 className="creators-success-title">Application Submitted!</h3>
           <p className="creators-success-text">
-            Thanks for applying to the Creators Program! We&apos;ve sent a confirmation email to <strong>{formData.email}</strong>.
+            We&apos;ve sent a confirmation to <strong>{formData.email}</strong>. Our team reviews all applications manually and will get back to you within 48–72 hours.
           </p>
-          <p className="creators-success-text">
-            Our team will review your application within 48-72 hours.
-          </p>
+          <div className="creators-success-next">
+            <p className="creators-success-next-title">While you wait:</p>
+            <a
+              href="https://instagram.com/reactova"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="creators-success-link"
+            >
+              → Follow us on Instagram @reactova
+            </a>
+            <a
+              href={`https://instagram.com/${formData.instagramUsername}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="creators-success-link"
+            >
+              → View your submitted profile
+            </a>
+          </div>
         </div>
       </div>
     )
@@ -153,6 +184,16 @@ export default function CreatorsForm() {
 
   return (
     <div className="creators-form-wrap">
+      {/* Spots remaining counter */}
+      {spotsRemaining !== null && (
+        <div className="creators-spots-counter">
+          <span className="creators-spots-dot" />
+          {spotsRemaining > 0
+            ? `${spotsRemaining} of ${MAX_SPOTS} spots remaining`
+            : 'All spots have been claimed'}
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="creators-form">
         {error && (
           <div className="creators-error">
@@ -259,13 +300,13 @@ export default function CreatorsForm() {
               onValueChange={(checked) => updateField('asksForComments', checked)}
               isDisabled={loading}
             >
-              I currently ask my followers to comment for links/guides
+              I already ask followers to comment on posts (e.g. &quot;comment LINK to get the guide&quot;)
             </Checkbox>
           </div>
         </div>
 
         <div className="creators-form-section">
-          <h3 className="creators-form-section-title">Why You?</h3>
+          <h3 className="creators-form-section-title">Tell Us About Yourself</h3>
           
           <div className="creators-input-group">
             <Label>Why do you want to join the Creators Program? (Optional)</Label>
@@ -289,7 +330,7 @@ export default function CreatorsForm() {
         </button>
 
         <p className="creators-form-footer">
-          By applying, you agree to maintain an active presence and meet the minimum requirements if accepted.
+          All applications are reviewed manually. Accepted creators are notified within 48–72 hours.
         </p>
       </form>
     </div>

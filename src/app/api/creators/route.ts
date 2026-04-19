@@ -34,6 +34,7 @@ export async function POST(request: NextRequest) {
     const {
       name,
       email,
+      country,
       instagramUsername,
       instagramUrl,
       followerRange,
@@ -45,7 +46,7 @@ export async function POST(request: NextRequest) {
       source,
     } = body
 
-    if (!name || !email || !instagramUsername || !followerRange || !contentNiche) {
+    if (!name || !email || !country || !instagramUsername || !followerRange || !contentNiche) {
       return NextResponse.json(
         { error: 'Please fill in all required fields' },
         { status: 400 }
@@ -56,6 +57,13 @@ export async function POST(request: NextRequest) {
     if (!emailRegex.test(email)) {
       return NextResponse.json(
         { error: 'Please enter a valid email address' },
+        { status: 400 }
+      )
+    }
+
+    if (country.trim().length < 2) {
+      return NextResponse.json(
+        { error: 'Please enter your country' },
         { status: 400 }
       )
     }
@@ -119,6 +127,7 @@ export async function POST(request: NextRequest) {
     const application: CreatorApplication = {
       name: name.trim(),
       email: email.toLowerCase().trim(),
+      country: country.trim(),
       instagramUsername: cleanedUsername,
       instagramUrl: instagramUrl || `https://instagram.com/${cleanedUsername}`,
       followerRange,

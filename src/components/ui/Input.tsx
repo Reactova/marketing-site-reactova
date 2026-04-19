@@ -15,8 +15,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div
         className={`
-          relative flex items-center w-full
-          bg-[rgba(15,15,26,0.8)] rounded-xl
+          relative flex items-center w-full !p-2
+          bg-[rgba(15,15,26,0.8)] rounded-xl !p-0
           border transition-all duration-200
           min-h-12 sm:min-h-[52px]
           ${hasError 
@@ -34,7 +34,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         }}
       >
         {startContent && (
-          <span className={`pl-3.5 sm:pl-4 shrink-0 text-primary text-[15px] font-semibold ${startContentClassName || ''}`}>
+          <span className={`pl-3.5 !mr-3.5 !sm:pl-4 !sm:mr-4 shrink-0 text-primary text-[15px] font-semibold ${startContentClassName || ''}`}>
             {startContent}
           </span>
         )}

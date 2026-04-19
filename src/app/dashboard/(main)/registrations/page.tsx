@@ -110,6 +110,12 @@ export default function RegistrationsPage() {
     return () => clearTimeout(timer)
   }, [search])
 
+  const tableRegistrations = useMemo(
+    (): (RegistrationData & { id: string })[] =>
+      registrations.map((r) => ({ ...r, id: String(r._id) })),
+    [registrations]
+  )
+
   const getTierColor = (spotNumber: number) => {
     if (spotNumber <= 15) return 'success'
     if (spotNumber <= 30) return 'warning'
@@ -317,9 +323,9 @@ export default function RegistrationsPage() {
                       </TableColumn>
                     )}
                   </TableHeader>
-                  <TableBody items={registrations}>
+                  <TableBody items={tableRegistrations}>
                     {(item) => (
-                      <TableRow id={String(item._id)}>
+                      <TableRow id={item.id}>
                         {(columnKey) => (
                           <TableCell>
                             {renderCell(item, columnKey as unknown as string)}

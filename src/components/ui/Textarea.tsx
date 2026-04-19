@@ -13,7 +13,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       <div
         className={`
           relative w-full
-          bg-[rgba(15,15,26,0.8)] rounded-xl
+          bg-[rgba(15,15,26,0.8)] rounded-xl !p-2.5
           border transition-all duration-200
           ${hasError 
             ? 'border-error/50 hover:border-error/70 focus-within:border-error/80 focus-within:shadow-[0_0_12px_rgba(239,68,68,0.15)]' 

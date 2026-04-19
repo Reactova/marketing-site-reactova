@@ -151,6 +151,12 @@ export default function CreatorsPage() {
     return () => clearTimeout(timer)
   }, [search, statusFilter])
 
+  const tableCreators = useMemo(
+    (): (CreatorData & { id: string })[] =>
+      creators.map((c) => ({ ...c, id: String(c._id) })),
+    [creators]
+  )
+
   const handleStatusUpdate = async () => {
     if (!selectedCreator) return
 
@@ -444,9 +450,9 @@ export default function CreatorsPage() {
                       </TableColumn>
                     )}
                   </TableHeader>
-                  <TableBody items={creators}>
+                  <TableBody items={tableCreators}>
                     {(item) => (
-                      <TableRow id={String(item._id)}>
+                      <TableRow id={item.id}>
                         {(columnKey) => (
                           <TableCell>
                             {renderCell(item, columnKey as any)}

@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { Button, Input } from '@/components/ui'
 import { siteConfig } from '@/config/site.config'
+import { useEffect, useState } from 'react'
 import { useAnalytics } from './AnalyticsTracker'
-import { Input, Button } from '@/components/ui'
+import Link from 'next/link'
 
 function getDeviceInfo() {
   if (typeof window === 'undefined') return {}
@@ -55,8 +56,7 @@ export default function PreRegisterForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [errors, setErrors] = useState({ name: false, email: false })
-  const { markConversion } = useAnalytics()
-
+  const { markConversion } = useAnalytics() 
   useEffect(() => {
     async function fetchTierInfo() {
       try {
@@ -238,13 +238,19 @@ export default function PreRegisterForm() {
           </div>
           <Button 
             variant="primary"
-            className="w-full"
+            className="w-full mb-2"
             onPress={handleSubmit}
             isDisabled={loading}
             isLoading={loading}
           >
             {loading ? 'Submitting...' : <>{getCtaText()} &rarr;</>}
           </Button>
+          <Link
+            href="/creators-program"
+            className="w-full text-primary !mt-2 inline-block text-center underline"
+          >
+           Content Creator? Join the Creators Program
+          </Link>
         </div>
       ) : (
         <div

@@ -4,6 +4,7 @@ import PreRegisterForm from '@/components/PreRegisterForm'
 import OfferPill from '@/components/OfferPill'
 import TrustBadges from '@/components/TrustBadges'
 import { siteConfig } from '@/config/site.config'
+import Link from 'next/link'
 
 export default function ComingSoonView() {
   const { brand, launch } = siteConfig
@@ -12,12 +13,12 @@ export default function ComingSoonView() {
     <>
       <Background />
 
-      <div className="page">
+      <div className="page container">
         {/* Logo */}
-        <div className="logo">
+        <Link href="/" className="logo">
           <span className="logo-dot" />
           {brand.name}
-        </div>
+        </Link>
 
         {/* Launch badge */}
         <div className="badge">

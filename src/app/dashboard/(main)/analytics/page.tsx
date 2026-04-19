@@ -146,6 +146,16 @@ export default function AnalyticsPage() {
     setPagination(prev => ({ ...prev, page: 1 }))
   }, [deviceFilter, convertedFilter])
 
+  /** React Aria table collections require a stable `id` on each row item. */
+  const tableSessions = useMemo(
+    (): (SessionData & { id: string })[] =>
+      sessions.map((s) => ({
+        ...s,
+        id: String(s._id ?? s.sessionId),
+      })),
+    [sessions]
+  )
+
   const formatDuration = (ms: number) => {
     const seconds = Math.floor(ms / 1000)
     const minutes = Math.floor(seconds / 60)
@@ -527,9 +537,9 @@ export default function AnalyticsPage() {
                       </TableColumn>
                     )}
                   </TableHeader>
-                  <TableBody items={sessions}>
+                  <TableBody items={tableSessions}>
                     {(item) => (
-                      <TableRow id={String(item._id ?? item.sessionId)}>
+                      <TableRow id={item.id}>
                         {(columnKey) => (
                           <TableCell>
                             {renderCell(item, columnKey as unknown as string)}

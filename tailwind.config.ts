@@ -7,6 +7,16 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      container: {
+        center: true,
+        padding: '1rem',
+        screens: {
+          sm: '640px',
+          md: '768px',
+          lg: '840px',
+          xl: '1080px',
+        },
+      },
       colors: {
         background: '#0F0F1A',
         surface:    '#1A1A2E',

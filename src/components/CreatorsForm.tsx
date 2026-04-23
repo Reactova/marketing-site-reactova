@@ -162,22 +162,24 @@ export default function CreatorsForm() {
           </p>
           <div className="creators-success-next">
             <p className="creators-success-next-title">While you wait:</p>
-            <a
-              href="https://instagram.com/reactova"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="creators-success-link"
-            >
-              → Follow us on Instagram @reactova
-            </a>
-            <a
-              href={`https://instagram.com/${formData.instagramUsername}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="creators-success-link"
-            >
-              → View your submitted profile
-            </a>
+           <div className="flex flex-col gap-2 mt-4">
+              <a
+                href="https://instagram.com/reactova"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="creators-success-link"
+              >
+                → Follow us on Instagram @reactova
+              </a>
+              <a
+                href={`https://instagram.com/${formData.instagramUsername}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="creators-success-link"
+              >
+                → View your submitted profile
+              </a>
+           </div>
           </div>
         </div>
       </div>

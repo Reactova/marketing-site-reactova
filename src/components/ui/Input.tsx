@@ -88,7 +88,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               className={[
                 'absolute left-0 flex items-center h-full pl-3.5',
                 'text-[13px] font-medium text-[#6D6D8A]',
-                'border-r border-[#E2E2EE] pr-2.5 mr-0 select-none',
+                'border-r border-[#e2e2ee]! pr-2.5 mr-0 select-none',
                 startContentClassName ?? '',
               ].join(' ')}
             >

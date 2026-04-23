@@ -1180,7 +1180,7 @@ body {
 }
 .cp-form-title {
   font-family: "Outfit", sans-serif;
-  font-size: 22px;
+  font-size: 23px;
   font-weight: 800;
   color: var(--text);
   letter-spacing: -0.025em;
@@ -1471,11 +1471,11 @@ body {
     --nav-h: 56px;
   }
   .cs-wrap {
-    padding-top: calc(var(--nav-h) + 48px);
+    padding-top: calc(var(--nav-h) + 30px);
     padding-bottom: 60px;
   }
   .cp-wrap {
-    padding-top: calc(var(--nav-h) + 48px);
+    padding-top: calc(var(--nav-h) + 30px);
     padding-bottom: 60px;
   }
   .cs-headline {

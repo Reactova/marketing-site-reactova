@@ -104,9 +104,9 @@ export default function CreatorsView() {
         // If the form section (#apply) is visible, hide the FAB
         setShowFab(!entry.isIntersecting)
       },
-      { 
-        threshold: 0,
-        rootMargin: '-100px 0px 0px 0px' // Trigger slightly before reaching the form
+      {
+        threshold: 0.1,
+        rootMargin: '100px 0px 0px 0px' // Trigger slightly before reaching the form
       }
     )
 
@@ -124,13 +124,12 @@ export default function CreatorsView() {
         ctaLabel="← Back to waitlist"
         ctaVariant="ghost"
       />
-      
-      <div 
-        className={`fixed bottom-6 right-6 z-[999] transition-all duration-500 ease-out transform ${
-          showFab 
-            ? 'translate-y-0 opacity-100 scale-100' 
-            : 'translate-y-12 opacity-0 scale-90 pointer-events-none'
-        }`}
+
+      <div
+        className={`fixed bottom-6 right-6 z-999 transition-all duration-500 ease-out transform ${showFab
+          ? 'translate-y-0 opacity-100 scale-100'
+          : 'translate-y-12 opacity-0 scale-90 pointer-events-none'
+          }`}
       >
         <Button
           variant="primary"
@@ -161,7 +160,7 @@ export default function CreatorsView() {
               helps us grow organically.
             </p>
 
-            
+
 
             <div className="cp-social-proof max-md:flex-col">
               <span className="cp-social-proof-dot" />
@@ -171,7 +170,7 @@ export default function CreatorsView() {
           </section>
 
           {/* ── STATS BAR ── */}
-          <div className="cp-stats-bar">
+          <div className="cp-stats-bar mb-10!">
             <div className="cp-stat">
               <span className="cp-stat-num">
                 <span className="">50</span>
@@ -229,21 +228,12 @@ export default function CreatorsView() {
                 </div>
               ))}
             </div>
-            <div className="flex justify-center mt-10">
-              <Button 
-                variant="outline" 
-                className="w-auto px-8 py-3 text-sm font-bold rounded-full"
-                onPress={() => document.getElementById('apply')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                Join the program &darr;
-              </Button>
-            </div>
           </section>
 
           <hr className="section-divider" />
 
           {/* ── SPLIT: Who Qualifies + Requirements ── */}
-          <section className="cp-split">
+          <section className="cp-split max-md:mb-[92px]!">
 
             {/* Who Qualifies */}
             <div className="cp-split-card">
@@ -295,9 +285,9 @@ export default function CreatorsView() {
             </div>
 
           </section>
-
+          <hr className="section-divider" id="apply" />
           {/* ── APPLICATION FORM ── */}
-          <section className="cp-form-wrap" id="apply">
+          <section className="cp-form-wrap">
             <div className="glass-card cp-form-card">
               <div className="cp-form-header">
                 <h2 className="cp-form-title">Apply to the Creators Program</h2>

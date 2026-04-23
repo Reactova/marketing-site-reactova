@@ -159,9 +159,9 @@ export default function CreatorsView() {
               <p className="section-eyebrow">Getting started</p>
               <h2 className="section-title">How It Works</h2>
             </div>
-            <div className="cp-how-steps">
+            <div className="cp-how-steps max-w-none!">
               {HOW_STEPS.map((step) => (
-                <div key={step.num} className="cp-step max-md:!flex-col">
+                <div key={step.num} className="cp-step max-md:flex-col! max-md:items-center! text-center!">
                   <div className="cp-step-num">{step.num}</div>
                   <div className="cp-step-title">{step.title}</div>
                   <p className="cp-step-desc">{step.desc}</p>

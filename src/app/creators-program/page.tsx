@@ -163,9 +163,10 @@ export default function CreatorsView() {
 
 
             <div className="cp-social-proof max-md:flex-col">
-              <span className="cp-social-proof-dot" />
               Creators from 10+ countries have already applied —{' '}
-              <span style={{ color: 'var(--success)', fontWeight: 600 }}>only a few spots remain</span>
+              <div className="flex items-center gap-2">
+                <span className="cp-social-proof-dot" /> <span style={{ color: 'var(--success)', fontWeight: 600 }}> only a few spots remain</span>
+              </div>
             </div>
           </section>
 

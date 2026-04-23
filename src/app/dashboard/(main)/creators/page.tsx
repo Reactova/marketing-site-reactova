@@ -422,7 +422,7 @@ export default function CreatorsPage() {
           <div className="flex items-center justify-between">
             <div className="space-y-1">
               <CardTitle className="font-['Outfit'] text-xl font-bold text-foreground">Applications</CardTitle>
-              <CardDescription className="text-muted-foreground">Total of {pagination.total} applications.</CardDescription>
+              <CardContent className="text-muted-foreground">Total of {pagination.total} applications.</CardContent>
             </div>
             {topContent}
           </div>

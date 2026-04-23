@@ -1,30 +1,40 @@
-import { siteConfig } from '@/config/site.config'
+import { siteConfig } from "@/config/site.config";
 
 interface WelcomeEmailData {
-  name: string
-  spotNumber: number
-  discountCode: string | null
-  discount: number
-  hasDiscount: boolean
+  name: string;
+  spotNumber: number;
+  discountCode: string | null;
+  discount: number;
+  hasDiscount: boolean;
 }
 
-export function getWelcomeEmailSubject({ name, discount, hasDiscount }: WelcomeEmailData): string {
+export function getWelcomeEmailSubject({
+  name,
+  discount,
+  hasDiscount,
+}: WelcomeEmailData): string {
   if (hasDiscount) {
-    return `🎉 You're in, ${name}! Your ${discount}% off code is inside`
+    return `🎉 You're in, ${name}! Your ${discount}% off code is inside`;
   }
-  return `🎉 Welcome aboard, ${name}! You're on the early access list`
+  return `🎉 Welcome aboard, ${name}! You're on the early access list`;
 }
 
-export function getWelcomeEmailText({ name, spotNumber, discountCode, discount, hasDiscount }: WelcomeEmailData): string {
-  const { brand } = siteConfig
+export function getWelcomeEmailText({
+  name,
+  spotNumber,
+  discountCode,
+  discount,
+  hasDiscount,
+}: WelcomeEmailData): string {
+  const { brand } = siteConfig;
 
   const discountSection = hasDiscount
     ? `YOUR EXCLUSIVE ${discount}% OFF CODE: ${discountCode}`
-    : "EARLY ACCESS CONFIRMED - You're on the list!"
+    : "EARLY ACCESS CONFIRMED - You're on the list!";
 
   const whatNextText = hasDiscount
     ? `We'll email you on launch day with early access to ${brand.name}. Your ${discount}% discount code above will be automatically applied.`
-    : `We'll email you on launch day with early access to ${brand.name}. You'll be among the first to try our Instagram DM automation platform.`
+    : `We'll email you on launch day with early access to ${brand.name}. You'll be among the first to try our Instagram DM automation platform.`;
 
   return `
 Welcome to ${brand.name}, ${name}!
@@ -47,25 +57,32 @@ ${whatNextText}
 Questions? Reply to this email — we read every message.
 
 © ${new Date().getFullYear()} ${brand.name}
-`.trim()
+`.trim();
 }
 
-export function getWelcomeEmailHtml({ name, spotNumber, discountCode, discount, hasDiscount }: WelcomeEmailData): string {
-  const { brand, launch } = siteConfig
+export function getWelcomeEmailHtml({
+  name,
+  spotNumber,
+  discountCode,
+  discount,
+  hasDiscount,
+}: WelcomeEmailData): string {
+  const { brand, launch } = siteConfig;
 
-  const welcomeBadgeText = hasDiscount 
+  const welcomeBadgeText = hasDiscount
     ? `✓ ${discount}% DISCOUNT SECURED`
-    : '✓ EARLY ACCESS CONFIRMED'
+    : "✓ EARLY ACCESS CONFIRMED";
 
   const greetingText = hasDiscount
-    ? `You've secured <strong style="color: #6366F1;">spot #${spotNumber}</strong> on our exclusive early access list. As a thank you, we've locked in a <strong style="color: #06B6D4;">${discount}% lifetime discount</strong> for you.`
-    : `You've secured <strong style="color: #6366F1;">spot #${spotNumber}</strong> on our early access list. You'll be among the first content creators to experience ${brand.name} when we launch!`
+    ? `You've secured <strong style="color: #6366F1;">spot #${spotNumber}</strong> on our exclusive early access list. As a thank you, we've locked in a <strong style="color: #06B6D4;">${discount}% discount</strong> for you.`
+    : `You've secured <strong style="color: #6366F1;">spot #${spotNumber}</strong> on our early access list. You'll be among the first content creators to experience ${brand.name} when we launch!`;
 
   const whatNextText = hasDiscount
     ? `We'll reach out on launch day with your exclusive invite. Your ${discount}% discount will be automatically linked to your account, or you can use the code below.`
-    : `We'll reach out on launch day with your exclusive invite. You'll be among the first to try our AI-powered Instagram automation platform. Keep an eye on your inbox!`
+    : `We'll reach out on launch day with your exclusive invite. You'll be among the first to try our AI-powered Instagram automation platform. Keep an eye on your inbox!`;
 
-  const discountSection = hasDiscount ? `
+  const discountSection = hasDiscount
+    ? `
     <!-- Coupon Code -->
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 32px;">
       <tr>
@@ -82,7 +99,8 @@ export function getWelcomeEmailHtml({ name, spotNumber, discountCode, discount, 
         </td>
       </tr>
     </table>
-  ` : `
+  `
+    : `
     <!-- Status Box -->
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 32px;">
       <tr>
@@ -94,12 +112,12 @@ export function getWelcomeEmailHtml({ name, spotNumber, discountCode, discount, 
             You're on the list! 🎯
           </p>
           <p style="margin: 12px 0 0 0; font-size: 13px; color: #64748B;">
-            Estimated Launch: ${launch.badgeText.replace('Launching ', '')}
+            Estimated Launch: ${launch.badgeText.replace("Launching ", "")}
           </p>
         </td>
       </tr>
     </table>
-  `
+  `;
 
   return `
 <!DOCTYPE html>
@@ -278,5 +296,5 @@ export function getWelcomeEmailHtml({ name, spotNumber, discountCode, discount, 
   </table>
 </body>
 </html>
-`.trim()
+`.trim();
 }

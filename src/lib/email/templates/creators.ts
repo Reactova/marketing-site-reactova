@@ -65,8 +65,8 @@ export function getCreatorsEmailHtml({ name, instagramUsername }: CreatorsEmailD
   </style>
   <![endif]-->
 </head>
-<body style="margin: 0; padding: 0; background-color: #0A0A0F; -webkit-font-smoothing: antialiased;">
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #0A0A0F;">
+<body style="margin: 0; padding: 0; background-color: #F9FAFB; -webkit-font-smoothing: antialiased;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #F9FAFB;">
     <tr>
       <td align="center" style="padding: 60px 20px;">
         <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px; margin: 0 auto;">
@@ -76,10 +76,10 @@ export function getCreatorsEmailHtml({ name, instagramUsername }: CreatorsEmailD
             <td align="center" style="padding-bottom: 40px;">
               <table role="presentation" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td style="background: linear-gradient(135deg, #06b6d4 0%, #6366f1 100%); width: 32px; height: 32px; border-radius: 8px; text-align: center; vertical-align: middle;">
-                    <span style="color: #ffffff; font-size: 14px; font-weight: 800; font-family: sans-serif;">R</span>
+                  <td style="background: linear-gradient(135deg, #06b6d4 0%, #6366f1 100%); width: 36px; height: 36px; border-radius: 10px; text-align: center; vertical-align: middle;">
+                    <span style="color: #ffffff; font-size: 16px; font-weight: 800; font-family: sans-serif;">R</span>
                   </td>
-                  <td style="padding-left: 12px; font-family: sans-serif; font-size: 20px; font-weight: 800; color: #ffffff; letter-spacing: -0.02em;">
+                  <td style="padding-left: 12px; font-family: sans-serif; font-size: 22px; font-weight: 800; color: #111827; letter-spacing: -0.02em;">
                     ${brand.name}
                   </td>
                 </tr>
@@ -89,13 +89,13 @@ export function getCreatorsEmailHtml({ name, instagramUsername }: CreatorsEmailD
 
           <!-- Content Card -->
           <tr>
-            <td style="background-color: #11111A; border: 1px solid #1E1E2E; border-radius: 24px; padding: 56px 48px;">
+            <td style="background-color: #ffffff; border: 1px solid #E5E7EB; border-radius: 24px; padding: 60px 48px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);">
               
               <!-- Badge -->
               <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td align="center" style="padding-bottom: 24px;">
-                    <span style="display: inline-block; background-color: rgba(99, 102, 241, 0.1); color: #6366F1; font-family: sans-serif; font-size: 11px; font-weight: 700; padding: 8px 16px; border-radius: 100px; letter-spacing: 0.08em; border: 1px solid rgba(99, 102, 241, 0.2);">
+                    <span style="display: inline-block; background-color: #F0F9FF; color: #0EA5E9; font-family: sans-serif; font-size: 11px; font-weight: 700; padding: 8px 20px; border-radius: 100px; letter-spacing: 0.08em; border: 1px solid #E0F2FE;">
                       🎯 APPLICATION RECEIVED
                     </span>
                   </td>
@@ -105,25 +105,25 @@ export function getCreatorsEmailHtml({ name, instagramUsername }: CreatorsEmailD
               <!-- Hero Text -->
               <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td align="center" style="padding-bottom: 16px;">
-                    <h1 style="margin: 0; font-family: sans-serif; font-size: 32px; font-weight: 800; color: #ffffff; line-height: 1.1; letter-spacing: -0.02em;">
+                  <td align="center" style="padding-bottom: 20px;">
+                    <h1 style="margin: 0; font-family: sans-serif; font-size: 36px; font-weight: 800; color: #111827; line-height: 1.1; letter-spacing: -0.03em;">
                       Hey ${name}! 👋
                     </h1>
                   </td>
                 </tr>
                 <tr>
                   <td align="center" style="padding-bottom: 32px;">
-                    <p style="margin: 0; font-family: sans-serif; font-size: 16px; color: #818196; line-height: 1.6;">
-                      We've received your Creators Program application for <strong style="color: #6366F1;">@${instagramUsername}</strong> and our team is excited to review it.
+                    <p style="margin: 0; font-family: sans-serif; font-size: 17px; color: #4B5563; line-height: 1.6;">
+                      We've received your application for <strong style="color: #6366F1;">@${instagramUsername}</strong> and our team is excited to review your profile.
                     </p>
                   </td>
                 </tr>
               </table>
 
-              <!-- Benefits List -->
-              <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #161625; border-radius: 16px; padding: 32px;">
+              <!-- Benefits Card -->
+              <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #F8FAFC; border: 1px solid #F1F5F9; border-radius: 20px; padding: 32px;">
                 <tr>
-                  <td style="padding-bottom: 16px;">
+                  <td style="padding-bottom: 20px;">
                     <p style="margin: 0; font-family: sans-serif; font-size: 12px; color: #6366F1; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">WHAT YOU GET (IF APPROVED)</p>
                   </td>
                 </tr>
@@ -131,23 +131,23 @@ export function getCreatorsEmailHtml({ name, instagramUsername }: CreatorsEmailD
                   <td>
                     <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
                       <tr>
-                        <td style="padding: 6px 0; font-family: sans-serif; font-size: 14px; color: #E8E8F0;">
-                          <span style="color: #22C55E; margin-right: 8px;">✓</span> Full Business plan features ($79/mo value)
+                        <td style="padding: 8px 0; font-family: sans-serif; font-size: 15px; color: #1E293B;">
+                          <span style="color: #22C55E; margin-right: 12px; font-weight: bold;">✓</span> Full Business plan access ($79/mo value)
                         </td>
                       </tr>
                       <tr>
-                        <td style="padding: 6px 0; font-family: sans-serif; font-size: 14px; color: #E8E8F0;">
-                          <span style="color: #22C55E; margin-right: 8px;">✓</span> Unlimited comment-to-DM automations
+                        <td style="padding: 8px 0; font-family: sans-serif; font-size: 15px; color: #1E293B;">
+                          <span style="color: #22C55E; margin-right: 12px; font-weight: bold;">✓</span> Unlimited comment-to-DM automations
                         </td>
                       </tr>
                       <tr>
-                        <td style="padding: 6px 0; font-family: sans-serif; font-size: 14px; color: #E8E8F0;">
-                          <span style="color: #22C55E; margin-right: 8px;">✓</span> Advanced analytics & tracking
+                        <td style="padding: 8px 0; font-family: sans-serif; font-size: 15px; color: #1E293B;">
+                          <span style="color: #22C55E; margin-right: 12px; font-weight: bold;">✓</span> Advanced profile & conversion analytics
                         </td>
                       </tr>
                       <tr>
-                        <td style="padding: 6px 0; font-family: sans-serif; font-size: 14px; color: #E8E8F0;">
-                          <span style="color: #22C55E; margin-right: 8px;">✓</span> Priority 1-on-1 support
+                        <td style="padding: 8px 0; font-family: sans-serif; font-size: 15px; color: #1E293B;">
+                          <span style="color: #22C55E; margin-right: 12px; font-weight: bold;">✓</span> Priority onboarding & support
                         </td>
                       </tr>
                     </table>
@@ -156,30 +156,30 @@ export function getCreatorsEmailHtml({ name, instagramUsername }: CreatorsEmailD
               </table>
 
               <!-- Timeline -->
-              <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 32px;">
+              <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 40px;">
                 <tr>
                   <td>
-                    <h2 style="margin: 0 0 16px 0; font-family: sans-serif; font-size: 18px; font-weight: 700; color: #ffffff;">What happens next?</h2>
-                    <p style="margin: 0 0 24px 0; font-family: sans-serif; font-size: 14px; color: #818196; line-height: 1.7;">
-                      Our team manually reviews every application within <strong style="color: #ffffff;">48-72 hours</strong>. We look at your engagement, content quality, and niche alignment.
+                    <h2 style="margin: 0 0 16px 0; font-family: sans-serif; font-size: 20px; font-weight: 700; color: #111827;">What happens next?</h2>
+                    <p style="margin: 0 0 28px 0; font-family: sans-serif; font-size: 15px; color: #6B7280; line-height: 1.7;">
+                      Our team manually reviews every application within <strong style="color: #111827;">48-72 hours</strong>. We look at your engagement, content quality, and profile alignment.
                     </p>
                     
-                    <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #161625; border-radius: 12px; padding: 20px;">
+                    <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #F9FAFB; border: 1px solid #F3F4F6; border-radius: 16px; padding: 24px;">
                       <tr>
                         <td width="33%" align="center">
-                          <p style="margin: 0; font-size: 20px;">📝</p>
-                          <p style="margin: 4px 0 0 0; font-family: sans-serif; font-size: 10px; color: #22C55E; font-weight: 700;">DONE</p>
-                          <p style="margin: 2px 0 0 0; font-family: sans-serif; font-size: 11px; color: #818196;">Applied</p>
+                          <p style="margin: 0; font-size: 24px;">📝</p>
+                          <p style="margin: 6px 0 0 0; font-family: sans-serif; font-size: 10px; color: #22C55E; font-weight: 800; letter-spacing: 0.05em;">DONE</p>
+                          <p style="margin: 2px 0 0 0; font-family: sans-serif; font-size: 12px; color: #6B7280;">Applied</p>
                         </td>
                         <td width="33%" align="center">
-                          <p style="margin: 0; font-size: 20px;">🔍</p>
-                          <p style="margin: 4px 0 0 0; font-family: sans-serif; font-size: 10px; color: #6366F1; font-weight: 700;">IN REVIEW</p>
-                          <p style="margin: 2px 0 0 0; font-family: sans-serif; font-size: 11px; color: #818196;">Verification</p>
+                          <p style="margin: 0; font-size: 24px;">🔍</p>
+                          <p style="margin: 6px 0 0 0; font-family: sans-serif; font-size: 10px; color: #6366F1; font-weight: 800; letter-spacing: 0.05em;">IN REVIEW</p>
+                          <p style="margin: 2px 0 0 0; font-family: sans-serif; font-size: 12px; color: #6B7280;">Verification</p>
                         </td>
                         <td width="33%" align="center">
-                          <p style="margin: 0; font-size: 20px;">✉️</p>
-                          <p style="margin: 4px 0 0 0; font-family: sans-serif; font-size: 10px; color: #4A4A5A; font-weight: 700;">PENDING</p>
-                          <p style="margin: 2px 0 0 0; font-family: sans-serif; font-size: 11px; color: #818196;">Decision</p>
+                          <p style="margin: 0; font-size: 24px;">✉️</p>
+                          <p style="margin: 6px 0 0 0; font-family: sans-serif; font-size: 10px; color: #94A3B8; font-weight: 800; letter-spacing: 0.05em;">PENDING</p>
+                          <p style="margin: 2px 0 0 0; font-family: sans-serif; font-size: 12px; color: #6B7280;">Decision</p>
                         </td>
                       </tr>
                     </table>
@@ -193,11 +193,12 @@ export function getCreatorsEmailHtml({ name, instagramUsername }: CreatorsEmailD
           <!-- Footer -->
           <tr>
             <td align="center" style="padding-top: 40px;">
-              <p style="margin: 0 0 12px 0; font-family: sans-serif; font-size: 13px; color: #4A4A5A;">
-                Have questions? Just reply to this email. We're here to help.
+              <p style="margin: 0 0 12px 0; font-family: sans-serif; font-size: 14px; color: #6B7280;">
+                Have questions? Just reply to this email.
               </p>
-              <p style="margin: 0; font-family: sans-serif; font-size: 11px; color: #31313F; text-transform: uppercase; letter-spacing: 0.1em;">
-                © ${new Date().getFullYear()} ${brand.name} • Exclusive Creators Program
+              <div style="height: 1px; width: 40px; background-color: #E5E7EB; margin-bottom: 20px;"></div>
+              <p style="margin: 0; font-family: sans-serif; font-size: 12px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.1em;">
+                © ${new Date().getFullYear()} ${brand.name} • Creators Program
               </p>
             </td>
           </tr>

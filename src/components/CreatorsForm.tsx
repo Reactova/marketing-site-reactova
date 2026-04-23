@@ -81,7 +81,10 @@ export default function CreatorsForm() {
 
   useEffect(() => {
     fetch('/api/creators')
-      .then(res => res.json())
+      .then(res => (
+        console.log('🚀 ~ CreatorsForm ~ res:', res),
+        res.json()
+      ))
       .then(data => {
         if (typeof data.spotsRemaining === 'number') {
           setSpotsRemaining(data.spotsRemaining)
@@ -162,7 +165,7 @@ export default function CreatorsForm() {
           </p>
           <div className="creators-success-next">
             <p className="creators-success-next-title">While you wait:</p>
-           <div className="flex flex-col gap-2 mt-4">
+            <div className="flex flex-col gap-2 mt-4">
               <a
                 href="https://instagram.com/reactova"
                 target="_blank"
@@ -179,7 +182,7 @@ export default function CreatorsForm() {
               >
                 → View your submitted profile
               </a>
-           </div>
+            </div>
           </div>
         </div>
       </div>

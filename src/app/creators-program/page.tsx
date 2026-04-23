@@ -1,6 +1,9 @@
+"use client"
+import { useEffect, useState } from 'react'
 import Background from '@/components/Background'
 import CreatorsForm from '@/components/CreatorsForm'
 import Navbar from '@/components/Navbar'
+import { Button } from '@/components/ui'
 import { siteConfig } from '@/config/site.config'
 import Link from 'next/link'
 
@@ -93,6 +96,25 @@ const HOW_STEPS = [
 
 export default function CreatorsView() {
   const { brand } = siteConfig
+  const [showFab, setShowFab] = useState(true)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // If the form section (#apply) is visible, hide the FAB
+        setShowFab(!entry.isIntersecting)
+      },
+      { 
+        threshold: 0,
+        rootMargin: '-100px 0px 0px 0px' // Trigger slightly before reaching the form
+      }
+    )
+
+    const target = document.getElementById('apply')
+    if (target) observer.observe(target)
+
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <>
@@ -102,7 +124,22 @@ export default function CreatorsView() {
         ctaLabel="← Back to waitlist"
         ctaVariant="ghost"
       />
-
+      
+      <div 
+        className={`fixed bottom-6 right-6 z-[999] transition-all duration-500 ease-out transform ${
+          showFab 
+            ? 'translate-y-0 opacity-100 scale-100' 
+            : 'translate-y-12 opacity-0 scale-90 pointer-events-none'
+        }`}
+      >
+        <Button
+          variant="primary"
+          className="cursor-pointer px-8! py-4! shadow-[0_10px_40px_-10px_rgba(79,70,229,0.5)] rounded-full font-bold"
+          onPress={() => document.getElementById('apply')?.scrollIntoView({ behavior: 'smooth' })}
+        >
+          Apply Now &darr;
+        </Button>
+      </div>
       <main className="cp-wrap">
         <div className="container">
 
@@ -123,6 +160,8 @@ export default function CreatorsView() {
               to use Reactova at zero cost — in exchange for real usage that
               helps us grow organically.
             </p>
+
+            
 
             <div className="cp-social-proof max-md:flex-col">
               <span className="cp-social-proof-dot" />
@@ -190,6 +229,15 @@ export default function CreatorsView() {
                 </div>
               ))}
             </div>
+            <div className="flex justify-center mt-10">
+              <Button 
+                variant="outline" 
+                className="w-auto px-8 py-3 text-sm font-bold rounded-full"
+                onPress={() => document.getElementById('apply')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                Join the program &darr;
+              </Button>
+            </div>
           </section>
 
           <hr className="section-divider" />
@@ -249,7 +297,7 @@ export default function CreatorsView() {
           </section>
 
           {/* ── APPLICATION FORM ── */}
-          <section className="cp-form-wrap">
+          <section className="cp-form-wrap" id="apply">
             <div className="glass-card cp-form-card">
               <div className="cp-form-header">
                 <h2 className="cp-form-title">Apply to the Creators Program</h2>

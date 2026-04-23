@@ -48,6 +48,7 @@ textarea::placeholder {
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
 /* ════════════════════════════════════════════════════
@@ -843,7 +844,7 @@ body {
 .cp-headline {
   font-family: "Outfit", sans-serif;
   font-weight: 800;
-  font-size: clamp(36px, 5.5vw, 60px);
+  font-size: clamp(40px, 5.5vw, 60px);
   line-height: 1.07;
   letter-spacing: -0.035em;
   color: var(--text);

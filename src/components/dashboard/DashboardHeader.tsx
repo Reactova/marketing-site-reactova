@@ -18,7 +18,7 @@ export default function DashboardHeader() {
     <header className="h-16 border-b border-[var(--border)] bg-[var(--bg)]/80 backdrop-blur-sm px-6 flex items-center justify-between">
       <div className="flex items-center gap-4">
         <div className="lg:hidden w-10" /> {/* Spacer for mobile menu button */}
-        <h1 className="font-['Syne'] font-bold text-xl text-[var(--text)]">
+        <h1 className="font-['Outfit'] font-bold text-xl text-[var(--text)]">
           {currentPage?.name || 'Dashboard'}
         </h1>
       </div>

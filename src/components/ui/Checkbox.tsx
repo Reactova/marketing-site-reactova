@@ -77,7 +77,7 @@ const CheckboxBase = forwardRef<HTMLLabelElement, CheckboxProps>(
         </HeroCheckbox.Control>
         {showContent ? (
           <HeroCheckbox.Content
-            className="font-['Inter',sans-serif] text-[13px] text-[#3D3D5C] sm:text-[14px]"
+            className="text-[13px] text-[#3D3D5C] sm:text-[14px]"
           >
             {children}
           </HeroCheckbox.Content>

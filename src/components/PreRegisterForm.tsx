@@ -8,11 +8,11 @@ import Link from 'next/link'
 
 function getDeviceInfo() {
   if (typeof window === 'undefined') return {}
-  
+
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     navigator.userAgent
   )
-  
+
   return {
     userAgent: navigator.userAgent,
     platform: navigator.platform,
@@ -26,7 +26,7 @@ function getDeviceInfo() {
 
 function getSourceInfo() {
   if (typeof window === 'undefined') return {}
-  
+
   const params = new URLSearchParams(window.location.search)
   return {
     referrer: document.referrer || null,
@@ -56,7 +56,7 @@ export default function PreRegisterForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [errors, setErrors] = useState({ name: false, email: false })
-  const { markConversion } = useAnalytics() 
+  const { markConversion } = useAnalytics()
   useEffect(() => {
     async function fetchTierInfo() {
       try {
@@ -113,7 +113,7 @@ export default function PreRegisterForm() {
 
   const getSpotsDisplay = () => {
     if (!tierInfo) return { remaining: 12, total: 15, label: '50% off spots' }
-    
+
     if (currentTier === 'tier1') {
       return {
         remaining: tierInfo.tier1Remaining,
@@ -136,7 +136,7 @@ export default function PreRegisterForm() {
 
   async function handleSubmit() {
     setError(null)
-    
+
     const nameErr = name.trim() === ''
     const emailErr = email.trim() === '' || !email.includes('@')
     setErrors({ name: nameErr, email: emailErr })
@@ -236,9 +236,9 @@ export default function PreRegisterForm() {
               hasError={errors.email}
             />
           </div>
-          <Button 
+          <Button
             variant="primary"
-            className="w-full mb-2"
+            className="w-full mb-2 text-sm!"
             onPress={handleSubmit}
             isDisabled={loading}
             isLoading={loading}
@@ -247,9 +247,9 @@ export default function PreRegisterForm() {
           </Button>
           <Link
             href="/creators-program"
-            className="w-full text-primary !mt-2 inline-block text-center underline"
+            className="w-full text-primary mt-2! inline-block text-center underline text-xs"
           >
-           Content Creator? Join the Creators Program
+            Content Creator? Join the Creators Program
           </Link>
         </div>
       ) : (

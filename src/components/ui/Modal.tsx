@@ -72,7 +72,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
             
             {title && (
               <HeroModalHeader className="px-6 pt-6 pb-0 border-b border-border">
-                <h3 className="font-['Syne',sans-serif] font-bold text-lg text-[#E8E8F0] pb-4">
+                <h3 className="font-['Outfit',sans-serif] font-bold text-lg text-[#E8E8F0] pb-4">
                   {title}
                 </h3>
               </HeroModalHeader>

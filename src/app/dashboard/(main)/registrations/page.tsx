@@ -143,7 +143,7 @@ export default function RegistrationsPage() {
       case 'spotNumber':
         return (
           <div className="flex items-center gap-2">
-            <span className="font-['Syne'] font-bold text-[var(--text)]">
+            <span className="font-['Outfit'] font-bold text-[var(--text)]">
               {item.spotNumber}
             </span>
             <Chip
@@ -227,7 +227,7 @@ export default function RegistrationsPage() {
   const topContent = useMemo(() => (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
-        <h2 className="font-['Syne'] font-bold text-xl text-[var(--text)]">
+        <h2 className="font-['Outfit'] font-bold text-xl text-[var(--text)]">
           All Pre-Registrations
         </h2>
         <span className="text-sm text-[var(--muted)]">

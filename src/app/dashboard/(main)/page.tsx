@@ -39,7 +39,7 @@ function StatCard({ title, value, subtitle, icon, trend, color = 'primary' }: St
         <div className="flex items-start justify-between">
           <div>
             <p className="text-sm text-[var(--muted)] mb-1">{title}</p>
-            <p className="text-2xl font-['Syne'] font-bold text-[var(--text)]">
+            <p className="text-2xl font-['Outfit'] font-bold text-[var(--text)]">
               {value}
             </p>
             {subtitle && (
@@ -113,7 +113,7 @@ export default function DashboardOverviewPage() {
     return (
       <div className="space-y-6">
         <div>
-          <h2 className="font-['Syne'] font-bold text-2xl text-[var(--text)] mb-2">
+          <h2 className="font-['Outfit'] font-bold text-2xl text-[var(--text)] mb-2">
             Welcome back
           </h2>
           <p className="text-[var(--muted)]">
@@ -133,7 +133,7 @@ export default function DashboardOverviewPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-['Syne'] font-bold text-2xl text-[var(--text)] mb-2">
+        <h2 className="font-['Outfit'] font-bold text-2xl text-[var(--text)] mb-2">
           Welcome back
         </h2>
         <p className="text-[var(--muted)]">
@@ -143,7 +143,7 @@ export default function DashboardOverviewPage() {
 
       {/* Registrations Stats */}
       <div>
-        <h3 className="font-['Syne'] font-semibold text-lg text-[var(--text)] mb-4">
+        <h3 className="font-['Outfit'] font-semibold text-lg text-[var(--text)] mb-4">
           Pre-Registrations
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -180,7 +180,7 @@ export default function DashboardOverviewPage() {
 
       {/* Creators Stats */}
       <div>
-        <h3 className="font-['Syne'] font-semibold text-lg text-[var(--text)] mb-4">
+        <h3 className="font-['Outfit'] font-semibold text-lg text-[var(--text)] mb-4">
           Creator Applications
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -214,7 +214,7 @@ export default function DashboardOverviewPage() {
 
       {/* Analytics Stats */}
       <div>
-        <h3 className="font-['Syne'] font-semibold text-lg text-[var(--text)] mb-4">
+        <h3 className="font-['Outfit'] font-semibold text-lg text-[var(--text)] mb-4">
           Site Analytics
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

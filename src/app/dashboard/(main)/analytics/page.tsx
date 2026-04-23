@@ -79,7 +79,7 @@ function StatCard({
         <div className="flex items-start justify-between">
           <div>
             <p className="text-xs text-[var(--muted)] mb-1">{title}</p>
-            <p className="text-xl font-['Syne'] font-bold text-[var(--text)]">
+            <p className="text-xl font-['Outfit'] font-bold text-[var(--text)]">
               {value}
             </p>
             {subtitle && (
@@ -329,7 +329,7 @@ export default function AnalyticsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card className="bg-[var(--surface)] border border-[var(--border)]">
           <CardBody className="p-4">
-            <h4 className="font-['Syne'] font-semibold text-sm text-[var(--text)] mb-4">
+            <h4 className="font-['Outfit'] font-semibold text-sm text-[var(--text)] mb-4">
               Device Breakdown
             </h4>
             <div className="space-y-3">
@@ -373,7 +373,7 @@ export default function AnalyticsPage() {
 
         <Card className="bg-[var(--surface)] border border-[var(--border)]">
           <CardBody className="p-4">
-            <h4 className="font-['Syne'] font-semibold text-sm text-[var(--text)] mb-4">
+            <h4 className="font-['Outfit'] font-semibold text-sm text-[var(--text)] mb-4">
               Top Landing Pages
             </h4>
             <div className="space-y-2">
@@ -398,7 +398,7 @@ export default function AnalyticsPage() {
       {/* Timezones */}
       <Card className="bg-[var(--surface)] border border-[var(--border)]">
         <CardBody className="p-4">
-          <h4 className="font-['Syne'] font-semibold text-sm text-[var(--text)] mb-4 flex items-center gap-2">
+          <h4 className="font-['Outfit'] font-semibold text-sm text-[var(--text)] mb-4 flex items-center gap-2">
             <Globe className="w-4 h-4" />
             Visitor Timezones
           </h4>
@@ -417,7 +417,7 @@ export default function AnalyticsPage() {
 
       {/* Filters */}
       <div className="flex justify-between items-center">
-        <h3 className="font-['Syne'] font-bold text-lg text-[var(--text)]">
+        <h3 className="font-['Outfit'] font-bold text-lg text-[var(--text)]">
           Session Details
         </h3>
         <div className="flex gap-3">

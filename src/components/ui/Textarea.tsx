@@ -18,10 +18,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         className={[
           // Layout & sizing
           'w-full resize-y min-h-[120px]',
-          'py-3 px-3.5',
+          'py-3! px-3.5! mt-2!',
 
           // Typography
-          "font-['Inter',sans-serif] text-[14px]",
+          "text-[14px]",
           'text-[#0E0E18] placeholder:text-[#A0A0BC]',
 
           // Background & shape

@@ -338,7 +338,7 @@ export default function CreatorsPage() {
   const topContent = useMemo(() => (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
-        <h2 className="font-['Syne'] font-bold text-xl text-[var(--text)]">
+        <h2 className="font-['Outfit'] font-bold text-xl text-[var(--text)]">
           Creator Applications
         </h2>
         <span className="text-sm text-[var(--muted)]">
@@ -478,7 +478,7 @@ export default function CreatorsPage() {
           <ModalDialog className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl max-w-2xl">
             <ModalCloseTrigger className="absolute top-4 right-4 text-[var(--muted)] hover:text-[var(--text)]" />
             <HeroModalHeader className="border-b border-[var(--border)] px-6 py-4">
-              <h3 className="text-[var(--text)] font-['Syne'] font-bold text-lg">
+              <h3 className="text-[var(--text)] font-['Outfit'] font-bold text-lg">
                 Review Application
               </h3>
             </HeroModalHeader>

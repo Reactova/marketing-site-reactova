@@ -15,7 +15,7 @@ export const Label = forwardRef<HTMLLabelElement, LabelProps>(
           block text-[13px] sm:text-[14px]
           text-secondary
           mb-2 sm:mb-2.5
-          font-['DM_Sans',sans-serif] font-medium
+          font-['Outfit',sans-serif] font-medium
           ${className}
         `}
         {...props}

@@ -31,7 +31,7 @@ export default function Navbar({
               boxShadow: '0 0 14px rgba(6,182,212,0.35)',
               flexShrink: 0,
               fontSize: 14,
-              fontFamily: 'Syne, sans-serif',
+              fontFamily: 'Outfit, sans-serif',
               fontWeight: 800,
               color: '#fff',
               letterSpacing: '-0.04em',

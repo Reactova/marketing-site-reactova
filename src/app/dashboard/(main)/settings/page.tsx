@@ -12,7 +12,7 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6 max-w-4xl">
       <div>
-        <h2 className="font-['Syne'] font-bold text-2xl text-[var(--text)] mb-2">
+        <h2 className="font-['Outfit'] font-bold text-2xl text-[var(--text)] mb-2">
           Settings
         </h2>
         <p className="text-[var(--muted)]">
@@ -26,7 +26,7 @@ export default function SettingsPage() {
             <Bell className="w-5 h-5 text-[var(--primary)]" />
           </div>
           <div>
-            <p className="font-['Syne'] font-semibold text-[var(--text)]">Notifications</p>
+            <p className="font-['Outfit'] font-semibold text-[var(--text)]">Notifications</p>
             <p className="text-sm text-[var(--muted)]">Configure how you receive updates</p>
           </div>
         </CardHeader>
@@ -65,7 +65,7 @@ export default function SettingsPage() {
             <Palette className="w-5 h-5 text-[var(--accent)]" />
           </div>
           <div>
-            <p className="font-['Syne'] font-semibold text-[var(--text)]">Appearance</p>
+            <p className="font-['Outfit'] font-semibold text-[var(--text)]">Appearance</p>
             <p className="text-sm text-[var(--muted)]">Customize the dashboard look</p>
           </div>
         </CardHeader>
@@ -91,7 +91,7 @@ export default function SettingsPage() {
             <Database className="w-5 h-5 text-[var(--success)]" />
           </div>
           <div>
-            <p className="font-['Syne'] font-semibold text-[var(--text)]">Data Management</p>
+            <p className="font-['Outfit'] font-semibold text-[var(--text)]">Data Management</p>
             <p className="text-sm text-[var(--muted)]">Export and manage your data</p>
           </div>
         </CardHeader>
@@ -152,7 +152,7 @@ export default function SettingsPage() {
             <Shield className="w-5 h-5 text-red-400" />
           </div>
           <div>
-            <p className="font-['Syne'] font-semibold text-[var(--text)]">Security</p>
+            <p className="font-['Outfit'] font-semibold text-[var(--text)]">Security</p>
             <p className="text-sm text-[var(--muted)]">Manage account security</p>
           </div>
         </CardHeader>

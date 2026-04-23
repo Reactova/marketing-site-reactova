@@ -63,7 +63,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         isDisabled={isDisabled || isLoading}
         className={`
           inline-flex items-center justify-center gap-2
-          font-['Syne',sans-serif]
+          font-['Outfit',sans-serif]
           transition-all duration-300
           disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0
           ${variantClasses[variant]}

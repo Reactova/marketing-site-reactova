@@ -28,7 +28,7 @@ export default function Sidebar() {
     <>
       <div className="p-6 border-b border-[var(--border)]">
         <Link href="/dashboard" className="flex items-center gap-2">
-          <span className="font-['Syne'] font-extrabold text-xl text-[var(--text)]">
+          <span className="font-['Outfit'] font-extrabold text-xl text-[var(--text)]">
             Reactova
           </span>
           <span className="w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse" />

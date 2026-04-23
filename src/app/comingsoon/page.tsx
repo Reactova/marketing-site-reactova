@@ -42,10 +42,10 @@ export default function ComingSoonView() {
         <div className="container">
 
           {/* ── HERO — 2-column split ── */}
-          <div className="cs-hero">
+          <div className="cs-hero gap-6!">
 
             {/* LEFT: Copy */}
-            <div className="cs-left">
+            <div className="cs-left ">
               {/* Badge */}
               <div className="badge" style={{ marginBottom: 28 }}>
                 <span className="badge-dot" />
@@ -53,10 +53,9 @@ export default function ComingSoonView() {
               </div>
 
               {/* Headline */}
-              <h1 className="cs-headline">
-                Turn every comment
-                <br />
-                <span className="grad-text">into a paying customer</span>
+              <h1 className="cs-headline flex flex-col">
+                <span className="inline-block shrink-0">Turn every comment</span>{" "}
+                <span className="inline-block grad-text shrink-0">into a paying customer</span>
               </h1>
 
               {/* Subhead */}
@@ -99,7 +98,7 @@ export default function ComingSoonView() {
                   <span className="cs-stat-label">Launch date</span>
                 </div>
                 <div className="cs-stat">
-                  <span className="cs-stat-num">$0</span>
+                  <span className="cs-stat-num">No</span>
                   <span className="cs-stat-label">Card needed</span>
                 </div>
               </div>
@@ -107,7 +106,7 @@ export default function ComingSoonView() {
 
             {/* RIGHT: Form card */}
             <div className="cs-right">
-              <div className="glass-card form-card">
+              <div className="glass-card form-card pt-0!">
                 {/* Offer pill */}
                 <OfferPill />
 
@@ -138,8 +137,7 @@ export default function ComingSoonView() {
         </div>
 
         {/* Site footer */}
-        <div className="container">
-          <hr className="section-divider" />
+        <div className="container mt-20!">
           <footer className="site-footer">
             <p>
               © 2026 {brand.name} · Built for creators &amp; agencies ·{' '}

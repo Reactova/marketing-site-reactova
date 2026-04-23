@@ -41,7 +41,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     // HeroUI applies it to the native <input> element via the `.input` slot.
     const inputClass = [
       // Base styling — fonts, sizing, padding
-      "font-['Inter',sans-serif] text-[14px] text-[#0E0E18] !p-2 border !border-black/20",
+      "text-[14px] text-[#0E0E18] !p-2 border !border-black/20",
       'placeholder:text-[#A0A0BC]',
       'py-3',
       startContent ? '!pl-2' : '!pl-3.5',

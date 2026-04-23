@@ -50,12 +50,12 @@ export default function DashboardLogin() {
       <Card className="w-full max-w-md bg-[var(--surface)] border border-[var(--border)] shadow-xl">
         <CardHeader className="flex flex-col gap-2 pt-8 pb-4 px-8">
           <div className="flex items-center gap-2 mb-2">
-            <span className="font-['Syne'] font-extrabold text-xl text-[var(--text)]">
+            <span className="font-['Outfit'] font-extrabold text-xl text-[var(--text)]">
               Reactova
             </span>
             <span className="w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse" />
           </div>
-          <h1 className="font-['Syne'] font-bold text-2xl text-[var(--text)]">
+          <h1 className="font-['Outfit'] font-bold text-2xl text-[var(--text)]">
             Dashboard Login
           </h1>
           <p className="text-sm text-[var(--muted)]">

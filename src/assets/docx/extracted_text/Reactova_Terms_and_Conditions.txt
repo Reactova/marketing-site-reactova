@@ -1,0 +1,90 @@
+Reactova
+Terms and Conditions
+reactova.com — Last updated: April 2026
+Effective Date: April 2026
+
+Please read these Terms and Conditions carefully before using Reactova. By creating an account or using any part of the platform, you agree to be bound by these Terms.
+
+1. Acceptance of Terms
+By creating an account or accessing any feature of Reactova ("Platform", "we", "us", "our"), you agree to these Terms and Conditions. Reactova is operated as a sole proprietorship and is not a registered company at this time. We may require you to explicitly accept updated Terms before continuing to use the service.
+
+2. Eligibility
+You must be at least 18 years of age to use Reactova. By using this platform, you represent and warrant that you are 18 years or older. We do not verify age at registration. It is your responsibility to confirm you meet this requirement. We reserve the right to terminate any account we believe is operated by a person under 18.
+
+3. Description of Service
+Reactova is a SaaS platform that enables users to automate Instagram comment-to-DM interactions. The platform includes:
+Comment-to-DM automation engine
+Bio link page builder with analytics
+Short link system with click tracking
+Conversion analytics and reporting dashboard
+Creator and influencer program
+White label agency tools
+Affiliate program
+
+Reactova depends on third-party platforms including Instagram (Meta). Changes to these platforms, including API limitations, policy updates, or service restrictions, may affect platform functionality. We are not responsible for such changes.
+
+4. Instagram API Compliance
+Reactova operates exclusively through Meta's official Instagram Graph API. You agree to comply with Meta's Platform Policies, Community Standards, and Terms of Service at all times. Any violation of Meta's policies by your account is solely your responsibility. Reactova accepts no liability for account restrictions, bans, or suspensions imposed by Instagram or Meta as a result of your usage.
+
+5. Account Registration
+You agree to provide accurate, current, and complete information when creating your account. You are responsible for maintaining the confidentiality of your login credentials. Notify us immediately at support@reactova.com if you suspect unauthorised access. We reserve the right to suspend or terminate accounts that contain false information.
+
+6. Workspace and Subscription
+Each workspace represents one connected Instagram account. Workspaces are billed independently. Your subscription begins on the date of purchase and renews automatically unless cancelled. You are responsible for cancelling before the renewal date. Renewals already processed are non-refundable except as described in our Refund Policy.
+
+7. Acceptable Use
+You agree not to use Reactova to:
+Send spam, unsolicited bulk messages, or harassing content
+Violate any applicable local, national, or international law
+Impersonate any person, business, or entity
+Distribute malware, viruses, or any harmful code
+Attempt to reverse engineer or extract source code
+Resell or sublicense platform access without written permission
+Scrape or harvest data from the platform without authorisation
+Infringe intellectual property rights of any third party
+Violation of this section may result in immediate account termination without refund.
+
+8. Creator Program
+The Creator Program provides free Business plan access to selected influencers in exchange for meeting monthly activity requirements (300 automated DMs, 2 active campaigns per 30 days) and retaining the Powered by @Reactova tag in automated DM messages. We reserve the right to revoke creator access at any time if requirements are not met.
+
+9. Affiliate Program
+The affiliate program is available to all users. Commissions are 25% one-time per referred paying customer, subject to a 14-30 day approval delay. Self-referrals are strictly prohibited and will result in immediate account suspension. We reserve the right to void commissions obtained through fraudulent means.
+
+10. White Label Services
+Agency plan users may white label the platform under their own branding. You acknowledge that the Instagram OAuth screen may display our platform name during account connection, which is a Meta limitation outside our control. Agency users are responsible for ensuring their clients comply with these Terms.
+
+11. Intellectual Property
+All content, features, functionality, trademarks, and technology of Reactova are the exclusive property of Reactova (sole proprietorship). You are granted a limited, non-exclusive, non-transferable licence to use the platform for its intended purpose only.
+
+12. Third Party Integrations
+Reactova integrates with third party services including Meta (Instagram), Stripe, and Razorpay. We are not responsible for the terms, policies, availability, or actions of any third party service.
+
+13. Service Availability
+We strive to provide a reliable service but do not guarantee uninterrupted or error-free operation. We reserve the right to perform maintenance or updates that may temporarily affect availability. We are not liable for losses resulting from service interruptions.
+
+14. Limitation of Liability
+To the maximum extent permitted by applicable law, our liability is limited as described in this section. Reactova (sole proprietorship) shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the platform. Our total liability shall not exceed the amount you paid us in the 30 days preceding the claim.
+
+15. Disclaimer of Warranties
+The platform is provided "as is" and "as available" without warranties of any kind. We do not warrant that the platform will be error-free, uninterrupted, or secure. We do not guarantee any specific results including follower growth, lead generation, or sales conversions.
+
+16. Indemnification
+You agree to indemnify and hold harmless Reactova and its proprietor from claims, damages, losses, and expenses (including legal fees) arising from your use of the platform, violation of these Terms, or violation of any third party rights.
+
+17. Termination
+We reserve the right to suspend or terminate your account at any time, with or without notice, for violation of these Terms. Upon termination, your right to access the platform ceases immediately.
+
+18. Governing Law
+These Terms are governed by the laws of India. Any disputes shall be subject to the exclusive jurisdiction of the courts in India.
+
+Changes to This Policy
+We may update this Terms and Conditions from time to time. If we make material changes, we will notify you via email or through the platform. Continued use of the platform after such changes constitutes your acceptance. In some cases, we may require you to explicitly accept updated terms before continuing to use the service.
+
+Material changes include updates that affect your rights, data usage, pricing, or core functionality of the platform.
+
+20. Contact
+For questions about these Terms: support@reactova.com
+Website: reactova.com
+
+
+Reactova — April 2026

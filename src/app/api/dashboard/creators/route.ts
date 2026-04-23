@@ -96,11 +96,67 @@ export async function PATCH(request: NextRequest) {
       )
     }
 
+    // If approved, send the email
+    if (status === 'approved') {
+      try {
+        const creator = await collection.findOne({ _id: new ObjectId(id) })
+        if (creator) {
+          const { sendCreatorsEmail } = await import('@/lib/email')
+          await sendCreatorsEmail({
+            email: creator.email,
+            name: creator.name,
+            instagramUsername: creator.instagramUsername,
+          })
+        }
+      } catch (emailError) {
+        console.error('Failed to send approval email:', emailError)
+        // We don't fail the whole request if email fails, but maybe log it
+      }
+    }
+
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Creator update error:', error)
     return NextResponse.json(
       { error: 'Failed to update creator' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function POST(request: NextRequest) {
+  const sessionToken = request.cookies.get(dashboardConfig.sessionCookieName)?.value
+
+  if (!sessionToken) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  try {
+    const { id, action } = await request.json()
+
+    if (action === 'resend-email') {
+      const collection = await getCollection<any>('creators')
+      const creator = await collection.findOne({ _id: new ObjectId(id) })
+
+      if (!creator) {
+        return NextResponse.json({ error: 'Creator not found' }, { status: 404 })
+      }
+
+      const { sendCreatorsEmail } = await import('@/lib/email')
+      await sendCreatorsEmail({
+        email: creator.email,
+        name: creator.name,
+        instagramUsername: creator.instagramUsername,
+      })
+
+      return NextResponse.json({ success: true })
+    }
+
+    return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
+  } catch (error) {
+    console.error('Resend email error:', error)
+    return NextResponse.json(
+      { error: 'Failed to resend email' },
       { status: 500 }
     )
   }

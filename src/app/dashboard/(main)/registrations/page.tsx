@@ -4,15 +4,14 @@ import { useEffect, useState, useCallback, useMemo } from 'react'
 import {
   Table,
   TableHeader,
-  TableColumn,
   TableBody,
+  TableHead,
   TableRow,
-  TableCell,
-  Pagination,
-  Chip,
-  Tooltip,
-} from '@heroui/react'
-import { Card, CardBody, Input, Spinner } from '@/components/ui'
+  TableCell
+} from '@/components/ui/table'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Badge } from '@/components/ui/Badge'
+import { Input, Pagination, Spinner } from '@/components/ui'
 import { Search, Mail, CheckCircle, XCircle, Smartphone, Monitor, Copy, Check } from 'lucide-react'
 import type { PreRegistration } from '@/lib/types'
 
@@ -54,7 +53,7 @@ function CopyButton({ text }: { text: string }) {
       {copied ? (
         <Check className="w-3 h-3 text-[var(--success)]" />
       ) : (
-        <Copy className="w-3 h-3 text-[var(--muted)]" />
+        <Copy className="w-3 h-3 text-[var(--muted-foreground)]" />
       )}
     </button>
   )
@@ -143,28 +142,26 @@ export default function RegistrationsPage() {
       case 'spotNumber':
         return (
           <div className="flex items-center gap-2">
-            <span className="font-['Outfit'] font-bold text-[var(--text)]">
+            <span className="font-['Outfit'] font-bold text-[var(--foreground)]">
               {item.spotNumber}
             </span>
-            <Chip
-              size="sm"
-              color={getTierColor(item.spotNumber)}
-              variant="soft"
-              className="text-xs"
+            <Badge
+              variant={getTierColor(item.spotNumber) === 'success' ? 'success' : getTierColor(item.spotNumber) === 'warning' ? 'warning' : 'default'}
+              className="text-[10px]"
             >
               {getTierLabel(item.spotNumber)}
-            </Chip>
+            </Badge>
           </div>
         )
       case 'name':
         return (
-          <span className="text-[var(--text)] font-medium">{item.name}</span>
+          <span className="text-[var(--foreground)] font-medium">{item.name}</span>
         )
       case 'email':
         return (
           <div className="flex items-center gap-2">
-            <Mail className="w-3 h-3 text-[var(--muted)]" />
-            <span className="text-[var(--text)]">{item.email}</span>
+            <Mail className="w-3 h-3 text-[var(--muted-foreground)]" />
+            <span className="text-[var(--foreground)]">{item.email}</span>
             <CopyButton text={item.email} />
           </div>
         )
@@ -177,45 +174,30 @@ export default function RegistrationsPage() {
             <CopyButton text={item.discountCode} />
           </div>
         ) : (
-          <span className="text-[var(--muted)]">-</span>
+          <span className="text-[var(--muted-foreground)]">-</span>
         )
       case 'emailSent':
         return item.emailSent ? (
-          <Tooltip>
-            <Tooltip.Trigger>
-              <CheckCircle className="w-4 h-4 text-[var(--success)] cursor-help" />
-            </Tooltip.Trigger>
-            <Tooltip.Content>Email delivered</Tooltip.Content>
-          </Tooltip>
+          <CheckCircle className="w-4 h-4 text-emerald-500" />
         ) : (
-          <Tooltip>
-            <Tooltip.Trigger>
-              <XCircle className="w-4 h-4 text-red-400 cursor-help" />
-            </Tooltip.Trigger>
-            <Tooltip.Content>Email not sent</Tooltip.Content>
-          </Tooltip>
+          <XCircle className="w-4 h-4 text-rose-500" />
         )
       case 'device':
         return (
-          <Tooltip>
-            <Tooltip.Trigger>
-              <div className="flex items-center gap-1 cursor-help">
-                {item.device.isMobile ? (
-                  <Smartphone className="w-4 h-4 text-[var(--muted)]" />
-                ) : (
-                  <Monitor className="w-4 h-4 text-[var(--muted)]" />
-                )}
-                <span className="text-xs text-[var(--muted)]">
-                  {item.device.isMobile ? 'Mobile' : 'Desktop'}
-                </span>
-              </div>
-            </Tooltip.Trigger>
-            <Tooltip.Content>{`${item.device.platform} - ${item.device.screenWidth}x${item.device.screenHeight}`}</Tooltip.Content>
-          </Tooltip>
+          <div className="flex items-center gap-1">
+            {item.device.isMobile ? (
+              <Smartphone className="w-4 h-4 text-slate-400" />
+            ) : (
+              <Monitor className="w-4 h-4 text-slate-400" />
+            )}
+            <span className="text-xs text-[var(--muted-foreground)]">
+              {item.device.isMobile ? 'Mobile' : 'Desktop'}
+            </span>
+          </div>
         )
       case 'registeredAt':
         return (
-          <span className="text-sm text-[var(--muted)]">
+          <span className="text-sm text-[var(--muted-foreground)]">
             {formatDate(item.registeredAt)}
           </span>
         )
@@ -223,27 +205,6 @@ export default function RegistrationsPage() {
         return null
     }
   }, [])
-
-  const topContent = useMemo(() => (
-    <div className="flex flex-col gap-4">
-      <div className="flex justify-between items-center">
-        <h2 className="font-['Outfit'] font-bold text-xl text-[var(--text)]">
-          All Pre-Registrations
-        </h2>
-        <span className="text-sm text-[var(--muted)]">
-          {pagination.total} total registrations
-        </span>
-      </div>
-      <Input
-        placeholder="Search by name, email, or discount code..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        startContent={<Search className="w-4 h-4 text-[var(--muted)]" />}
-        className="max-w-md text-[var(--text)] bg-[var(--surface)] border-[var(--border)]"
-
-      />
-    </div>
-  ), [search, pagination.total])
 
   const bottomContent = useMemo(() => {
     const pages = Array.from({ length: pagination.totalPages }, (_, i) => i + 1)
@@ -288,55 +249,69 @@ export default function RegistrationsPage() {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-[var(--surface)] border border-[var(--border)]">
-        <CardBody>
-          {topContent}
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-bold font-['Outfit'] text-primary inline-block w-fit">Pre-Registrations</h1>
+        <p className="text-muted-foreground">Monitor and manage waitlist signups.</p>
+      </div>
+
+      <Card className="border-border bg-card shadow-sm rounded-xl">
+        <CardHeader className="border-b border-border/50 bg-muted/20 pb-4">
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <CardTitle className="font-['Outfit'] text-xl font-bold text-foreground">Waitlist Entries</CardTitle>
+              <CardDescription className="text-muted-foreground">Total of {pagination.total} registrations collected.</CardDescription>
+            </div>
+            <div className="flex gap-3">
+              <div className="relative w-64">
+                <Input
+                  placeholder="Search by name or email..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  startContent={<Search className="w-4 h-4" />}
+                />
+              </div>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="p-0">
           {loading ? (
-            <div className="flex justify-center py-8">
-              <Spinner variant="accent" />
+            <div className="flex justify-center py-12">
+              <Spinner />
             </div>
           ) : registrations.length === 0 ? (
-            <div className="text-center py-8 text-[var(--muted)]">
-              No registrations found
+            <div className="text-center py-16 px-4">
+              <div className="mx-auto w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+                <Search className="w-8 h-8 text-muted-foreground opacity-50" />
+              </div>
+              <p className="text-lg font-medium text-foreground">No registrations found</p>
+              <p className="text-sm text-muted-foreground mt-1">Try adjusting your search query.</p>
             </div>
           ) : (
-            <Table className="bg-transparent shadow-none">
-              <Table.ScrollContainer>
-                <Table.Content
-                  aria-label="Pre-registrations table"
-                  sortDescriptor={sortDescriptor}
-                  onSortChange={(descriptor) =>
-                    setSortDescriptor(descriptor as typeof sortDescriptor)
-                  }
-                  className="[&_th]:bg-[var(--bg)] [&_th]:text-[var(--muted)] [&_th]:font-medium [&_td]:py-3"
-                >
-                  <TableHeader columns={columns}>
-                    {(column) => (
-                      <TableColumn
-                        id={column.id}
-                        allowsSorting={column.sortable}
-                      >
-                        {column.label}
-                      </TableColumn>
-                    )}
-                  </TableHeader>
-                  <TableBody items={tableRegistrations}>
-                    {(item) => (
-                      <TableRow id={item.id}>
-                        {(columnKey) => (
-                          <TableCell>
-                            {renderCell(item, columnKey as unknown as string)}
-                          </TableCell>
-                        )}
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table.Content>
-              </Table.ScrollContainer>
-            </Table>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    {columns.map((column) => (
+                      <TableHead key={column.id}>{column.label}</TableHead>
+                    ))}
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {tableRegistrations.map((item) => (
+                    <TableRow key={item.id}>
+                      {columns.map((column) => (
+                        <TableCell key={column.id}>
+                          {renderCell(item, column.id)}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           )}
           {bottomContent}
-        </CardBody>
+        </CardContent>
       </Card>
     </div>
   )

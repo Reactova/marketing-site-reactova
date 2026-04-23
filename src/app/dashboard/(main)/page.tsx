@@ -1,79 +1,69 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Card, CardBody } from '@/components/ui'
-import { Skeleton } from '@heroui/react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Skeleton } from '@/components/ui/skeleton'
+import type { DashboardOverview } from '@/lib/types/dashboard' 
 import {
-  Users,
-  UserPlus,
-  BarChart3,
+  Briefcase,
+  Database,
+  Plus,
+  Settings,
+  TrendingDown,
   TrendingUp,
-  MousePointer,
-  Clock,
-  Smartphone,
-  Monitor,
-  Mail,
+  Users
 } from 'lucide-react'
-import type { DashboardOverview } from '@/lib/types/dashboard'
+import { useEffect, useState } from 'react'
 
-interface StatCardProps {
-  title: string
-  value: string | number
-  subtitle?: string
-  icon: React.ReactNode
-  trend?: { value: number; positive: boolean }
-  color?: 'primary' | 'accent' | 'success' | 'warning'
-}
-
-function StatCard({ title, value, subtitle, icon, trend, color = 'primary' }: StatCardProps) {
-  const colorClasses = {
-    primary: 'bg-[var(--primary)]/15 text-[var(--primary)] border-[var(--primary)]/30',
-    accent: 'bg-[var(--accent)]/15 text-[var(--accent)] border-[var(--accent)]/30',
-    success: 'bg-[var(--success)]/15 text-[var(--success)] border-[var(--success)]/30',
-    warning: 'bg-yellow-500/15 text-yellow-400 border-yellow-500/30',
-  }
-
+function StatCard({ title, value, subtitle, icon, trend }: any) {
   return (
-    <Card className="bg-[var(--surface)] border border-[var(--border)]">
-      <CardBody className="p-5">
-        <div className="flex items-start justify-between">
-          <div>
-            <p className="text-sm text-[var(--muted)] mb-1">{title}</p>
-            <p className="text-2xl font-['Outfit'] font-bold text-[var(--text)]">
-              {value}
-            </p>
-            {subtitle && (
-              <p className="text-xs text-[var(--muted)] mt-1">{subtitle}</p>
-            )}
-            {trend && (
-              <div className={`flex items-center gap-1 mt-2 text-xs ${trend.positive ? 'text-[var(--success)]' : 'text-red-400'}`}>
-                <TrendingUp className={`w-3 h-3 ${!trend.positive && 'rotate-180'}`} />
-                <span>{trend.value}% from last week</span>
-              </div>
-            )}
-          </div>
-          <div className={`p-3 rounded-xl border ${colorClasses[color]}`}>
-            {icon}
-          </div>
+    <Card className="rounded-[var(--radius)] border-border bg-card shadow-sm hover:shadow-md transition-all duration-200 group">
+      <CardContent className="p-6">
+        <div className="flex items-start justify-between mb-4">
+          <p className="text-sm font-medium text-muted-foreground">{title}</p>
+          {trend && (
+            <div className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold border ${
+              trend.positive 
+                ? 'bg-secondary text-primary border-primary/10' 
+                : 'bg-red-50 text-red-500 border-red-100'
+            }`}>
+              {trend.positive ? <TrendingUp className="w-2.5 h-2.5" /> : <TrendingDown className="w-2.5 h-2.5" />}
+              <span>{trend.positive ? '+' : ''}{trend.value}%</span>
+            </div>
+          )}
         </div>
-      </CardBody>
+        
+        <div className="space-y-1">
+          <h3 className="text-3xl font-bold tracking-tight font-['Outfit'] text-foreground">
+            {value}
+          </h3>
+          {subtitle && (
+            <p className="text-xs text-muted-foreground font-medium leading-relaxed">
+              {subtitle}
+            </p>
+          )}
+        </div>
+        
+        <div className="mt-4 flex items-center gap-2 text-[10px] font-bold text-foreground opacity-80">
+          <span className="flex items-center gap-1">
+            Trending up this month <TrendingUp className="w-3 h-3 text-primary" />
+          </span>
+        </div>
+      </CardContent>
     </Card>
   )
 }
 
 function StatCardSkeleton() {
   return (
-    <Card className="bg-[var(--surface)] border border-[var(--border)]">
-      <CardBody className="p-5">
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <Skeleton className="h-4 w-24 rounded-lg bg-[var(--border)]" />
-            <Skeleton className="h-8 w-16 rounded-lg bg-[var(--border)] mt-2" />
-            <Skeleton className="h-3 w-32 rounded-lg bg-[var(--border)] mt-2" />
-          </div>
-          <Skeleton className="h-12 w-12 rounded-xl bg-[var(--border)]" />
+    <Card className="rounded-[var(--radius)] bg-white border-border shadow-sm">
+      <CardContent className="p-6">
+        <div className="flex items-start justify-between mb-4">
+          <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-5 w-12 rounded-full" />
         </div>
-      </CardBody>
+        <Skeleton className="h-10 w-20 mb-2" />
+        <Skeleton className="h-3 w-32" />
+      </CardContent>
     </Card>
   )
 }
@@ -100,167 +90,134 @@ export default function DashboardOverviewPage() {
     }
   }
 
-  const formatDuration = (ms: number) => {
-    const seconds = Math.floor(ms / 1000)
-    const minutes = Math.floor(seconds / 60)
-    if (minutes > 0) {
-      return `${minutes}m ${seconds % 60}s`
-    }
-    return `${seconds}s`
-  }
-
   if (loading) {
     return (
-      <div className="space-y-6">
-        <div>
-          <h2 className="font-['Outfit'] font-bold text-2xl text-[var(--text)] mb-2">
-            Welcome back
-          </h2>
-          <p className="text-[var(--muted)]">
-            Here&apos;s what&apos;s happening with your platform today.
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[...Array(8)].map((_, i) => (
+      <div className="space-y-8 animate-in fade-in duration-500">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[...Array(4)].map((_, i) => (
             <StatCardSkeleton key={i} />
           ))}
         </div>
+        <Card className="h-[400px] rounded-[var(--radius)] border-border">
+          <CardContent className="h-full flex items-center justify-center">
+            <Skeleton className="h-full w-full" />
+          </CardContent>
+        </Card>
       </div>
     )
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="font-['Outfit'] font-bold text-2xl text-[var(--text)] mb-2">
-          Welcome back
-        </h2>
-        <p className="text-[var(--muted)]">
-          Here&apos;s what&apos;s happening with your platform today.
-        </p>
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      {/* Stats Cards Row */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <StatCard
+          title="Total Registrations"
+          value={data?.registrations?.total || 0}
+          subtitle={`${data?.registrations?.todayCount || 0} today, ${data?.registrations?.weekCount || 0} this week`}
+          icon={<Users className="w-5 h-5" />}
+          trend={{ value: 12.5, positive: true }}
+        />
+        <StatCard
+          title="Creator Applications"
+          value={data?.creators?.total || 0}
+          subtitle={`${data?.creators?.pending || 0} pending review`}
+          icon={<Briefcase className="w-5 h-5" />}
+          trend={{ value: 5, positive: true }}
+        />
+        <StatCard
+          title="Total Visitors"
+          value={data?.analytics?.totalVisitors || 0}
+          subtitle={`${data?.analytics?.totalSessions || 0} total sessions`}
+          icon={<Database className="w-5 h-5" />}
+          trend={{ value: 8, positive: true }}
+        />
+        <StatCard
+          title="Conversion Rate"
+          value={`${(data?.analytics?.conversionRate || 0).toFixed(1)}%`}
+          subtitle={`${data?.analytics?.totalClicks || 0} total clicks`}
+          icon={<TrendingUp className="w-5 h-5" />}
+          trend={{ value: 4.5, positive: true }}
+        />
       </div>
 
-      {/* Registrations Stats */}
-      <div>
-        <h3 className="font-['Outfit'] font-semibold text-lg text-[var(--text)] mb-4">
-          Pre-Registrations
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard
-            title="Total Registrations"
-            value={data?.registrations.total || 0}
-            subtitle={`${data?.registrations.todayCount || 0} today`}
-            icon={<Users className="w-5 h-5" />}
-            color="primary"
-          />
-          <StatCard
-            title="Emails Sent"
-            value={data?.registrations.emailsSent || 0}
-            subtitle={`${Math.round(((data?.registrations.emailsSent || 0) / (data?.registrations.total || 1)) * 100)}% delivery rate`}
-            icon={<Mail className="w-5 h-5" />}
-            color="success"
-          />
-          <StatCard
-            title="Tier 1 (50% off)"
-            value={data?.registrations.tier1Count || 0}
-            subtitle="First 15 spots"
-            icon={<TrendingUp className="w-5 h-5" />}
-            color="accent"
-          />
-          <StatCard
-            title="Tier 2 (10% off)"
-            value={data?.registrations.tier2Count || 0}
-            subtitle="Next 15 spots"
-            icon={<TrendingUp className="w-5 h-5" />}
-            color="warning"
-          />
-        </div>
-      </div>
+      {/* Main Chart Section */}
+      <Card className="rounded-[var(--radius)] border-border bg-card shadow-sm overflow-hidden">
+        <CardHeader className="p-6 border-b border-border flex flex-row items-center justify-between">
+          <div>
+            <CardTitle className="text-lg font-bold text-foreground">Total Visitors</CardTitle>
+            <p className="text-xs text-muted-foreground">Total for the last 3 months</p>
+          </div>
+          <div className="flex items-center gap-1 p-1 bg-[var(--background)] rounded-lg border border-[var(--border)]">
+            {['Last 3 months', 'Last 30 days', 'Last 7 days'].map((tab) => (
+              <button
+                key={tab}
+                className={`px-3 py-1.5 text-[10px] font-bold rounded-md transition-all ${
+                  tab === 'Last 30 days' 
+                    ? 'bg-[var(--accent)] text-white shadow-sm' 
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+        </CardHeader>
+        <CardContent className="p-0">
+          <div className="h-[350px] w-full relative">
+            {/* Area Chart Placeholder SVG */}
+            <svg className="w-full h-full" viewBox="0 0 1000 350" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.4" />
+                  <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
+                </linearGradient>
+                <linearGradient id="chartGradient2" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              
+              {/* Grid Lines */}
+              {[...Array(6)].map((_, i) => (
+                <line key={i} x1="0" y1={70 * i} x2="1000" y2={70 * i} stroke="var(--border)" strokeWidth="0.5" strokeDasharray="4 4" />
+              ))}
+              
+              {/* Waves */}
+              <path 
+                d="M0 300 Q 100 150, 200 250 T 400 200 T 600 150 T 800 250 T 1000 200 L 1000 350 L 0 350 Z" 
+                fill="url(#chartGradient)" 
+              />
+              <path 
+                d="M0 250 Q 150 100, 300 200 T 600 150 T 900 250 T 1000 200 L 1000 350 L 0 350 Z" 
+                fill="url(#chartGradient2)" 
+                fillOpacity="0.3"
+              />
+              
+              {/* Main Line */}
+              <path 
+                d="M0 250 Q 150 100, 300 200 T 600 150 T 900 250 T 1000 200" 
+                fill="none" 
+                stroke="var(--primary)" 
+                strokeWidth="3" 
+                strokeLinecap="round"
+              />
+            </svg>
+            
+            {/* X-Axis Labels */}
+            <div className="absolute bottom-4 left-0 right-0 px-8 flex justify-between text-[10px] font-bold text-[var(--muted-foreground)] opacity-60 uppercase tracking-widest">
+              <span>Jun 1</span>
+              <span>Jun 5</span>
+              <span>Jun 10</span>
+              <span>Jun 15</span>
+              <span>Jun 20</span>
+              <span>Jun 25</span>
+              <span>Jun 30</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
-      {/* Creators Stats */}
-      <div>
-        <h3 className="font-['Outfit'] font-semibold text-lg text-[var(--text)] mb-4">
-          Creator Applications
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard
-            title="Total Applications"
-            value={data?.creators.total || 0}
-            subtitle={`${data?.creators.todayCount || 0} today`}
-            icon={<UserPlus className="w-5 h-5" />}
-            color="primary"
-          />
-          <StatCard
-            title="Pending Review"
-            value={data?.creators.pending || 0}
-            icon={<Clock className="w-5 h-5" />}
-            color="warning"
-          />
-          <StatCard
-            title="Approved"
-            value={data?.creators.approved || 0}
-            icon={<TrendingUp className="w-5 h-5" />}
-            color="success"
-          />
-          <StatCard
-            title="Rejected"
-            value={data?.creators.rejected || 0}
-            icon={<TrendingUp className="w-5 h-5" />}
-            color="accent"
-          />
-        </div>
-      </div>
-
-      {/* Analytics Stats */}
-      <div>
-        <h3 className="font-['Outfit'] font-semibold text-lg text-[var(--text)] mb-4">
-          Site Analytics
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard
-            title="Total Sessions"
-            value={data?.analytics.totalSessions || 0}
-            subtitle={`${data?.analytics.totalVisitors || 0} unique visitors`}
-            icon={<BarChart3 className="w-5 h-5" />}
-            color="primary"
-          />
-          <StatCard
-            title="Total Clicks"
-            value={data?.analytics.totalClicks || 0}
-            icon={<MousePointer className="w-5 h-5" />}
-            color="accent"
-          />
-          <StatCard
-            title="Avg. Session Duration"
-            value={formatDuration(data?.analytics.avgSessionDuration || 0)}
-            icon={<Clock className="w-5 h-5" />}
-            color="success"
-          />
-          <StatCard
-            title="Conversion Rate"
-            value={`${(data?.analytics.conversionRate || 0).toFixed(1)}%`}
-            icon={<TrendingUp className="w-5 h-5" />}
-            color="warning"
-          />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-          <StatCard
-            title="Mobile Users"
-            value={data?.analytics.mobileUsers || 0}
-            subtitle={`${Math.round(((data?.analytics.mobileUsers || 0) / (data?.analytics.totalSessions || 1)) * 100)}% of total`}
-            icon={<Smartphone className="w-5 h-5" />}
-            color="primary"
-          />
-          <StatCard
-            title="Desktop Users"
-            value={data?.analytics.desktopUsers || 0}
-            subtitle={`${Math.round(((data?.analytics.desktopUsers || 0) / (data?.analytics.totalSessions || 1)) * 100)}% of total`}
-            icon={<Monitor className="w-5 h-5" />}
-            color="primary"
-          />
-        </div>
-      </div>
     </div>
   )
 }

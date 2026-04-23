@@ -4,13 +4,15 @@ import { useEffect, useState, useCallback, useMemo } from 'react'
 import {
   Table,
   TableHeader,
-  TableColumn,
   TableBody,
+  TableHead,
   TableRow,
-  TableCell,
-  Pagination,
-  Chip,
-  Tooltip,
+  TableCell
+} from '@/components/ui/table'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Badge } from '@/components/ui/Badge'
+import { Button, Input, Textarea, Spinner } from '@/components/ui'
+import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
@@ -25,9 +27,16 @@ import {
   ModalCloseTrigger,
   Select,
   ListBox,
-  useOverlayState,
+  Tooltip,
 } from '@heroui/react'
-import { Card, CardBody, Input, Button, Textarea, Spinner } from '@/components/ui'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination'
 import {
   Search,
   Smartphone,
@@ -192,16 +201,16 @@ export default function CreatorsPage() {
     setIsModalOpen(true)
   }
 
-  const getStatusColor = (status: ApplicationStatus) => {
+  const getStatusVariant = (status: ApplicationStatus): "success" | "destructive" | "warning" | "default" | "info" => {
     switch (status) {
       case 'pending':
-        return 'accent'
+        return 'warning'
       case 'approved':
         return 'success'
       case 'rejected':
-        return 'danger'
+        return 'destructive'
       case 'waitlisted':
-        return 'warning'
+        return 'info'
       default:
         return 'default'
     }
@@ -235,21 +244,21 @@ export default function CreatorsPage() {
       case 'name':
         return (
           <div>
-            <span className="text-[var(--text)] font-medium">{item.name}</span>
+            <span className="text-[var(--foreground)] font-medium">{item.name}</span>
             {item.asksForComments && (
-              <Chip size="sm" variant="soft" color="default" className="ml-2 text-xs">
+              <Badge variant="outline" className="ml-2 text-[10px]">
                 Asks for comments
-              </Chip>
+              </Badge>
             )}
           </div>
         )
       case 'email':
-        return <span className="text-[var(--text)]">{item.email}</span>
+        return <span className="text-[var(--foreground)]">{item.email}</span>
       case 'instagram':
         return (
           <div className="flex items-center gap-2">
             <svg className="w-4 h-4 text-pink-400" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
             </svg>
             <a
               href={item.instagramUrl}
@@ -264,29 +273,27 @@ export default function CreatorsPage() {
         )
       case 'followers':
         return (
-          <Chip size="sm" variant="soft">
+          <Badge variant="secondary">
             {followerRangeLabels[item.followerRange]}
-          </Chip>
+          </Badge>
         )
       case 'niche':
         return (
-          <span className="text-[var(--muted)]">
+          <span className="text-[var(--muted-foreground)]">
             {nicheLabels[item.contentNiche]}
             {item.otherNiche && ` (${item.otherNiche})`}
           </span>
         )
       case 'status':
         return (
-          <Chip
-            size="sm"
-            color={getStatusColor(item.status)}
-            variant="soft"
+          <Badge
+            variant={getStatusVariant(item.status)}
           >
             <span className="flex items-center gap-1">
               {getStatusIcon(item.status)}
               {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
             </span>
-          </Chip>
+          </Badge>
         )
       case 'device':
         return (
@@ -294,9 +301,9 @@ export default function CreatorsPage() {
             <Tooltip.Trigger>
               <div className="flex items-center gap-1 cursor-help">
                 {item.device.isMobile ? (
-                  <Smartphone className="w-4 h-4 text-[var(--muted)]" />
+                  <Smartphone className="w-4 h-4 text-[var(--muted-foreground)]" />
                 ) : (
-                  <Monitor className="w-4 h-4 text-[var(--muted)]" />
+                  <Monitor className="w-4 h-4 text-[var(--muted-foreground)]" />
                 )}
               </div>
             </Tooltip.Trigger>
@@ -305,7 +312,7 @@ export default function CreatorsPage() {
         )
       case 'appliedAt':
         return (
-          <span className="text-sm text-[var(--muted)]">
+          <span className="text-sm text-[var(--muted-foreground)]">
             {formatDate(item.appliedAt)}
           </span>
         )
@@ -313,8 +320,8 @@ export default function CreatorsPage() {
         return (
           <Dropdown>
             <DropdownTrigger>
-              <Button isIconOnly size="sm" variant="ghost">
-                <MoreVertical className="w-4 h-4 text-[var(--muted)]" />
+              <Button size="icon" variant="ghost">
+                <MoreVertical className="w-4 h-4 text-slate-500" />
               </Button>
             </DropdownTrigger>
             <DropdownMenu aria-label="Actions">
@@ -337,20 +344,12 @@ export default function CreatorsPage() {
 
   const topContent = useMemo(() => (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-between items-center">
-        <h2 className="font-['Outfit'] font-bold text-xl text-[var(--text)]">
-          Creator Applications
-        </h2>
-        <span className="text-sm text-[var(--muted)]">
-          {pagination.total} total applications
-        </span>
-      </div>
       <div className="flex gap-4 flex-wrap">
         <Input
           placeholder="Search by name, email, or username..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          startContent={<Search className="w-4 h-4 text-[var(--muted)]" />}
+          startContent={<Search className="w-4 h-4 text-muted-foreground" />}
           className="max-w-xs"
         />
         <Select
@@ -359,7 +358,7 @@ export default function CreatorsPage() {
           onChange={(value) => setStatusFilter(value as string || '')}
           className="max-w-xs"
         >
-          <Select.Trigger className="bg-[var(--surface)] border-[var(--border)]">
+          <Select.Trigger className="bg-card border-border">
             <Select.Value />
             <Select.Indicator />
           </Select.Trigger>
@@ -373,44 +372,39 @@ export default function CreatorsPage() {
         </Select>
       </div>
     </div>
-  ), [search, statusFilter, pagination.total])
+  ), [search, statusFilter])
 
   const bottomContent = useMemo(() => {
     const pages = Array.from({ length: pagination.totalPages }, (_, i) => i + 1)
     const currentPage = pagination.page
-    
+
     return (
       <div className="flex justify-center py-2">
         <Pagination>
-          <Pagination.Content>
-            <Pagination.Item>
-              <Pagination.Previous 
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
                 isDisabled={currentPage <= 1}
-                onPress={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))}
-              >
-                <Pagination.PreviousIcon />
-              </Pagination.Previous>
-            </Pagination.Item>
+                onClick={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))}
+              />
+            </PaginationItem>
             {pages.map((page) => (
-              <Pagination.Item key={page}>
-                <Pagination.Link
+              <PaginationItem key={page}>
+                <PaginationLink
                   isActive={page === currentPage}
-                  onPress={() => setPagination(prev => ({ ...prev, page }))}
-                  className={page === currentPage ? 'bg-[var(--primary)] text-white' : ''}
+                  onClick={() => setPagination(prev => ({ ...prev, page }))}
                 >
                   {page}
-                </Pagination.Link>
-              </Pagination.Item>
+                </PaginationLink>
+              </PaginationItem>
             ))}
-            <Pagination.Item>
-              <Pagination.Next
+            <PaginationItem>
+              <PaginationNext
                 isDisabled={currentPage >= pagination.totalPages}
-                onPress={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))}
-              >
-                <Pagination.NextIcon />
-              </Pagination.Next>
-            </Pagination.Item>
-          </Pagination.Content>
+                onClick={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))}
+              />
+            </PaginationItem>
+          </PaginationContent>
         </Pagination>
       </div>
     )
@@ -418,55 +412,60 @@ export default function CreatorsPage() {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-[var(--surface)] border border-[var(--border)]">
-        <CardBody>
-          {topContent}
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-bold font-['Outfit'] text-primary inline-block w-fit">Creator Applications</h1>
+        <p className="text-muted-foreground">Manage and review all incoming applications for the Creators Program.</p>
+      </div>
+
+      <Card className="border-border bg-card shadow-sm rounded-xl">
+        <CardHeader className="border-b border-border/50 bg-muted/20 pb-4">
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <CardTitle className="font-['Outfit'] text-xl font-bold text-foreground">Applications</CardTitle>
+              <CardDescription className="text-muted-foreground">Total of {pagination.total} applications.</CardDescription>
+            </div>
+            {topContent}
+          </div>
+        </CardHeader>
+        <CardContent className="p-0">
           {loading ? (
-            <div className="flex justify-center py-8">
-              <Spinner variant="accent" />
+            <div className="flex justify-center py-12">
+              <Spinner />
             </div>
           ) : creators.length === 0 ? (
-            <div className="text-center py-8 text-[var(--muted)]">
-              No applications found
+            <div className="text-center py-16 px-4">
+              <div className="mx-auto w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+                <Search className="w-8 h-8 text-muted-foreground opacity-50" />
+              </div>
+              <p className="text-lg font-medium text-foreground">No applications found</p>
+              <p className="text-sm text-muted-foreground mt-1">Try adjusting your filters or search query.</p>
             </div>
           ) : (
-            <Table className="bg-transparent shadow-none">
-              <Table.ScrollContainer>
-                <Table.Content
-                  aria-label="Creators table"
-                  sortDescriptor={sortDescriptor}
-                  onSortChange={(descriptor) =>
-                    setSortDescriptor(descriptor as typeof sortDescriptor)
-                  }
-                  className="[&_th]:bg-[var(--bg)] [&_th]:text-[var(--muted)] [&_th]:font-medium [&_td]:py-3"
-                >
-                  <TableHeader columns={columns}>
-                    {(column) => (
-                      <TableColumn
-                        id={column.id}
-                        allowsSorting={column.sortable}
-                      >
-                        {column.label}
-                      </TableColumn>
-                    )}
-                  </TableHeader>
-                  <TableBody items={tableCreators}>
-                    {(item) => (
-                      <TableRow id={item.id}>
-                        {(columnKey) => (
-                          <TableCell>
-                            {renderCell(item, columnKey as any)}
-                          </TableCell>
-                        )}
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table.Content>
-              </Table.ScrollContainer>
-            </Table>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    {columns.map((column) => (
+                      <TableHead key={column.id}>{column.label}</TableHead>
+                    ))}
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {tableCreators.map((item) => (
+                    <TableRow key={item.id}>
+                      {columns.map((column) => (
+                        <TableCell key={column.id}>
+                          {renderCell(item, column.id)}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           )}
           {bottomContent}
-        </CardBody>
+        </CardContent>
       </Card>
 
       <Modal
@@ -475,108 +474,110 @@ export default function CreatorsPage() {
       >
         <ModalBackdrop className="bg-black/60 backdrop-blur-sm" />
         <ModalContainer>
-          <ModalDialog className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl max-w-2xl">
-            <ModalCloseTrigger className="absolute top-4 right-4 text-[var(--muted)] hover:text-[var(--text)]" />
+          <ModalDialog className="bg-[var(--card)] border border-[var(--border)] rounded-2xl max-w-2xl">
+            <ModalCloseTrigger className="absolute top-4 right-4 text-[var(--muted)] hover:text-[var(--foreground)]" />
             <HeroModalHeader className="border-b border-[var(--border)] px-6 py-4">
-              <h3 className="text-[var(--text)] font-['Outfit'] font-bold text-lg">
+              <h3 className="text-[var(--foreground)] font-['Outfit'] font-bold text-lg">
                 Review Application
               </h3>
             </HeroModalHeader>
             <HeroModalBody className="px-6 py-6">
-            {selectedCreator && (
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-sm text-[var(--muted)]">Name</p>
-                    <p className="text-[var(--text)] font-medium">{selectedCreator.name}</p>
+              {selectedCreator && (
+                <>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-sm text-(--muted)">Name</p>
+                        <p className="text-[var(--foreground)] font-medium">{selectedCreator.name}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-(--muted)">Email</p>
+                        <p className="text-[var(--foreground)]">{selectedCreator.email}</p>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-sm text-(--muted)">Instagram</p>
+                      <a
+                        href={selectedCreator.instagramUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-(--primary) hover:underline"
+                      >
+                        @{selectedCreator.instagramUsername}
+                      </a>
+                    </div>
+                    <div>
+                      <p className="text-sm text-(--muted)">Followers</p>
+                      <p className="text-[var(--foreground)]">
+                        {followerRangeLabels[selectedCreator.followerRange]}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-(--muted)">Niche</p>
+                      <p className="text-[var(--foreground)]">
+                        {nicheLabels[selectedCreator.contentNiche]}
+                        {selectedCreator.otherNiche && ` (${selectedCreator.otherNiche})`}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-(--muted)">Asks for Comments</p>
+                      <p className="text-[var(--foreground)]">
+                        {selectedCreator.asksForComments ? 'Yes' : 'No'}
+                      </p>
+                    </div>
                   </div>
+
                   <div>
-                    <p className="text-sm text-[var(--muted)]">Email</p>
-                    <p className="text-[var(--text)]">{selectedCreator.email}</p>
+                    <p className="text-sm text-(--muted) mb-1">Why they want to join</p>
+                    <p className="text-[var(--foreground)] bg-(--bg) p-3 rounded-lg">
+                      {selectedCreator.whyJoin}
+                    </p>
                   </div>
-                  <div>
-                    <p className="text-sm text-[var(--muted)]">Instagram</p>
-                    <a
-                      href={selectedCreator.instagramUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[var(--primary)] hover:underline"
+
+                  <div className="grid grid-cols-2 gap-4 pt-4 border-t border-[var(--border)]">
+                    <Select
+                      value={newStatus}
+                      onChange={(value) => setNewStatus(value as ApplicationStatus)}
+                      className="w-full"
                     >
-                      @{selectedCreator.instagramUsername}
-                    </a>
+                      <label className="text-sm text-(--muted) mb-2 block">Status</label>
+                      <Select.Trigger className="bg-(--bg) border-[var(--border)]">
+                        <Select.Value />
+                        <Select.Indicator />
+                      </Select.Trigger>
+                      <Select.Popover>
+                        <ListBox>
+                          <ListBox.Item id="pending">Pending</ListBox.Item>
+                          <ListBox.Item id="approved">Approved</ListBox.Item>
+                          <ListBox.Item id="rejected">Rejected</ListBox.Item>
+                          <ListBox.Item id="waitlisted">Waitlisted</ListBox.Item>
+                        </ListBox>
+                      </Select.Popover>
+                    </Select>
                   </div>
-                  <div>
-                    <p className="text-sm text-[var(--muted)]">Followers</p>
-                    <p className="text-[var(--text)]">
-                      {followerRangeLabels[selectedCreator.followerRange]}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-[var(--muted)]">Niche</p>
-                    <p className="text-[var(--text)]">
-                      {nicheLabels[selectedCreator.contentNiche]}
-                      {selectedCreator.otherNiche && ` (${selectedCreator.otherNiche})`}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-[var(--muted)]">Asks for Comments</p>
-                    <p className="text-[var(--text)]">
-                      {selectedCreator.asksForComments ? 'Yes' : 'No'}
-                    </p>
-                  </div>
-                </div>
 
-                <div>
-                  <p className="text-sm text-[var(--muted)] mb-1">Why they want to join</p>
-                  <p className="text-[var(--text)] bg-[var(--bg)] p-3 rounded-lg">
-                    {selectedCreator.whyJoin}
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-[var(--border)]">
-                  <Select
-                    value={newStatus}
-                    onChange={(value) => setNewStatus(value as ApplicationStatus)}
-                    className="w-full"
-                  >
-                    <label className="text-sm text-[var(--muted)] mb-2 block">Status</label>
-                    <Select.Trigger className="bg-[var(--bg)] border-[var(--border)]">
-                      <Select.Value />
-                      <Select.Indicator />
-                    </Select.Trigger>
-                    <Select.Popover>
-                      <ListBox>
-                        <ListBox.Item id="pending">Pending</ListBox.Item>
-                        <ListBox.Item id="approved">Approved</ListBox.Item>
-                        <ListBox.Item id="rejected">Rejected</ListBox.Item>
-                        <ListBox.Item id="waitlisted">Waitlisted</ListBox.Item>
-                      </ListBox>
-                    </Select.Popover>
-                  </Select>
-                </div>
-
-                <div>
-                  <p className="text-sm text-[var(--muted)] mb-2">Review Notes</p>
-                  <Textarea
-                    placeholder="Add notes about this application..."
-                    value={reviewNotes}
-                    onChange={(e) => setReviewNotes(e.target.value)}
-                  />
-                </div>
-              </div>
-            )}
+                  <div>
+                    <p className="text-sm text-[var(--muted)] mb-2">Review Notes</p>
+                    <Textarea
+                      placeholder="Add notes about this application..."
+                      value={reviewNotes}
+                      onChange={(e) => setReviewNotes(e.target.value)}
+                    />
+                  </div>
+                </>
+              )}
             </HeroModalBody>
             <HeroModalFooter className="border-t border-[var(--border)] px-6 py-4 flex justify-end gap-3">
               <Button
                 variant="ghost"
-                onPress={() => setIsModalOpen(false)}
+                onClick={() => setIsModalOpen(false)}
                 className="text-[var(--muted)]"
               >
                 Cancel
               </Button>
               <Button
-                variant="secondary"
-                onPress={handleStatusUpdate}
+                variant="ghost"
+                onClick={handleStatusUpdate}
                 isLoading={updating}
               >
                 Update Status
@@ -585,6 +586,6 @@ export default function CreatorsPage() {
           </ModalDialog>
         </ModalContainer>
       </Modal>
-    </div>
+    </div >
   )
 }

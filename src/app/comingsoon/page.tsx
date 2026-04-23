@@ -106,7 +106,7 @@ export default function ComingSoonView() {
 
             {/* RIGHT: Form card */}
             <div className="cs-right">
-              <div className="glass-card form-card pt-0!">
+              <div className="glass-card form-card pt-0! pr-0!">
                 {/* Offer pill */}
                 <OfferPill />
 
@@ -136,15 +136,6 @@ export default function ComingSoonView() {
 
         </div>
 
-        {/* Site footer */}
-        <div className="container mt-20!">
-          <footer className="site-footer">
-            <p>
-              © 2026 {brand.name} · Built for creators &amp; agencies ·{' '}
-              <a href="/creators-program">Apply for free Business access →</a>
-            </p>
-          </footer>
-        </div>
       </main>
     </>
   )

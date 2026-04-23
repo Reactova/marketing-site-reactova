@@ -239,8 +239,8 @@ export default function PreRegisterForm() {
           <Button
             variant="primary"
             className="w-full mb-2 text-sm!"
-            onPress={handleSubmit}
-            isDisabled={loading}
+            onClick={handleSubmit}
+            disabled={loading}
             isLoading={loading}
           >
             {loading ? 'Submitting...' : <>{getCtaText()} &rarr;</>}
@@ -251,6 +251,9 @@ export default function PreRegisterForm() {
           >
             Content Creator? Join the Creators Program
           </Link>
+          <p className="text-[10px] text-slate-400 text-center mt-4 leading-relaxed">
+            By registering, you agree to our <Link href="/terms-of-service" className="underline hover:text-primary transition-colors">Terms of Service</Link> and <Link href="/privacy-policy" className="underline hover:text-primary transition-colors">Privacy Policy</Link>.
+          </p>
         </div>
       ) : (
         <div

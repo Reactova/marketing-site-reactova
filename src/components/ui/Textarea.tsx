@@ -1,60 +1,26 @@
-'use client'
+import * as React from "react"
+import { cn } from "@/lib/utils"
 
-import { forwardRef, TextareaHTMLAttributes } from 'react'
+export interface TextareaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+    minRows?: number
+  }
 
-export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  hasError?: boolean
-  minRows?: number
-}
-
-export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ hasError, minRows = 4, className = '', disabled, ...props }, ref) => {
+const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+  ({ className, minRows = 3, ...props }, ref) => {
     return (
       <textarea
+        className={cn(
+          "flex min-h-[100px] w-full rounded-[10px] border border-[var(--border)] bg-[var(--bg)] px-4 py-3 text-sm transition-all duration-200 placeholder:text-[var(--faint)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)]/20 focus-visible:border-[var(--primary)] disabled:cursor-not-allowed disabled:opacity-50",
+          className
+        )}
         ref={ref}
-        disabled={disabled}
         rows={minRows}
-        aria-invalid={hasError || undefined}
-        className={[
-          // Layout & sizing
-          'w-full resize-y min-h-[120px]',
-          'py-3! px-3.5! mt-2!',
-
-          // Typography
-          "text-[14px]",
-          'text-[#0E0E18] placeholder:text-[#A0A0BC]',
-
-          // Background & shape
-          'bg-white rounded-[9px]',
-
-          // Border
-          'border',
-          hasError ? 'border-red-300' : 'border-[#E2E2EE]',
-
-          // Hover
-          hasError ? 'hover:border-red-400' : 'hover:border-[#CBCBDF]',
-
-          // Focus
-          'outline-none',
-          hasError
-            ? 'focus:border-red-400 focus:ring-[3px] focus:ring-red-100'
-            : 'focus:border-[#4F46E5] focus:ring-[3px] focus:ring-[rgba(79,70,229,0.1)]',
-
-          // Disabled
-          disabled ? 'opacity-50 cursor-not-allowed bg-[#F7F7FB]' : '',
-
-          'transition-all duration-150',
-
-          className,
-        ]
-          .filter(Boolean)
-          .join(' ')}
         {...props}
       />
     )
-  },
+  }
 )
+Textarea.displayName = "Textarea"
 
-Textarea.displayName = 'Textarea'
-
-export default Textarea
+export { Textarea }

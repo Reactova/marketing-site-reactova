@@ -134,7 +134,7 @@ export default function CreatorsView() {
         <Button
           variant="primary"
           className="cursor-pointer px-8! py-4! shadow-[0_10px_40px_-10px_rgba(79,70,229,0.5)] rounded-full font-bold"
-          onPress={() => document.getElementById('apply')?.scrollIntoView({ behavior: 'smooth' })}
+          onClick={() => document.getElementById('apply')?.scrollIntoView({ behavior: 'smooth' })}
         >
           Apply Now &darr;
         </Button>
@@ -300,15 +300,6 @@ export default function CreatorsView() {
             </div>
           </section>
 
-          {/* Footer */}
-          <footer className="cp-footer">
-            <p>
-              Limited to 50 creators in the initial launch phase ·{' '}
-              <Link href="/comingsoon" style={{ color: 'var(--muted)', textDecoration: 'none' }}>
-                Not a creator? Join the regular waitlist →
-              </Link>
-            </p>
-          </footer>
 
         </div>
       </main>

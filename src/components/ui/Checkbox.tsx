@@ -64,12 +64,12 @@ const CheckboxBase = forwardRef<HTMLLabelElement, CheckboxProps>(
         <HeroCheckbox.Control
           className={`
             inline-flex shrink-0 items-center justify-center
-            rounded-[6px] border border-[#E2E2EE] bg-white
-            text-[#6D6D8A] transition-all duration-150
-            hover:border-[#CBCBDF]
-            group-data-[selected=true]:border-[#4F46E5] group-data-[selected=true]:bg-[#4F46E5]
+            rounded-[6px] border border-[var(--border)] bg-white
+            text-[var(--muted)] transition-all duration-200
+            hover:border-[var(--border-d)]
+            group-data-[selected=true]:border-[var(--primary)] group-data-[selected=true]:bg-[var(--primary)]
             group-data-[selected=true]:text-white
-            group-data-[selected=true]:shadow-[0_0_0_3px_rgba(79,70,229,0.1)]
+            group-data-[selected=true]:shadow-[0_0_0_4px_rgba(79,70,229,0.1)]
             ${controlSize}
           `}
         >

@@ -4,6 +4,7 @@ import {
   UserPlus,
   BarChart3,
   Settings,
+  CheckCircle,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -46,11 +47,18 @@ export const dashboardNavItems: NavItem[] = [
     order: 4,
   },
   {
+    id: 'approvals',
+    name: 'Approvals',
+    route: '/dashboard/approvals',
+    icon: CheckCircle,
+    order: 5,
+  },
+  {
     id: 'settings',
     name: 'Settings',
     route: '/dashboard/settings',
     icon: Settings,
-    order: 5,
+    order: 6,
   },
 ].sort((a, b) => a.order - b.order)
 

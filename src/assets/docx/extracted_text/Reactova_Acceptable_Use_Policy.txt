@@ -1,0 +1,75 @@
+Reactova
+Acceptable Use Policy
+reactova.com — Last updated: April 2026
+Effective Date: April 2026
+
+This Acceptable Use Policy ("AUP") sets out the rules for using the Reactova platform. By using Reactova, you agree to comply with this policy. Violation may result in account suspension or termination without refund.
+
+1. Permitted Uses
+Automate replies to comments on your own Instagram posts or posts you manage with authorisation
+Create bio link pages for your own brand or clients
+Track conversion analytics for your own campaigns
+Manage multiple Instagram accounts you own or are authorised to manage
+Participate in the affiliate program and refer users to the platform
+
+2. Prohibited Activities
+2.1 Spam and Unsolicited Messaging
+Sending bulk unsolicited DMs to users who have not engaged with your content
+Using automation to harass, intimidate, or repeatedly message the same user
+Creating fake comments or engagement to trigger automations artificially
+Using bots or automated tools to simulate comment activity
+
+2.2 Harmful and Illegal Content
+Distributing content that violates intellectual property rights
+Sending content promoting violence, hate speech, discrimination, or illegal activities
+Distributing adult content or content involving minors
+Spreading misinformation or fraudulent claims
+Phishing, scamming, or attempting to deceive users into sharing personal information
+
+2.3 Platform Abuse
+Attempting to reverse engineer or extract source code from the platform
+Performing unauthorised security scanning or penetration testing
+Attempting to bypass rate limits, authentication, or access controls
+Scraping or harvesting data from the platform through automated means
+Creating multiple accounts to circumvent restrictions or bans
+Reselling platform access without written permission
+
+2.4 Instagram Policy Violations
+Violating Meta's Platform Policies or Instagram's Community Standards
+Accessing Instagram accounts you do not own or have authority over
+Automating actions that violate Instagram's rate limits or restrictions
+
+2.5 Affiliate Program Abuse
+Self-referrals or referring your own accounts for commission
+Paying others to sign up through your referral link
+Using misleading or deceptive marketing to generate referrals
+Creating fake accounts to earn commissions
+
+3. White Label Responsibilities
+Agency plan users who white label our platform are responsible for ensuring their clients comply with this policy. You are accountable for your clients' actions on the platform.
+
+4. Consequences of Violation
+Depending on the severity and frequency of violations, we may:
+Issue a written warning
+Temporarily suspend your account
+Permanently terminate your account without refund
+Report violations to law enforcement or Meta
+Pursue legal action where appropriate
+
+5. Reporting Violations
+If you become aware of any user violating this policy, please report it to support@reactova.com. We take all reports seriously and investigate promptly.
+
+Changes to This Policy
+We may update this Acceptable Use Policy from time to time. If we make material changes, we will notify you via email or through the platform. Continued use of the platform after such changes constitutes your acceptance. In some cases, we may require you to explicitly accept updated terms before continuing to use the service.
+
+Material changes include updates that affect your rights, data usage, pricing, or core functionality of the platform.
+
+7. Consistency with Terms
+This Acceptable Use Policy should be read alongside our Terms and Conditions, Privacy Policy, and Refund Policy. In the event of any conflict between this policy and the Terms and Conditions, the Terms and Conditions shall prevail.
+
+8. Contact
+To report violations or for questions: support@reactova.com
+Website: reactova.com
+
+
+Reactova — April 2026

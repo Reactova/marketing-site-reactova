@@ -2,6 +2,7 @@ import './globals.css'
 import { defaultMetadata, viewport } from '@/config/metadata'
 import AnalyticsTracker from '@/components/AnalyticsTracker'
 import { Providers } from './providers'
+import Footer from '@/components/Footer'
 
 export const metadata = defaultMetadata
 export { viewport }
@@ -26,6 +27,7 @@ export default function RootLayout({
         <Providers>
           <AnalyticsTracker />
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>

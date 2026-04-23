@@ -1,0 +1,60 @@
+Reactova
+Refund Policy
+reactova.com — Last updated: April 2026
+Effective Date: April 2026
+
+Due to the nature of digital services, refunds are generally not provided. However, we review requests in exceptional circumstances such as verified technical issues or duplicate payments. Please read this policy carefully before subscribing.
+
+1. General Policy
+Reactova provides immediate access to digital services upon payment. As such, all purchases are generally final. We encourage you to explore our free plan and review all plan features before subscribing to ensure the platform meets your needs.
+
+2. When Refunds May Be Considered
+We may, at our sole discretion, consider refunds in the following exceptional circumstances:
+
+2.1 Verified Technical Failure
+If a verified, documented technical failure on our platform prevents access to core features for more than 72 consecutive hours, and we are unable to resolve the issue within a reasonable timeframe, a pro-rated refund for the affected period may be considered. Please report the issue to support@reactova.com within 7 days of the failure with details and supporting evidence.
+
+2.2 Duplicate Payment
+If you have been charged twice for the same subscription due to a payment processing error, we will refund the duplicate charge in full upon verification. Please provide payment receipts or bank statements as evidence.
+
+3. Non-Refundable Situations
+Refunds will not be issued in the following circumstances:
+Subscription renewals not cancelled before the renewal date
+Change of mind after purchase
+Dissatisfaction with results such as DM performance or conversion rates
+Instagram API changes or Meta policy updates affecting platform functionality
+Account suspension or termination due to violation of our Terms or Meta's policies
+Partial months of unused subscription time
+Creator Program access (this is a free programme, no payment is involved)
+Affiliate commissions already paid out
+
+4. Subscription Cancellation
+You may cancel your subscription at any time from your workspace billing settings. Cancellation stops future renewals but does not entitle you to a refund for the current billing period. You retain access to paid features until the end of your current billing cycle.
+
+5. Automatic Renewal
+All Reactova subscriptions renew automatically on their billing dates. It is your responsibility to cancel before the renewal date if you do not wish to continue. We recommend setting a reminder ahead of your renewal date. Refunds are not issued for renewals already processed.
+
+6. Chargeback Policy
+We encourage you to contact us at support@reactova.com before initiating a chargeback or payment dispute. Filing an unwarranted chargeback may result in account suspension. We will provide evidence of service delivery to contest any chargeback where we believe the charge was legitimate.
+
+7. How to Request a Refund
+Email support@reactova.com with subject line "Refund Request"
+Include your account email, workspace name, and payment transaction ID
+Describe the issue with supporting evidence
+Submit your request within 7 days of the triggering event
+We will review your request and respond within 5-7 business days. Approved refunds are returned to your original payment method and may take 5-10 business days to appear.
+
+8. Currency
+All refunds are issued in the original currency of the transaction. We are not responsible for currency conversion losses or fees charged by your bank or card provider.
+
+Changes to This Policy
+We may update this Refund Policy from time to time. If we make material changes, we will notify you via email or through the platform. Continued use of the platform after such changes constitutes your acceptance. In some cases, we may require you to explicitly accept updated terms before continuing to use the service.
+
+Material changes include updates that affect your rights, data usage, pricing, or core functionality of the platform.
+
+10. Contact
+For refund-related enquiries: support@reactova.com
+Website: reactova.com
+
+
+Reactova — April 2026

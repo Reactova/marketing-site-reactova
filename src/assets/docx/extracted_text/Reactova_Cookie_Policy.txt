@@ -1,0 +1,61 @@
+Reactova
+Cookie Policy
+reactova.com — Last updated: April 2026
+Effective Date: April 2026
+
+By using our website and platform, you consent to the use of cookies as described in this policy. You can manage cookie preferences through your browser settings at any time.
+
+1. What Are Cookies
+Cookies are small text files stored on your device when you visit a website. They help websites remember your preferences, understand how you use the site, and deliver a better experience.
+
+2. Types of Cookies We Use
+2.1 Essential Cookies
+These cookies are strictly necessary for the platform to function and cannot be disabled:
+Session authentication cookies — keep you logged in
+Security cookies — protect against CSRF and other attacks
+Subscription and billing state cookies
+Load balancing cookies
+
+2.2 Analytics Cookies
+These help us understand how users interact with our platform:
+Pages visited and time spent on each page
+Features used and workflows created
+Error tracking and performance monitoring
+Conversion funnel analysis
+
+2.3 Marketing and Tracking Cookies
+These help us measure the effectiveness of our marketing:
+UTM parameter tracking (source, medium, campaign)
+Referral tracking for the affiliate program
+Advertising performance measurement
+
+2.4 Preference Cookies
+These remember your settings:
+Language and region preferences
+UI theme and display settings
+Recently accessed workspaces
+
+3. Third Party Cookies
+Some cookies are set by third party services we use to operate the platform:
+Stripe — payment processing and fraud prevention
+Razorpay — payment processing for Indian users
+Analytics providers — for usage insights
+These providers have their own privacy and cookie policies which we recommend you review.
+
+4. Cookie Duration
+Session cookies are deleted when you close your browser. Persistent cookies remain on your device for a set period. Most of our analytics cookies expire within 12 months. Authentication cookies expire at session end or after a period of inactivity.
+
+5. Managing Cookies
+You can manage or delete cookies through your browser settings. Most browsers allow you to view, delete, and block cookies. Please note that disabling essential cookies may prevent the platform from functioning correctly. You may also contact us at support@reactova.com to opt out of non-essential cookies.
+
+Changes to This Policy
+We may update this Cookie Policy from time to time. If we make material changes, we will notify you via email or through the platform. Continued use of the platform after such changes constitutes your acceptance. In some cases, we may require you to explicitly accept updated terms before continuing to use the service.
+
+Material changes include updates that affect your rights, data usage, pricing, or core functionality of the platform.
+
+7. Contact
+For cookie-related enquiries: support@reactova.com
+Website: reactova.com
+
+
+Reactova — April 2026

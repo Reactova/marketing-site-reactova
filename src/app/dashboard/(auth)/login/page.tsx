@@ -2,7 +2,8 @@
 
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import { Card, CardHeader, CardBody, Input, Button } from '@/components/ui'
+import { Card, CardHeader, CardContent } from '@/components/ui/Card'
+import { Button, Input } from '@/components/ui'
 import { Mail, Lock, Eye, EyeOff, LogIn } from 'lucide-react'
 
 export default function DashboardLogin() {
@@ -47,23 +48,23 @@ export default function DashboardLogin() {
       <div className="orb orb-2" />
       <div className="grid-lines" />
       
-      <Card className="w-full max-w-md bg-[var(--surface)] border border-[var(--border)] shadow-xl">
+      <Card className="w-full max-w-md bg-white border border-slate-200 shadow-xl">
         <CardHeader className="flex flex-col gap-2 pt-8 pb-4 px-8">
           <div className="flex items-center gap-2 mb-2">
-            <span className="font-['Outfit'] font-extrabold text-xl text-[var(--text)]">
+            <span className="font-['Outfit'] font-extrabold text-xl text-slate-900">
               Reactova
             </span>
-            <span className="w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
           </div>
-          <h1 className="font-['Outfit'] font-bold text-2xl text-[var(--text)]">
+          <h1 className="font-['Outfit'] font-bold text-2xl text-slate-900">
             Dashboard Login
           </h1>
-          <p className="text-sm text-[var(--muted)]">
+          <p className="text-sm text-slate-500">
             Enter your credentials to access the dashboard
           </p>
         </CardHeader>
         
-        <CardBody className="px-8 pb-8">
+        <CardContent className="px-8 pb-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
               <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 text-red-400 text-sm text-center">
@@ -77,7 +78,7 @@ export default function DashboardLogin() {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                startContent={<Mail className="w-4 h-4 text-[var(--muted)]" />}
+                startContent={<Mail className="w-4 h-4 text-slate-400" />}
                 required
               />
             </div>
@@ -88,12 +89,12 @@ export default function DashboardLogin() {
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                startContent={<Lock className="w-4 h-4 text-[var(--muted)]" />}
+                startContent={<Lock className="w-4 h-4 text-slate-400" />}
                 endContent={
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="text-[var(--muted)] hover:text-[var(--text)] transition-colors"
+                    className="text-slate-400 hover:text-slate-900 transition-colors"
                   >
                     {showPassword ? (
                       <EyeOff className="w-4 h-4" />
@@ -116,7 +117,7 @@ export default function DashboardLogin() {
               {loading ? 'Signing in...' : 'Sign In'}
             </Button>
           </form>
-        </CardBody>
+        </CardContent>
       </Card>
     </div>
   )

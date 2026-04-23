@@ -1,80 +1,78 @@
-'use client'
+import * as React from "react"
+import { cn } from "@/lib/utils"
 
-import {
-  Card as HeroCard,
-  CardHeader as HeroCardHeader,
-  CardContent as HeroCardContent,
-  CardFooter as HeroCardFooter,
-  type CardProps as HeroCardProps,
-} from '@heroui/react'
-import { forwardRef, ReactNode } from 'react'
+const Card = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "rounded-[var(--radius)] border border-[var(--border)] bg-[var(--card)] text-[var(--card-foreground)] shadow-sm",
+      className
+    )}
+    {...props}
+  />
+))
+Card.displayName = "Card"
 
-export interface CardProps extends Omit<HeroCardProps, 'variant'> {
-  variant?: 'default' | 'bordered' | 'glass'
-}
+const CardHeader = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex flex-col space-y-1.5 p-6", className)}
+    {...props}
+  />
+))
+CardHeader.displayName = "CardHeader"
 
-const variantClasses = {
-  default: 'bg-surface border border-border',
-  bordered: 'bg-surface border border-primary/20 hover:border-primary/40',
-  glass: `
-    bg-gradient-to-br from-[#1A1A2E]/95 to-[#141424]/98
-    border border-primary/15
-    backdrop-blur-xl
-    shadow-2xl
-  `,
-}
+const CardTitle = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
+  <h3
+    ref={ref}
+    className={cn(
+      "text-2xl font-semibold leading-none tracking-tight text-[var(--foreground)]",
+      className
+    )}
+    {...props}
+  />
+))
+CardTitle.displayName = "CardTitle"
 
-export const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ variant = 'default', className = '', children, ...props }, ref) => {
-    return (
-      <HeroCard
-        ref={ref}
-        className={`
-          rounded-2xl
-          transition-all duration-300
-          ${variantClasses[variant]}
-          ${className}
-        `}
-        {...props}
-      >
-        {children}
-      </HeroCard>
-    )
-  }
-)
+const CardDescription = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+  <p
+    ref={ref}
+    className={cn("text-sm text-[var(--muted-foreground)]", className)}
+    {...props}
+  />
+))
+CardDescription.displayName = "CardDescription"
 
-Card.displayName = 'Card'
+const CardContent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+))
+CardContent.displayName = "CardContent"
 
-export interface CardSubComponentProps {
-  children?: ReactNode
-  className?: string
-}
+const CardFooter = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex items-center p-6 pt-0", className)}
+    {...props}
+  />
+))
+CardFooter.displayName = "CardFooter"
 
-export const CardHeader = forwardRef<HTMLDivElement, CardSubComponentProps>(
-  ({ children, className = '' }, ref) => (
-    <HeroCardHeader ref={ref} className={`px-6 pt-6 pb-0 ${className}`}>
-      {children}
-    </HeroCardHeader>
-  )
-)
-CardHeader.displayName = 'CardHeader'
-
-export const CardBody = forwardRef<HTMLDivElement, CardSubComponentProps>(
-  ({ children, className = '' }, ref) => (
-    <HeroCardContent ref={ref} className={`px-6 py-6 ${className}`}>
-      {children}
-    </HeroCardContent>
-  )
-)
-CardBody.displayName = 'CardBody'
-
-export const CardFooter = forwardRef<HTMLDivElement, CardSubComponentProps>(
-  ({ children, className = '' }, ref) => (
-    <HeroCardFooter ref={ref} className={`px-6 pt-0 pb-6 ${className}`}>
-      {children}
-    </HeroCardFooter>
-  )
-)
-CardFooter.displayName = 'CardFooter'
-
-export default Card
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }

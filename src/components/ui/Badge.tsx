@@ -1,61 +1,38 @@
-'use client'
+import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "@/lib/utils"
 
-import { Badge as HeroBadge, type BadgeProps as HeroBadgeProps } from '@heroui/react'
-import { forwardRef, ReactNode } from 'react'
-
-export interface BadgeProps extends Omit<HeroBadgeProps, 'variant' | 'color'> {
-  variant?: 'primary' | 'accent' | 'success' | 'error' | 'default'
-  dot?: boolean
-  children?: ReactNode
-}
-
-const variantClasses = {
-  primary: {
-    base: 'bg-primary/10 border-primary/30 text-primary',
-    dot: 'bg-primary',
-  },
-  accent: {
-    base: 'bg-accent/10 border-accent/30 text-accent',
-    dot: 'bg-accent',
-  },
-  success: {
-    base: 'bg-success/10 border-success/30 text-success',
-    dot: 'bg-success',
-  },
-  error: {
-    base: 'bg-error/10 border-error/30 text-error',
-    dot: 'bg-error',
-  },
-  default: {
-    base: 'bg-[#6B6B80]/10 border-[#6B6B80]/30 text-[#6B6B80]',
-    dot: 'bg-[#6B6B80]',
-  },
-}
-
-export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
-  ({ variant = 'primary', dot = false, children, className = '', ...props }, ref) => {
-    const styles = variantClasses[variant]
-
-    return (
-      <span
-        ref={ref}
-        className={`
-          inline-flex items-center gap-2
-          px-4 py-1.5
-          rounded-full border
-          text-xs font-medium tracking-wide
-          ${styles.base}
-          ${className}
-        `}
-        {...props}
-      >
-        {dot && <span className={`w-1.5 h-1.5 rounded-full ${styles.dot}`} />}
-        {children}
-      </span>
-    )
+const badgeVariants = cva(
+  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  {
+    variants: {
+      variant: {
+        default:
+          "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+        secondary:
+          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        destructive:
+          "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
+        outline: "text-foreground",
+        success: "border-transparent bg-green-100 text-green-800 hover:bg-green-100/80",
+        warning: "border-transparent bg-yellow-100 text-yellow-800 hover:bg-yellow-100/80",
+        info: "border-transparent bg-blue-100 text-blue-800 hover:bg-blue-100/80",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
   }
 )
 
-Badge.displayName = 'Badge'
+export interface BadgeProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof badgeVariants> {}
 
-export default Badge
+function Badge({ className, variant, ...props }: BadgeProps) {
+  return (
+    <div className={cn(badgeVariants({ variant }), className)} {...props} />
+  )
+}
+
+export { Badge, badgeVariants }

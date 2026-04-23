@@ -21,10 +21,10 @@ function getTimeLeft(launchDate: Date): TimeLeft {
   if (diff <= 0) return INITIAL_TIME
 
   return {
-    days:  pad(Math.floor(diff / 86_400_000)),
+    days: pad(Math.floor(diff / 86_400_000)),
     hours: pad(Math.floor((diff % 86_400_000) / 3_600_000)),
-    mins:  pad(Math.floor((diff % 3_600_000) / 60_000)),
-    secs:  pad(Math.floor((diff % 60_000) / 1_000)),
+    mins: pad(Math.floor((diff % 3_600_000) / 60_000)),
+    secs: pad(Math.floor((diff % 60_000) / 1_000)),
   }
 }
 
@@ -100,7 +100,7 @@ export default function Countdown() {
         </div>
         <div className="cd-sep">:</div>
         <div className="cd-unit">
-          <div className={`cd-box${tick ? ' tick' : ''}`}>{time.secs}</div>
+          <div className={`cd-box${tick ? ' tick' : ''} text-primary!`}>{time.secs}</div>
           <div className="cd-name">Secs</div>
         </div>
       </div>

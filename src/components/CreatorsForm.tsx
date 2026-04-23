@@ -87,7 +87,8 @@ export default function CreatorsForm() {
       ))
       .then(data => {
         if (typeof data.spotsRemaining === 'number') {
-          setSpotsRemaining(data.spotsRemaining)
+          console.log('🚀 ~ CreatorsForm ~ res:', data),
+            setSpotsRemaining(data.spotsRemaining)
         }
       })
       .catch(() => { })

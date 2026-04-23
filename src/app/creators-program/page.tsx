@@ -174,7 +174,7 @@ export default function CreatorsView() {
           <div className="cp-stats-bar mb-10!">
             <div className="cp-stat">
               <span className="cp-stat-num">
-                <span className="">50</span>
+                <span className="">{spotsRemaining > 0 ? String(spotsRemaining) : 'All spots have been claimed'}</span>
               </span>
               <span className="cp-stat-label">Total spots available</span>
             </div>

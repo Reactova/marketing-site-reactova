@@ -21,6 +21,23 @@ const transporter = nodemailer.createTransport({
   },
 })
 
+/** Outbound From header (must match an allowed sender for your SMTP provider). */
+function getSmtpFromAddress(): string | undefined {
+  const v = process.env.SMTP_FROM?.trim() || process.env.SMTP_USER?.trim()
+  return v || undefined
+}
+
+/**
+ * Inbox(es) for internal alerts (new creator application, new preregistration).
+ * Comma-separated allowed. Defaults to support@reactova.com so alerts are not
+ * sent to the same address as From (which many providers drop or users never see).
+ */
+function getAdminNotificationRecipients(): string {
+  const raw = process.env.SMTP_ADMIN_TO?.trim()
+  if (raw) return raw
+  return 'support@reactova.com'
+}
+
 export type OfferTier = 'tier1' | 'tier2' | 'tier3'
 
 export function getOfferTier(spotNumber: number): OfferTier {
@@ -108,17 +125,19 @@ interface SendCreatorApplicationAlertParams {
 
 export async function sendCreatorApplicationAlert(params: SendCreatorApplicationAlertParams) {
   const { brand } = siteConfig
-  const to = process.env.SMTP_FROM || process.env.SMTP_USER
+  const fromAddr = getSmtpFromAddress()
+  const toAddr = getAdminNotificationRecipients()
 
-  if (!to) {
+  if (!fromAddr) {
     console.error('Failed to send creator application alert: SMTP_FROM/SMTP_USER is not configured')
     return { success: false }
   }
 
   try {
     await transporter.sendMail({
-      from: `"${brand.name} Notifications" <${to}>`,
-      to,
+      from: `"${brand.name} Notifications" <${fromAddr}>`,
+      to: toAddr,
+      replyTo: params.email,
       subject: getCreatorApplicationAlertSubject(params),
       text: getCreatorApplicationAlertText(params),
       html: getCreatorApplicationAlertHtml(params),
@@ -139,17 +158,19 @@ interface SendPreRegistrationAlertParams {
 
 export async function sendPreRegistrationAlert(params: SendPreRegistrationAlertParams) {
   const { brand } = siteConfig
-  const to = process.env.SMTP_FROM || process.env.SMTP_USER
+  const fromAddr = getSmtpFromAddress()
+  const toAddr = getAdminNotificationRecipients()
 
-  if (!to) {
+  if (!fromAddr) {
     console.error('Failed to send preregistration alert: SMTP_FROM/SMTP_USER is not configured')
     return { success: false }
   }
 
   try {
     await transporter.sendMail({
-      from: `"${brand.name} Notifications" <${to}>`,
-      to,
+      from: `"${brand.name} Notifications" <${fromAddr}>`,
+      to: toAddr,
+      replyTo: params.email,
       subject: getPreRegistrationAlertSubject(params),
       text: getPreRegistrationAlertText(params),
       html: getPreRegistrationAlertHtml(params),

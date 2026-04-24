@@ -266,8 +266,8 @@ export default function ApprovalsPage() {
                 <TableColumn className="text-[var(--muted-foreground)] font-semibold">Status</TableColumn>
                 <TableColumn className="text-[var(--muted-foreground)] font-semibold text-right">Actions</TableColumn>
               </TableHeader>
-              <TableBody>
-                {creators.map((creator) => (
+              <TableBody items={creators}>
+                {(creator) => (
                   <TableRow key={creator._id} className="border-b-[var(--border)]/50">
                     <TableCell>
                       <div className="flex flex-col">
@@ -297,7 +297,7 @@ export default function ApprovalsPage() {
                     </TableCell>
                     <TableCell>{renderActions(creator)}</TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           )}

@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react'
 import { useAnalytics } from './AnalyticsTracker'
 import { FollowerRange, ContentNiche } from '@/lib/types'
-import { Input, Label, Textarea, Checkbox } from '@/components/ui'
+import { Label, Textarea, Checkbox } from '@/components/ui'
+import { FormField } from '@/components/FormField'
 
 const FOLLOWER_OPTIONS: { value: FollowerRange; label: string }[] = [
   { value: 'under5k', label: 'Under 5K' },
@@ -70,6 +71,7 @@ export default function CreatorsForm() {
     otherNiche: '',
     asksForComments: false,
     whyJoin: '',
+    termsAndConditions: false,
   })
 
   const [submitted, setSubmitted] = useState(false)
@@ -81,14 +83,10 @@ export default function CreatorsForm() {
 
   useEffect(() => {
     fetch('/api/creators')
-      .then(res => (
-        console.log('🚀 ~ CreatorsForm ~ res:', res),
-        res.json()
-      ))
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         if (typeof data.spotsRemaining === 'number') {
-          console.log('🚀 ~ CreatorsForm ~ res:', data),
-            setSpotsRemaining(data.spotsRemaining)
+          setSpotsRemaining(data.spotsRemaining)
         }
       })
       .catch(() => { })
@@ -209,64 +207,67 @@ export default function CreatorsForm() {
           </div>
         )}
 
-        <div className="creators-form-section space-y-4">
+        {/* ── Section 1: Your Details ── */}
+        <div className="creators-form-section space-y-4!">
           <h3 className="creators-form-section-title">Your Details</h3>
 
-          <div className="creators-input-group">
-            <Label required>Full Name</Label>
-            <Input
-              type="text"
-              placeholder="John Doe"
-              value={formData.name}
-              onChange={(e) => updateField('name', e.target.value)}
-              disabled={loading}
-              hasError={fieldErrors.name}
-            />
-          </div>
+          <FormField
+            id="cf-name"
+            label="Full Name"
+            required
+            type="text"
+            placeholder="John Doe"
+            value={formData.name}
+            onChange={(e) => updateField('name', e.target.value)}
+            disabled={loading}
+            hasError={fieldErrors.name}
+          />
 
-          <div className="creators-input-group">
-            <Label required>Email Address</Label>
-            <Input
-              type="email"
-              placeholder="you@example.com"
-              value={formData.email}
-              onChange={(e) => updateField('email', e.target.value)}
-              disabled={loading}
-              hasError={fieldErrors.email}
-            />
-          </div>
+          <FormField
+            id="cf-email"
+            label="Email Address"
+            required
+            type="email"
+            placeholder="you@example.com"
+            value={formData.email}
+            onChange={(e) => updateField('email', e.target.value)}
+            disabled={loading}
+            hasError={fieldErrors.email}
+          />
 
-          <div className="creators-input-group">
-            <Label required>Country</Label>
-            <Input
-              type="text"
-              placeholder="Where are you based? e.g. India, United States"
-              value={formData.country}
-              onChange={(e) => updateField('country', e.target.value)}
-              disabled={loading}
-              hasError={fieldErrors.country}
-            />
-          </div>
+          <FormField
+            id="cf-country"
+            label="Country"
+            required
+            type="text"
+            placeholder="Where are you based? e.g. India, United States"
+            value={formData.country}
+            onChange={(e) => updateField('country', e.target.value)}
+            disabled={loading}
+            hasError={fieldErrors.country}
+          />
         </div>
 
-        <div className="creators-form-section">
+        {/* ── Section 2: Instagram Profile ── */}
+        <div className="creators-form-section space-y-4!">
           <h3 className="creators-form-section-title">Instagram Profile</h3>
 
-          <div className="creators-input-group">
-            <Label required>Instagram Username</Label>
-            <Input
-              type="text"
-              placeholder="yourusername"
-              value={formData.instagramUsername}
-              onChange={(e) => updateField('instagramUsername', e.target.value.replace(/^@/, ''))}
-              disabled={loading}
-              hasError={fieldErrors.instagramUsername}
-              startContent="@"
-              startContentClassName="border-r border-gray-500 !p-2"
-            />
-          </div>
+          <FormField
+            id="cf-instagram"
+            label="Instagram Username"
+            required
+            type="text"
+            placeholder="yourusername"
+            value={formData.instagramUsername}
+            onChange={(e) => updateField('instagramUsername', e.target.value.replace(/^@/, ''))}
+            disabled={loading}
+            hasError={fieldErrors.instagramUsername}
+            startContent="@"
+            startContentClassName="text-muted-foreground px-3!"
+            className="px-2.5!"
+          />
 
-          <div className="creators-input-group">
+          <div className="creators-input-group mt-4">
             <Label required>Follower Count</Label>
             <div className="creators-select-grid !gap-1">
               {FOLLOWER_OPTIONS.map((option) => (
@@ -276,7 +277,7 @@ export default function CreatorsForm() {
                   className={`creators-select-option ${formData.followerRange === option.value ? 'active' : ''}`}
                   onClick={() => updateField('followerRange', option.value)}
                   disabled={loading}
-                  style={{ borderColor: fieldErrors.followerRange ? 'rgba(239,68,68,0.6)' : undefined }}
+                  style={{ borderColor: fieldErrors.followerRange ? 'rgba(220,38,38,0.6)' : undefined }}
                 >
                   {option.label}
                 </button>
@@ -284,7 +285,7 @@ export default function CreatorsForm() {
             </div>
           </div>
 
-          <div className="creators-input-group">
+          <div className="creators-input-group mt-4">
             <Label required>Content Niche</Label>
             <div className="creators-select-grid creators-select-grid-3 !gap-1">
               {NICHE_OPTIONS.map((option) => (
@@ -294,7 +295,7 @@ export default function CreatorsForm() {
                   className={`creators-select-option ${formData.contentNiche === option.value ? 'active' : ''}`}
                   onClick={() => updateField('contentNiche', option.value)}
                   disabled={loading}
-                  style={{ borderColor: fieldErrors.contentNiche ? 'rgba(239,68,68,0.6)' : undefined }}
+                  style={{ borderColor: fieldErrors.contentNiche ? 'rgba(220,38,38,0.6)' : undefined }}
                 >
                   {option.label}
                 </button>
@@ -302,7 +303,8 @@ export default function CreatorsForm() {
             </div>
             {formData.contentNiche === 'other' && (
               <div className="mt-2.5">
-                <Input
+                <FormField
+                  id="cf-other-niche"
                   type="text"
                   placeholder="Specify your niche"
                   value={formData.otherNiche}
@@ -314,20 +316,24 @@ export default function CreatorsForm() {
             )}
           </div>
 
-          <div className="creators-input-group flex items-center gap-2">
-
+          <div className="creators-input-group flex items-start gap-2.5 mt-4">
             <Checkbox
+              id="asksForComments"
               isSelected={formData.asksForComments}
               onValueChange={(checked) => updateField('asksForComments', checked)}
-              isDisabled={loading}
-              variant='primary'
-              size='md'
-              id='asksForComments'
+              disabled={loading}
+              size="md"
             />
-            <Label htmlFor='asksForComments'>I already ask followers to comment on posts (e.g. "comment LINK to get the guide")</Label>
+            <Label
+              htmlFor="asksForComments"
+              className="mb-0 text-sm leading-relaxed text-[var(--text-2)] font-medium cursor-pointer"
+            >
+              I already ask followers to comment on posts (e.g. &quot;comment LINK to get the guide&quot;)
+            </Label>
           </div>
         </div>
 
+        {/* ── Section 3: Tell Us About Yourself ── */}
         <div className="creators-form-section">
           <h3 className="creators-form-section-title">Tell Us About Yourself</h3>
 
@@ -337,12 +343,31 @@ export default function CreatorsForm() {
               placeholder="Tell us a bit about your content and how you'd use Reactova..."
               value={formData.whyJoin}
               onChange={(e) => updateField('whyJoin', e.target.value)}
+              className="p-2!"
               disabled={loading}
               minRows={4}
             />
           </div>
         </div>
+        <div className="creators-input-group flex items-start gap-2.5 mt-4">
+          <Checkbox
+            id="termsAndConditions"
+            isSelected={formData.termsAndConditions}
+            onValueChange={(checked) => updateField('termsAndConditions', checked)}
+            required={true}
+            disabled={loading}
+            size="md"
+          />
+          <Label
+            htmlFor="termsAndConditions"
+            className="mb-0 text-sm leading-relaxed text-[var(--text-2)] font-medium cursor-pointer required:after:content-['*'] required:after:text-red-500 required:after:ml-1"
+          >
+            I agree to the <a href="/terms-of-service" target="_blank" rel="noopener noreferrer" className="text-primary!">T&C</a>{" "}
+            , <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-primary!">Privacy Policy</a>{" "}
+            and <a href="/creators-policy" target="_blank" rel="noopener noreferrer" className="text-primary!">Creators Policy</a>*{" "} 
 
+          </Label>
+        </div>
         <button
           type="submit"
           className="cta-btn creators-submit-btn"

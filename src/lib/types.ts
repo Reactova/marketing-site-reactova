@@ -118,6 +118,7 @@ export interface CreatorApplication {
   emailSent: boolean
   reviewedAt?: Date
   reviewNotes?: string
+  decisionReason?: string
   source: {
     referrer: string | null
     utmSource: string | null

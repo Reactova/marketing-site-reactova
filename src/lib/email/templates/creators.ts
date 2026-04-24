@@ -3,14 +3,63 @@ import { siteConfig } from '@/config/site.config'
 interface CreatorsEmailData {
   name: string
   instagramUsername: string
+  status?: 'received' | 'approved' | 'rejected'
+  reason?: string
 }
 
-export function getCreatorsEmailSubject({ name }: CreatorsEmailData): string {
+function normalizeStatus(status: CreatorsEmailData['status']): 'received' | 'approved' | 'rejected' {
+  return status || 'received'
+}
+
+export function getCreatorsEmailSubject({ name, status }: CreatorsEmailData): string {
+  const resolvedStatus = normalizeStatus(status)
+
+  if (resolvedStatus === 'approved') {
+    return `✅ ${name}, you are approved for the Creators Program!`
+  }
+  if (resolvedStatus === 'rejected') {
+    return `Update on your ${siteConfig.brand.name} Creators Program application`
+  }
   return `🎯 ${name}, your Creators Program application is received!`
 }
 
-export function getCreatorsEmailText({ name, instagramUsername }: CreatorsEmailData): string {
+export function getCreatorsEmailText({ name, instagramUsername, status, reason }: CreatorsEmailData): string {
   const { brand } = siteConfig
+  const resolvedStatus = normalizeStatus(status)
+
+  if (resolvedStatus === 'approved') {
+    return `
+Hi ${name},
+
+Great news - your Creators Program application for @${instagramUsername} has been approved.
+
+Your onboarding instructions will be shared by our team shortly.
+
+${reason?.trim() ? `Additional note from our team:\n${reason.trim()}\n` : ''}
+Questions? Reply to this email - we read every message.
+
+© ${new Date().getFullYear()} ${brand.name}
+`.trim()
+  }
+
+  if (resolvedStatus === 'rejected') {
+    return `
+Hi ${name},
+
+Thank you for applying to the ${brand.name} Creators Program for @${instagramUsername}.
+
+After review, we are unable to approve this application right now.
+
+Reason:
+${reason?.trim() || 'Your current profile does not match the acceptance criteria at this time.'}
+
+You are welcome to improve your profile and apply again in the future.
+
+Questions? Reply to this email - we read every message.
+
+© ${new Date().getFullYear()} ${brand.name}
+`.trim()
+  }
 
   return `
 Welcome to the ${brand.name} Creators Program, ${name}!
@@ -48,8 +97,84 @@ Questions? Reply to this email — we read every message.
 `.trim()
 }
 
-export function getCreatorsEmailHtml({ name, instagramUsername }: CreatorsEmailData): string {
+export function getCreatorsEmailHtml({ name, instagramUsername, status, reason }: CreatorsEmailData): string {
   const { brand } = siteConfig
+  const resolvedStatus = normalizeStatus(status)
+
+  if (resolvedStatus === 'approved') {
+    return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${brand.name} Creators Program - Approved</title>
+</head>
+<body style="margin:0;padding:0;background:#F9FAFB;font-family:Arial,sans-serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#F9FAFB;padding:32px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:600px;background:#ffffff;border:1px solid #E5E7EB;border-radius:16px;">
+          <tr>
+            <td style="padding:32px;">
+              <p style="margin:0 0 12px 0;font-size:12px;letter-spacing:.08em;color:#16A34A;font-weight:700;">CREATORS PROGRAM</p>
+              <h1 style="margin:0 0 16px 0;font-size:28px;color:#111827;">You are approved, ${name}! ✅</h1>
+              <p style="margin:0 0 12px 0;color:#374151;line-height:1.6;">Your application for <strong>@${instagramUsername}</strong> has been approved.</p>
+              <p style="margin:0 0 16px 0;color:#374151;line-height:1.6;">Our team will send onboarding instructions shortly.</p>
+              ${reason?.trim()
+      ? `<div style="margin-top:20px;padding:14px;border:1px solid #DCFCE7;background:#F0FDF4;border-radius:10px;">
+                   <p style="margin:0 0 8px 0;font-size:12px;color:#166534;font-weight:700;letter-spacing:.06em;">NOTE FROM TEAM</p>
+                   <p style="margin:0;color:#14532D;line-height:1.6;">${reason.trim()}</p>
+                 </div>`
+      : ''
+    }
+              <p style="margin:24px 0 0 0;color:#6B7280;font-size:14px;">Questions? Reply to this email.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`.trim()
+  }
+
+  if (resolvedStatus === 'rejected') {
+    return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${brand.name} Creators Program - Application Update</title>
+</head>
+<body style="margin:0;padding:0;background:#F9FAFB;font-family:Arial,sans-serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#F9FAFB;padding:32px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:600px;background:#ffffff;border:1px solid #E5E7EB;border-radius:16px;">
+          <tr>
+            <td style="padding:32px;">
+              <p style="margin:0 0 12px 0;font-size:12px;letter-spacing:.08em;color:#DC2626;font-weight:700;">APPLICATION UPDATE</p>
+              <h1 style="margin:0 0 16px 0;font-size:28px;color:#111827;">Thanks for applying, ${name}</h1>
+              <p style="margin:0 0 12px 0;color:#374151;line-height:1.6;">We reviewed your application for <strong>@${instagramUsername}</strong> and are unable to approve it at this time.</p>
+              <div style="margin-top:20px;padding:14px;border:1px solid #FECACA;background:#FEF2F2;border-radius:10px;">
+                <p style="margin:0 0 8px 0;font-size:12px;color:#991B1B;font-weight:700;letter-spacing:.06em;">REASON</p>
+                <p style="margin:0;color:#7F1D1D;line-height:1.6;">${reason?.trim() || 'Your current profile does not match the acceptance criteria at this time.'}</p>
+              </div>
+              <p style="margin:20px 0 0 0;color:#4B5563;line-height:1.6;">You are welcome to improve your profile and apply again in the future.</p>
+              <p style="margin:24px 0 0 0;color:#6B7280;font-size:14px;">Questions? Reply to this email.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`.trim()
+  }
 
   return `
 <!DOCTYPE html>

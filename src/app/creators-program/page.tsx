@@ -97,6 +97,7 @@ const HOW_STEPS = [
 export default function CreatorsView() {
   const { brand } = siteConfig
   const [showFab, setShowFab] = useState(true)
+  const [spotsRemaining, setSpotsRemaining] = useState(50)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -114,6 +115,34 @@ export default function CreatorsView() {
     if (target) observer.observe(target)
 
     return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadSpotsRemaining() {
+      try {
+        const response = await fetch('/api/creators', { cache: 'no-store' })
+        if (!response.ok) return
+
+        const data = await response.json()
+        const nextValue =
+          typeof data?.spotsRemaining === 'number'
+            ? Math.max(0, Math.min(50, data.spotsRemaining))
+            : 50
+
+        if (isMounted) {
+          setSpotsRemaining(nextValue)
+        }
+      } catch {
+        // Keep default value on request failures.
+      }
+    }
+
+    loadSpotsRemaining()
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   return (
@@ -144,13 +173,13 @@ export default function CreatorsView() {
 
           {/* ── HERO ── */}
           <section className="cp-hero">
-            <div className="badge creators-badge">
+            <div className="badge creators-badge text-primary!">
               <span className="badge-dot" />
               Creators Program · Only 50 Spots
             </div>
 
             <h1 className="cp-headline">
-              Get <span className="grad-text">Business Plan</span> access
+              Get <span className="text-primary!">Business Plan</span> access
               — completely free
             </h1>
 
@@ -174,9 +203,9 @@ export default function CreatorsView() {
           <div className="cp-stats-bar mb-10!">
             <div className="cp-stat">
               <span className="cp-stat-num">
-                <span className="">50</span>
+                <span className="">{spotsRemaining}</span>
               </span>
-              <span className="cp-stat-label">Total spots available</span>
+              <span className="cp-stat-label">Spots remaining</span>
             </div>
             <div className="cp-stat">
               <span className="cp-stat-num">$79<span style={{ fontSize: 14, fontWeight: 500 }}>/mo</span></span>
@@ -289,7 +318,7 @@ export default function CreatorsView() {
           <hr className="section-divider" id="apply" />
           {/* ── APPLICATION FORM ── */}
           <section className="cp-form-wrap">
-            <div className="glass-card cp-form-card">
+            <div className="glass-card cp-form-cards">
               <div className="cp-form-header">
                 <h2 className="cp-form-title">Apply to the Creators Program</h2>
                 <p className="cp-form-subtitle">

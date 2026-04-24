@@ -12,13 +12,22 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 
 import { Badge } from '@/components/ui/Badge'
-import { Spinner, ProgressBar } from '@/components/ui'
 import {
-  Tooltip,
+  Spinner,
+  ProgressBar,
   Select,
-  ListBox,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
   Pagination,
-} from '@heroui/react'
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui'
+import { Tooltip } from '@heroui/react'
 import {
   Smartphone,
   Monitor,
@@ -426,35 +435,36 @@ export default function AnalyticsPage() {
     return (
       <div className="flex justify-center py-2">
         <Pagination>
-          <Pagination.Content>
-            <Pagination.Item>
-              <Pagination.Previous
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
                 isDisabled={currentPage <= 1}
-                onPress={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))}
-              >
-                <Pagination.PreviousIcon />
-              </Pagination.Previous>
-            </Pagination.Item>
+                onClick={() =>
+                  setPagination((prev) => ({ ...prev, page: prev.page - 1 }))
+                }
+              />
+            </PaginationItem>
             {pages.map((page) => (
-              <Pagination.Item key={page}>
-                <Pagination.Link
+              <PaginationItem key={page}>
+                <PaginationLink
                   isActive={page === currentPage}
-                  onPress={() => setPagination(prev => ({ ...prev, page }))}
-                  className={page === currentPage ? 'bg-[var(--primary)] text-white' : ''}
+                  onClick={() =>
+                    setPagination((prev) => ({ ...prev, page }))
+                  }
                 >
                   {page}
-                </Pagination.Link>
-              </Pagination.Item>
+                </PaginationLink>
+              </PaginationItem>
             ))}
-            <Pagination.Item>
-              <Pagination.Next
+            <PaginationItem>
+              <PaginationNext
                 isDisabled={currentPage >= pagination.totalPages}
-                onPress={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))}
-              >
-                <Pagination.NextIcon />
-              </Pagination.Next>
-            </Pagination.Item>
-          </Pagination.Content>
+                onClick={() =>
+                  setPagination((prev) => ({ ...prev, page: prev.page + 1 }))
+                }
+              />
+            </PaginationItem>
+          </PaginationContent>
         </Pagination>
       </div>
     )
@@ -473,40 +483,34 @@ export default function AnalyticsPage() {
             </div>
             <div className="flex gap-3">
               <Select
-                placeholder="Device"
-                value={deviceFilter || null}
-                onChange={(value) => setDeviceFilter(value as string || '')}
-                className="min-w-[120px]!"
+                value={deviceFilter === '' ? '__all__' : deviceFilter}
+                onValueChange={(v) =>
+                  setDeviceFilter(v === '__all__' ? '' : v)
+                }
               >
-                <Select.Trigger className="flex items-center justify-center">
-                  <Select.Value />
-                  <Select.Indicator />
-                </Select.Trigger>
-                <Select.Popover className='border border-border bg-card shadow-sm rounded-none!'>
-                  <ListBox className="border border-border bg-card shadow-sm rounded-none!">
-                    <ListBox.Item className='border-b border-border rounded-none! p-2!' id="">All Devices</ListBox.Item>
-                    <ListBox.Item className='border-b border-border rounded-none! p-2!' id="desktop">Desktop</ListBox.Item>
-                    <ListBox.Item className='border-b border-border rounded-none! p-2!' id="mobile">Mobile</ListBox.Item>
-                  </ListBox>
-                </Select.Popover>
+                <SelectTrigger className="h-10 min-w-[140px] bg-background">
+                  <SelectValue placeholder="Device" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__all__">All Devices</SelectItem>
+                  <SelectItem value="desktop">Desktop</SelectItem>
+                  <SelectItem value="mobile">Mobile</SelectItem>
+                </SelectContent>
               </Select>
               <Select
-                placeholder="Converted"
-                value={convertedFilter || null}
-                onChange={(value) => setConvertedFilter(value as string || '')}
-                className="min-w-[120px]!"
+                value={convertedFilter === '' ? '__all__' : convertedFilter}
+                onValueChange={(v) =>
+                  setConvertedFilter(v === '__all__' ? '' : v)
+                }
               >
-                <Select.Trigger className="flex items-center justify-center">
-                  <Select.Value />
-                  <Select.Indicator />
-                </Select.Trigger>
-                <Select.Popover className='border border-border bg-card shadow-sm rounded-none!'>
-                  <ListBox className="border border-border bg-card shadow-sm rounded-none!">
-                    <ListBox.Item className='border-b border-border rounded-none! p-2!' id="">All</ListBox.Item>
-                    <ListBox.Item className='border-b border-border rounded-none! p-2!' id="true">Converted</ListBox.Item>
-                    <ListBox.Item className='border-b border-border rounded-none! p-2!' id="false">Not Converted</ListBox.Item>
-                  </ListBox>
-                </Select.Popover>
+                <SelectTrigger className="h-10 min-w-[140px] bg-background">
+                  <SelectValue placeholder="Converted" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__all__">All</SelectItem>
+                  <SelectItem value="true">Converted</SelectItem>
+                  <SelectItem value="false">Not Converted</SelectItem>
+                </SelectContent>
               </Select>
             </div>
           </div>

@@ -1,6 +1,12 @@
 'use client'
 
-import { useEffect, useState, useCallback, useMemo } from 'react'
+import {
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  type ChangeEvent,
+} from 'react'
 import {
   Table,
   TableHeader,
@@ -11,7 +17,18 @@ import {
 } from '@/components/ui/table'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
-import { Input, Pagination, Spinner } from '@/components/ui'
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+  Spinner,
+} from '@/components/ui'
 import { Search, Mail, CheckCircle, XCircle, Smartphone, Monitor, Copy, Check } from 'lucide-react'
 import type { PreRegistration } from '@/lib/types'
 
@@ -213,35 +230,36 @@ export default function RegistrationsPage() {
     return (
       <div className="flex justify-center py-2">
         <Pagination>
-          <Pagination.Content>
-            <Pagination.Item>
-              <Pagination.Previous
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
                 isDisabled={currentPage <= 1}
-                onPress={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))}
-              >
-                <Pagination.PreviousIcon />
-              </Pagination.Previous>
-            </Pagination.Item>
+                onClick={() =>
+                  setPagination((prev) => ({ ...prev, page: prev.page - 1 }))
+                }
+              />
+            </PaginationItem>
             {pages.map((page) => (
-              <Pagination.Item key={page}>
-                <Pagination.Link
+              <PaginationItem key={page}>
+                <PaginationLink
                   isActive={page === currentPage}
-                  onPress={() => setPagination(prev => ({ ...prev, page }))}
-                  className={page === currentPage ? 'bg-[var(--primary)] text-white' : ''}
+                  onClick={() =>
+                    setPagination((prev) => ({ ...prev, page }))
+                  }
                 >
                   {page}
-                </Pagination.Link>
-              </Pagination.Item>
+                </PaginationLink>
+              </PaginationItem>
             ))}
-            <Pagination.Item>
-              <Pagination.Next
+            <PaginationItem>
+              <PaginationNext
                 isDisabled={currentPage >= pagination.totalPages}
-                onPress={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))}
-              >
-                <Pagination.NextIcon />
-              </Pagination.Next>
-            </Pagination.Item>
-          </Pagination.Content>
+                onClick={() =>
+                  setPagination((prev) => ({ ...prev, page: prev.page + 1 }))
+                }
+              />
+            </PaginationItem>
+          </PaginationContent>
         </Pagination>
       </div>
     )
@@ -263,12 +281,18 @@ export default function RegistrationsPage() {
             </div>
             <div className="flex gap-3">
               <div className="relative w-64">
-                <Input
-                  placeholder="Search by name or email..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  startContent={<Search className="w-4 h-4" />}
-                />
+                <InputGroup>
+                  <InputGroupInput
+                    placeholder="Search by name or email..."
+                    value={search}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      setSearch(e.target.value)
+                    }
+                  />
+                  <InputGroupAddon align="inline-start">
+                    <Search className="h-4 w-4 text-muted-foreground" />
+                  </InputGroupAddon>
+                </InputGroup>
               </div>
             </div>
           </div>

@@ -1,98 +1,91 @@
 'use client'
 
-import {
-  Checkbox as HeroCheckbox,
-  type CheckboxProps as HeroCheckboxProps,
-} from '@heroui/react'
-import { Children, forwardRef, isValidElement, type ReactNode } from 'react'
+import * as React from 'react'
+import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
+import type { CheckedState } from '@radix-ui/react-checkbox'
+import { Check } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
-export interface CheckboxProps extends Omit<HeroCheckboxProps, 'size' | 'children'> {
-  size?: 'sm' | 'md' | 'lg'
-  onValueChange?: (isSelected: boolean) => void
-  disabled?: boolean
-  children?: ReactNode
+const sizeMap = {
+  sm: 'h-4 w-4 rounded-[4px]',
+  md: 'h-5 w-5 rounded-[5px]',
+  lg: 'h-6 w-6 rounded-[6px]',
+} as const
+
+const iconSizeMap = {
+  sm: 'h-3 w-3',
+  md: 'h-3.5 w-3.5',
+  lg: 'h-4 w-4',
+} as const
+
+export interface CheckboxProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>,
+    'checked' | 'onCheckedChange'
+  > {
+  /** @deprecated use `checked` — kept for HeroUI-style call sites */
+  isSelected?: boolean
+  checked?: boolean
+  onValueChange?: (selected: boolean) => void
+  onCheckedChange?: (checked: CheckedState) => void
+  isDisabled?: boolean
+  size?: keyof typeof sizeMap
+  /** Ignored — Radix styling uses design tokens */
+  variant?: string
 }
 
-function hasRenderableChildren(children: ReactNode | undefined) {
-  return Children.toArray(children).some((child) => {
-    if (child == null || typeof child === 'boolean') return false
-    if (typeof child === 'string') return child.trim() !== ''
-    if (typeof child === 'number') return true
-    return isValidElement(child)
-  })
-}
-
-const CheckboxBase = forwardRef<HTMLLabelElement, CheckboxProps>(
+const CheckboxBase = React.forwardRef<
+  React.ElementRef<typeof CheckboxPrimitive.Root>,
+  CheckboxProps
+>(
   (
     {
-      size = 'md',
-      className = '',
-      children,
+      className,
+      isSelected,
+      checked,
       onValueChange,
-      onChange,
+      onCheckedChange,
       disabled,
       isDisabled,
+      size = 'md',
+      variant: _variant,
       ...props
     },
     ref
   ) => {
-    const controlSize = {
-      sm: 'w-4 h-4 min-w-4 min-h-4',
-      md: 'w-5 h-5 min-w-5 min-h-5',
-      lg: 'w-6 h-6 min-w-6 min-h-6',
-    }[size]
+    const resolvedChecked = checked ?? isSelected
 
-    const handleChange = (selected: boolean) => {
-      onValueChange?.(selected)
-      onChange?.(selected)
+    const handleCheckedChange = (value: CheckedState) => {
+      onCheckedChange?.(value)
+      onValueChange?.(value === true)
     }
 
-    const showContent = hasRenderableChildren(children)
-
     return (
-      <HeroCheckbox
+      <CheckboxPrimitive.Root
         ref={ref}
-        onChange={handleChange}
-        isDisabled={disabled || isDisabled}
-        className={`
-          group inline-flex items-center gap-2.5 cursor-pointer
-          disabled:opacity-50 disabled:cursor-not-allowed
-          ${className}
-        `}
+        disabled={disabled ?? isDisabled}
+        checked={resolvedChecked}
+        onCheckedChange={handleCheckedChange}
+        className={cn(
+          'peer shrink-0 border border-input bg-background text-primary shadow-sm ring-offset-background transition-all duration-200',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+          'disabled:cursor-not-allowed disabled:opacity-50',
+          'data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground',
+          sizeMap[size],
+          className
+        )}
         {...props}
       >
-        <HeroCheckbox.Control
-          className={`
-            inline-flex shrink-0 items-center justify-center
-            rounded-[6px] border border-[var(--border)] bg-white
-            text-[var(--muted)] transition-all duration-200
-            hover:border-[var(--border-d)]
-            group-data-[selected=true]:border-[var(--primary)] group-data-[selected=true]:bg-[var(--primary)]
-            group-data-[selected=true]:text-white
-            group-data-[selected=true]:shadow-[0_0_0_4px_rgba(79,70,229,0.1)]
-            ${controlSize}
-          `}
+        <CheckboxPrimitive.Indicator
+          className={cn('flex items-center justify-center text-current')}
         >
-          <HeroCheckbox.Indicator />
-        </HeroCheckbox.Control>
-        {showContent ? (
-          <HeroCheckbox.Content
-            className="text-[13px] text-[#3D3D5C] sm:text-[14px]"
-          >
-            {children}
-          </HeroCheckbox.Content>
-        ) : null}
-      </HeroCheckbox>
+          <Check className={iconSizeMap[size]} strokeWidth={3} />
+        </CheckboxPrimitive.Indicator>
+      </CheckboxPrimitive.Root>
     )
-  },
+  }
 )
-
 CheckboxBase.displayName = 'Checkbox'
 
-export const Checkbox = Object.assign(CheckboxBase, {
-  Control: HeroCheckbox.Control,
-  Indicator: HeroCheckbox.Indicator,
-  Content: HeroCheckbox.Content,
-})
-
+export const Checkbox = CheckboxBase
 export default Checkbox

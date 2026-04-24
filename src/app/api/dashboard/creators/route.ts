@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     const sortBy = searchParams.get('sortBy') || 'appliedAt'
     const sortOrder = searchParams.get('sortOrder') === 'asc' ? 1 : -1
 
-    const collection = await getCollection<any>('creators')
+    const collection = await getCollection<any>('creator_applications')
 
     const query: any = {}
     if (search) {
@@ -67,7 +67,7 @@ export async function PATCH(request: NextRequest) {
   }
 
   try {
-    const { id, status, reviewNotes } = await request.json()
+    const { id, status, reviewNotes, decisionReason } = await request.json()
 
     if (!id || !status) {
       return NextResponse.json(
@@ -76,7 +76,7 @@ export async function PATCH(request: NextRequest) {
       )
     }
 
-    const collection = await getCollection<any>('creators')
+    const collection = await getCollection<any>('creator_applications')
 
     const result = await collection.updateOne(
       { _id: new ObjectId(id) },
@@ -84,6 +84,7 @@ export async function PATCH(request: NextRequest) {
         $set: {
           status,
           reviewNotes,
+          decisionReason: typeof decisionReason === 'string' ? decisionReason.trim() : '',
           reviewedAt: new Date(),
         },
       }
@@ -96,8 +97,7 @@ export async function PATCH(request: NextRequest) {
       )
     }
 
-    // If approved, send the email
-    if (status === 'approved') {
+    if (status === 'approved' || status === 'rejected') {
       try {
         const creator = await collection.findOne({ _id: new ObjectId(id) })
         if (creator) {
@@ -106,11 +106,12 @@ export async function PATCH(request: NextRequest) {
             email: creator.email,
             name: creator.name,
             instagramUsername: creator.instagramUsername,
+            status,
+            reason: typeof decisionReason === 'string' ? decisionReason.trim() : '',
           })
         }
       } catch (emailError) {
-        console.error('Failed to send approval email:', emailError)
-        // We don't fail the whole request if email fails, but maybe log it
+        console.error('Failed to send decision email:', emailError)
       }
     }
 
@@ -135,7 +136,7 @@ export async function POST(request: NextRequest) {
     const { id, action } = await request.json()
 
     if (action === 'resend-email') {
-      const collection = await getCollection<any>('creators')
+      const collection = await getCollection<any>('creator_applications')
       const creator = await collection.findOne({ _id: new ObjectId(id) })
 
       if (!creator) {
@@ -147,6 +148,8 @@ export async function POST(request: NextRequest) {
         email: creator.email,
         name: creator.name,
         instagramUsername: creator.instagramUsername,
+        status: creator.status === 'approved' || creator.status === 'rejected' ? creator.status : 'received',
+        reason: creator.decisionReason || '',
       })
 
       return NextResponse.json({ success: true })

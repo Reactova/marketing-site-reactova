@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const registrations = await getCollection<any>('registrations')
-    const creators = await getCollection<any>('creators')
+    const creators = await getCollection<any>('creator_applications')
     const sessions = await getCollection<any>('sessions')
 
     const now = new Date()

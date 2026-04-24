@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, type ChangeEvent } from 'react'
 import {
   Table,
   TableHeader,
@@ -17,12 +17,24 @@ import {
   CardTitle,
 } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
-import { Button, Input, Spinner } from '@/components/ui'
-import { 
-  CheckCircle, 
-  XCircle, 
-  Mail, 
-  Search, 
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  Textarea,
+  Spinner,
+} from '@/components/ui'
+import {
+  CheckCircle,
+  XCircle,
+  Mail,
+  Search,
   ExternalLink,
   RefreshCw,
   Clock
@@ -38,6 +50,8 @@ export default function ApprovalsPage() {
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [processingId, setProcessingId] = useState<string | null>(null)
+  const [selectedAction, setSelectedAction] = useState<{ id: string; status: ApplicationStatus } | null>(null)
+  const [decisionReason, setDecisionReason] = useState('')
 
   const fetchCreators = useCallback(async () => {
     setLoading(true)
@@ -59,13 +73,13 @@ export default function ApprovalsPage() {
     fetchCreators()
   }, [fetchCreators])
 
-  const handleStatusUpdate = async (id: string, status: ApplicationStatus) => {
+  const handleStatusUpdate = async (id: string, status: ApplicationStatus, reason: string) => {
     setProcessingId(id)
     try {
       const response = await fetch('/api/dashboard/creators', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id, status }),
+        body: JSON.stringify({ id, status, decisionReason: reason }),
       })
 
       if (response.ok) {
@@ -76,6 +90,22 @@ export default function ApprovalsPage() {
     } finally {
       setProcessingId(null)
     }
+  }
+
+  const openDecisionDialog = (id: string, status: ApplicationStatus) => {
+    setSelectedAction({ id, status })
+    setDecisionReason('')
+  }
+
+  const submitDecision = async () => {
+    if (!selectedAction) return
+    if (selectedAction.status === 'rejected' && !decisionReason.trim()) {
+      alert('Please provide a rejection reason to include in the email.')
+      return
+    }
+    await handleStatusUpdate(selectedAction.id, selectedAction.status, decisionReason)
+    setSelectedAction(null)
+    setDecisionReason('')
   }
 
   const handleResendEmail = async (id: string) => {
@@ -128,13 +158,19 @@ export default function ApprovalsPage() {
               <CardDescription className="text-muted-foreground">Review and manage creator program applications.</CardDescription>
             </div>
             <div className="relative w-72">
-              <Input
-                type="search"
-                placeholder="Search creators..."
-                startContent={<Search className="h-4 w-4" />}
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
+              <InputGroup>
+                <InputGroupInput
+                  type="search"
+                  placeholder="Search creators..."
+                  value={search}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setSearch(e.target.value)
+                  }
+                />
+                <InputGroupAddon align="inline-start">
+                  <Search className="h-4 w-4 text-muted-foreground" />
+                </InputGroupAddon>
+              </InputGroup>
             </div>
           </div>
         </CardHeader>
@@ -167,9 +203,9 @@ export default function ApprovalsPage() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <a 
-                        href={creator.instagramUrl} 
-                        target="_blank" 
+                      <a
+                        href={creator.instagramUrl}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-1 text-primary hover:underline"
                       >
@@ -184,19 +220,19 @@ export default function ApprovalsPage() {
                       <div className="flex justify-end gap-2">
                         {creator.status === 'pending' && (
                           <>
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="primary"
-                              onClick={() => handleStatusUpdate(creator._id, 'approved')}
+                              onClick={() => openDecisionDialog(creator._id, 'approved')}
                               disabled={processingId === creator._id}
                             >
                               Approve
                             </Button>
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="ghost"
                               className="text-destructive hover:bg-destructive/10"
-                              onClick={() => handleStatusUpdate(creator._id, 'rejected')}
+                              onClick={() => openDecisionDialog(creator._id, 'rejected')}
                               disabled={processingId === creator._id}
                             >
                               Reject
@@ -204,8 +240,8 @@ export default function ApprovalsPage() {
                           </>
                         )}
                         {creator.status === 'approved' && (
-                          <Button 
-                            size="sm" 
+                          <Button
+                            size="sm"
                             variant="secondary"
                             onClick={() => handleResendEmail(creator._id)}
                             disabled={processingId === creator._id}
@@ -222,6 +258,52 @@ export default function ApprovalsPage() {
           )}
         </CardContent>
       </Card>
+
+      <Dialog
+        open={Boolean(selectedAction)}
+        onOpenChange={(open) => {
+          if (!open) {
+            setSelectedAction(null)
+            setDecisionReason('')
+          }
+        }}
+      >
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>
+              {selectedAction?.status === 'approved' ? 'Approve creator request' : 'Reject creator request'}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-2">
+            <p className="text-sm text-muted-foreground">
+              Add a reason to include in the email sent to the creator.
+            </p>
+            <Textarea
+              placeholder={
+                selectedAction?.status === 'approved'
+                  ? 'Optional note for approval email...'
+                  : 'Reason for rejection...'
+              }
+              value={decisionReason}
+              onChange={(e) => setDecisionReason(e.target.value)}
+              className="min-h-[120px]"
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setSelectedAction(null)}>
+              Cancel
+            </Button>
+            <Button
+              variant={selectedAction?.status === 'rejected' ? 'ghost' : 'primary'}
+              className={selectedAction?.status === 'rejected' ? 'text-destructive hover:bg-destructive/10' : undefined}
+              onClick={submitDecision}
+              disabled={!selectedAction || processingId === selectedAction.id}
+            >
+              Confirm {selectedAction?.status === 'approved' ? 'Approval' : 'Rejection'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

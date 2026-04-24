@@ -3,7 +3,12 @@
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { Card, CardHeader, CardContent } from '@/components/ui/Card'
-import { Button, Input } from '@/components/ui'
+import {
+  Button,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from '@/components/ui'
 import { Mail, Lock, Eye, EyeOff, LogIn } from 'lucide-react'
 
 export default function DashboardLogin() {
@@ -73,38 +78,47 @@ export default function DashboardLogin() {
             )}
             
             <div>
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                startContent={<Mail className="w-4 h-4 text-slate-400" />}
-                required
-              />
+              <InputGroup className="border-slate-200 bg-white shadow-sm">
+                <InputGroupInput
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <InputGroupAddon align="inline-start">
+                  <Mail className="w-4 h-4 text-muted-foreground" />
+                </InputGroupAddon>
+              </InputGroup>
             </div>
-            
+
             <div>
-              <Input
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                startContent={<Lock className="w-4 h-4 text-slate-400" />}
-                endContent={
+              <InputGroup className="border-slate-200 bg-white shadow-sm">
+                <InputGroupInput
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <InputGroupAddon align="inline-start">
+                  <Lock className="w-4 h-4 text-muted-foreground" />
+                </InputGroupAddon>
+                <InputGroupAddon align="inline-end">
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="text-slate-400 hover:text-slate-900 transition-colors"
+                    className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     {showPassword ? (
-                      <EyeOff className="w-4 h-4" />
+                      <EyeOff className="h-4 w-4" />
                     ) : (
-                      <Eye className="w-4 h-4" />
+                      <Eye className="h-4 w-4" />
                     )}
                   </button>
-                }
-                required
-              />
+                </InputGroupAddon>
+              </InputGroup>
             </div>
             
             <Button

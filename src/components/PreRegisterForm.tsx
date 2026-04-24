@@ -1,6 +1,7 @@
 'use client'
 
-import { Button, Input } from '@/components/ui'
+import { Button } from '@/components/ui'
+import { FormField } from '@/components/FormField'
 import { siteConfig } from '@/config/site.config'
 import { useEffect, useState } from 'react'
 import { useAnalytics } from './AnalyticsTracker'
@@ -57,6 +58,7 @@ export default function PreRegisterForm() {
   const [error, setError] = useState<string | null>(null)
   const [errors, setErrors] = useState({ name: false, email: false })
   const { markConversion } = useAnalytics()
+
   useEffect(() => {
     async function fetchTierInfo() {
       try {
@@ -132,7 +134,9 @@ export default function PreRegisterForm() {
   }
 
   const spotsData = getSpotsDisplay()
-  const fillPct = spotsData ? Math.round(((spotsData.total - spotsData.remaining) / spotsData.total) * 100) : 0
+  const fillPct = spotsData
+    ? Math.round(((spotsData.total - spotsData.remaining) / spotsData.total) * 100)
+    : 0
 
   async function handleSubmit() {
     setError(null)
@@ -210,8 +214,11 @@ export default function PreRegisterForm() {
               {error}
             </div>
           )}
+
+          {/* ── Name + Email via shared FormField ── */}
           <div className="input-row">
-            <Input
+            <FormField
+              id="pr-name"
               type="text"
               placeholder="Your name"
               value={name}
@@ -223,7 +230,9 @@ export default function PreRegisterForm() {
               disabled={loading}
               hasError={errors.name}
             />
-            <Input
+
+            <FormField
+              id="pr-email"
               type="email"
               placeholder="Your email address"
               value={email}
@@ -236,6 +245,7 @@ export default function PreRegisterForm() {
               hasError={errors.email}
             />
           </div>
+
           <Button
             variant="primary"
             className="w-full mb-2 text-sm!"
@@ -245,14 +255,23 @@ export default function PreRegisterForm() {
           >
             {loading ? 'Submitting...' : <>{getCtaText()} &rarr;</>}
           </Button>
+
           <Link
             href="/creators-program"
             className="w-full text-primary mt-2! inline-block text-center underline text-xs"
           >
             Content Creator? Join the Creators Program
           </Link>
+
           <p className="text-[10px] text-slate-400 text-center mt-4 leading-relaxed">
-            By registering, you agree to our <Link href="/terms-of-service" className="underline hover:text-primary transition-colors">Terms of Service</Link> and <Link href="/privacy-policy" className="underline hover:text-primary transition-colors">Privacy Policy</Link>.
+            By registering, you agree to our{' '}
+            <Link href="/terms-of-service" className="underline hover:text-primary transition-colors">
+              Terms of Service
+            </Link>{' '}
+            and{' '}
+            <Link href="/privacy-policy" className="underline hover:text-primary transition-colors">
+              Privacy Policy
+            </Link>.
           </p>
         </div>
       ) : (

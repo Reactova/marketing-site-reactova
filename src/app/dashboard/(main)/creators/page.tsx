@@ -1,6 +1,12 @@
 'use client'
 
-import { useEffect, useState, useCallback, useMemo } from 'react'
+import {
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  type ChangeEvent,
+} from 'react'
 import {
   Table,
   TableHeader,
@@ -11,32 +17,37 @@ import {
 } from '@/components/ui/table'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
-import { Button, Input, Textarea, Spinner } from '@/components/ui'
 import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Modal,
-  ModalDialog,
-  ModalBackdrop,
-  ModalContainer,
-  ModalHeader as HeroModalHeader,
-  ModalBody as HeroModalBody,
-  ModalFooter as HeroModalFooter,
-  ModalCloseTrigger,
+  Button,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  Textarea,
+  Spinner,
   Select,
-  ListBox,
-  Tooltip,
-} from '@heroui/react'
-import {
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
   Pagination,
   PaginationContent,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/components/ui/pagination'
+} from '@/components/ui'
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Tooltip,
+} from '@heroui/react'
 import {
   Search,
   Smartphone,
@@ -178,6 +189,7 @@ export default function CreatorsPage() {
           id: selectedCreator._id,
           status: newStatus,
           reviewNotes,
+          decisionReason: reviewNotes,
         }),
       })
 
@@ -345,30 +357,35 @@ export default function CreatorsPage() {
   const topContent = useMemo(() => (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4 flex-wrap">
-        <Input
-          placeholder="Search by name, email, or username..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          startContent={<Search className="w-4 h-4 text-muted-foreground" />}
-          className="max-w-xs"
-        />
+        <InputGroup className="max-w-xs">
+          <InputGroupInput
+            placeholder="Search by name, email, or username..."
+            value={search}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setSearch(e.target.value)
+            }
+          />
+          <InputGroupAddon align="inline-start">
+            <Search className="h-4 w-4 text-muted-foreground" />
+          </InputGroupAddon>
+        </InputGroup>
         <Select
-          placeholder="Filter by status"
-          value={statusFilter || null}
-          onChange={(value) => setStatusFilter(value as string || '')}
-          className="max-w-xs"
+          value={statusFilter === '' ? '__all__' : statusFilter}
+          onValueChange={(v) => setStatusFilter(v === '__all__' ? '' : v)}
         >
-          <Select.Trigger className="bg-card border-border">
-            <Select.Value />
-            <Select.Indicator />
-          </Select.Trigger>
-          <Select.Popover>
-            <ListBox>
-              {statusOptions.map((option) => (
-                <ListBox.Item key={option.key} id={option.key}>{option.label}</ListBox.Item>
-              ))}
-            </ListBox>
-          </Select.Popover>
+          <SelectTrigger className="h-10 w-[min(100%,220px)] max-w-xs bg-background">
+            <SelectValue placeholder="Filter by status" />
+          </SelectTrigger>
+          <SelectContent>
+            {statusOptions.map((option) => (
+              <SelectItem
+                key={option.key || '__all__'}
+                value={option.key === '' ? '__all__' : option.key}
+              >
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
         </Select>
       </div>
     </div>
@@ -468,124 +485,126 @@ export default function CreatorsPage() {
         </CardContent>
       </Card>
 
-      <Modal
-        isOpen={isModalOpen}
-        onOpenChange={(open) => !open && setIsModalOpen(false)}
+      <Dialog
+        open={isModalOpen}
+        onOpenChange={(open) => {
+          setIsModalOpen(open)
+          if (!open) {
+            setSelectedCreator(null)
+            setReviewNotes('')
+          }
+        }}
       >
-        <ModalBackdrop className="bg-black/60 backdrop-blur-sm" />
-        <ModalContainer>
-          <ModalDialog className="bg-[var(--card)] border border-[var(--border)] rounded-2xl max-w-2xl">
-            <ModalCloseTrigger className="absolute top-4 right-4 text-[var(--muted)] hover:text-[var(--foreground)]" />
-            <HeroModalHeader className="border-b border-[var(--border)] px-6 py-4">
-              <h3 className="text-[var(--foreground)] font-['Outfit'] font-bold text-lg">
-                Review Application
-              </h3>
-            </HeroModalHeader>
-            <HeroModalBody className="px-6 py-6">
-              {selectedCreator && (
-                <>
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-sm text-(--muted)">Name</p>
-                        <p className="text-[var(--foreground)] font-medium">{selectedCreator.name}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-(--muted)">Email</p>
-                        <p className="text-[var(--foreground)]">{selectedCreator.email}</p>
-                      </div>
+        <DialogContent className="max-w-2xl gap-0 overflow-hidden p-0 sm:rounded-xl">
+          <DialogHeader className="border-b border-border px-6 py-4 text-left">
+            <DialogTitle className="font-['Outfit'] text-lg font-bold text-foreground">
+              Review Application
+            </DialogTitle>
+          </DialogHeader>
+
+          <div className="max-h-[min(70vh,560px)] overflow-y-auto px-6 py-6">
+            {selectedCreator && (
+              <div className="space-y-6 text-foreground">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Name</p>
+                      <p className="font-medium">{selectedCreator.name}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-(--muted)">Instagram</p>
-                      <a
-                        href={selectedCreator.instagramUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-(--primary) hover:underline"
-                      >
-                        @{selectedCreator.instagramUsername}
-                      </a>
-                    </div>
-                    <div>
-                      <p className="text-sm text-(--muted)">Followers</p>
-                      <p className="text-[var(--foreground)]">
-                        {followerRangeLabels[selectedCreator.followerRange]}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-(--muted)">Niche</p>
-                      <p className="text-[var(--foreground)]">
-                        {nicheLabels[selectedCreator.contentNiche]}
-                        {selectedCreator.otherNiche && ` (${selectedCreator.otherNiche})`}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-(--muted)">Asks for Comments</p>
-                      <p className="text-[var(--foreground)]">
-                        {selectedCreator.asksForComments ? 'Yes' : 'No'}
-                      </p>
+                      <p className="text-sm text-muted-foreground">Email</p>
+                      <p>{selectedCreator.email}</p>
                     </div>
                   </div>
-
                   <div>
-                    <p className="text-sm text-(--muted) mb-1">Why they want to join</p>
-                    <p className="text-[var(--foreground)] bg-(--bg) p-3 rounded-lg">
-                      {selectedCreator.whyJoin}
+                    <p className="text-sm text-muted-foreground">Instagram</p>
+                    <a
+                      href={selectedCreator.instagramUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      @{selectedCreator.instagramUsername}
+                    </a>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Followers</p>
+                    <p>{followerRangeLabels[selectedCreator.followerRange]}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Niche</p>
+                    <p>
+                      {nicheLabels[selectedCreator.contentNiche]}
+                      {selectedCreator.otherNiche && ` (${selectedCreator.otherNiche})`}
                     </p>
                   </div>
-
-                  <div className="grid grid-cols-2 gap-4 pt-4 border-t border-[var(--border)]">
-                    <Select
-                      value={newStatus}
-                      onChange={(value) => setNewStatus(value as ApplicationStatus)}
-                      className="w-full"
-                    >
-                      <label className="text-sm text-(--muted) mb-2 block">Status</label>
-                      <Select.Trigger className="bg-(--bg) border-[var(--border)]">
-                        <Select.Value />
-                        <Select.Indicator />
-                      </Select.Trigger>
-                      <Select.Popover>
-                        <ListBox>
-                          <ListBox.Item id="pending">Pending</ListBox.Item>
-                          <ListBox.Item id="approved">Approved</ListBox.Item>
-                          <ListBox.Item id="rejected">Rejected</ListBox.Item>
-                          <ListBox.Item id="waitlisted">Waitlisted</ListBox.Item>
-                        </ListBox>
-                      </Select.Popover>
-                    </Select>
-                  </div>
-
                   <div>
-                    <p className="text-sm text-[var(--muted)] mb-2">Review Notes</p>
-                    <Textarea
-                      placeholder="Add notes about this application..."
-                      value={reviewNotes}
-                      onChange={(e) => setReviewNotes(e.target.value)}
-                    />
+                    <p className="text-sm text-muted-foreground">Asks for Comments</p>
+                    <p>{selectedCreator.asksForComments ? 'Yes' : 'No'}</p>
                   </div>
-                </>
-              )}
-            </HeroModalBody>
-            <HeroModalFooter className="border-t border-[var(--border)] px-6 py-4 flex justify-end gap-3">
-              <Button
-                variant="ghost"
-                onClick={() => setIsModalOpen(false)}
-                className="text-[var(--muted)]"
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={handleStatusUpdate}
-                isLoading={updating}
-              >
-                Update Status
-              </Button>
-            </HeroModalFooter>
-          </ModalDialog>
-        </ModalContainer>
-      </Modal>
+                </div>
+
+                <div>
+                  <p className="mb-1 text-sm text-muted-foreground">Why they want to join</p>
+                  <p className="rounded-lg bg-muted/50 p-3 text-sm leading-relaxed">
+                    {selectedCreator.whyJoin || '—'}
+                  </p>
+                </div>
+
+                <div className="space-y-2 border-t border-border pt-4">
+                  <span className="text-sm font-medium text-muted-foreground">
+                    Status
+                  </span>
+                  <Select
+                    value={newStatus}
+                    onValueChange={(v) => setNewStatus(v as ApplicationStatus)}
+                  >
+                    <SelectTrigger className="h-10 w-full bg-background">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="pending">Pending</SelectItem>
+                      <SelectItem value="approved">Approved</SelectItem>
+                      <SelectItem value="rejected">Rejected</SelectItem>
+                      <SelectItem value="waitlisted">Waitlisted</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <span className="text-sm font-medium text-muted-foreground">
+                    Review Notes (also sent in decision email)
+                  </span>
+                  <Textarea
+                    placeholder="Add notes about this application..."
+                    value={reviewNotes}
+                    onChange={(e) => setReviewNotes(e.target.value)}
+                    className="min-h-[100px]"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+
+          <DialogFooter className="border-t border-border px-6 py-4 sm:justify-end sm:gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsModalOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              variant="primary"
+              onClick={handleStatusUpdate}
+              isLoading={updating}
+            >
+              Update Status
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div >
   )
 }

@@ -66,12 +66,14 @@ interface SendCreatorsEmailParams {
   name: string
   email: string
   instagramUsername: string
+  status?: 'received' | 'approved' | 'rejected'
+  reason?: string
 }
 
-export async function sendCreatorsEmail({ name, email, instagramUsername }: SendCreatorsEmailParams) {
+export async function sendCreatorsEmail({ name, email, instagramUsername, status, reason }: SendCreatorsEmailParams) {
   const { brand } = siteConfig
 
-  const emailData = { name, instagramUsername }
+  const emailData = { name, instagramUsername, status, reason }
 
   try {
     await transporter.sendMail({

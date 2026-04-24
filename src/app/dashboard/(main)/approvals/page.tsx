@@ -2,14 +2,6 @@
 
 import { useEffect, useState, useCallback, type ChangeEvent } from 'react'
 import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableHead,
-  TableRow,
-  TableCell,
-} from '@/components/ui/table'
-import {
   Card,
   CardContent,
   CardDescription,
@@ -29,6 +21,17 @@ import {
   InputGroupInput,
   Textarea,
   Spinner,
+  Table,
+  TableHeader,
+  TableBody,
+  TableColumn,
+  TableRow,
+  TableCell,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Tooltip,
 } from '@/components/ui'
 import {
   CheckCircle,
@@ -37,7 +40,9 @@ import {
   Search,
   ExternalLink,
   RefreshCw,
-  Clock
+  Clock,
+  Eye,
+  MoreVertical,
 } from 'lucide-react'
 import type { CreatorApplication, ApplicationStatus } from '@/lib/types'
 
@@ -52,6 +57,7 @@ export default function ApprovalsPage() {
   const [processingId, setProcessingId] = useState<string | null>(null)
   const [selectedAction, setSelectedAction] = useState<{ id: string; status: ApplicationStatus } | null>(null)
   const [decisionReason, setDecisionReason] = useState('')
+  const [selectedCreator, setSelectedCreator] = useState<CreatorData | null>(null)
 
   const fetchCreators = useCallback(async () => {
     setLoading(true)
@@ -143,6 +149,73 @@ export default function ApprovalsPage() {
     }
   }
 
+  const renderActions = (creator: CreatorData) => {
+    const isProcessing = processingId === creator._id
+
+    return (
+      <div className="flex items-center justify-end gap-2">
+        <Tooltip>
+          <Tooltip.Trigger>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => setSelectedCreator(creator)}
+              disabled={isProcessing}
+            >
+              <Eye className="w-4 h-4 mr-1" />
+              View
+            </Button>
+          </Tooltip.Trigger>
+          <Tooltip.Content>View application details</Tooltip.Content>
+        </Tooltip>
+
+        <Dropdown>
+          <DropdownTrigger>
+            <Button size="sm" variant="ghost" disabled={isProcessing} className="px-2! min-w-0">
+              <MoreVertical className="w-4 h-4" />
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Creator actions">
+            {creator.status === 'pending' && (
+              <DropdownItem
+                key="approve"
+                onClick={() => openDecisionDialog(creator._id, 'approved')}
+              >
+                <span className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-success" />
+                  Approve
+                </span>
+              </DropdownItem>
+            )}
+            {creator.status === 'pending' && (
+              <DropdownItem
+                key="reject"
+                className="text-danger"
+                onClick={() => openDecisionDialog(creator._id, 'rejected')}
+              >
+                <span className="flex items-center gap-2">
+                  <XCircle className="w-4 h-4" />
+                  Reject
+                </span>
+              </DropdownItem>
+            )}
+            {creator.status === 'approved' && (
+              <DropdownItem
+                key="resend"
+                onClick={() => handleResendEmail(creator._id)}
+              >
+                <span className="flex items-center gap-2">
+                  <Mail className="w-4 h-4" />
+                  Resend approval email
+                </span>
+              </DropdownItem>
+            )}
+          </DropdownMenu>
+        </Dropdown>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-2">
@@ -184,21 +257,25 @@ export default function ApprovalsPage() {
               No applications found matching your search.
             </div>
           ) : (
-            <Table>
+            <Table aria-label="Creator approvals table">
               <TableHeader>
-                <TableRow className="hover:bg-transparent border-b-[var(--border)]">
-                  <TableHead className="text-[var(--muted-foreground)] font-semibold">Creator</TableHead>
-                  <TableHead className="text-[var(--muted-foreground)] font-semibold">Instagram</TableHead>
-                  <TableHead className="text-[var(--muted-foreground)] font-semibold">Status</TableHead>
-                  <TableHead className="text-right text-[var(--muted-foreground)] font-semibold">Actions</TableHead>
-                </TableRow>
+                <TableColumn className="text-[var(--muted-foreground)] font-semibold">Creator</TableColumn>
+                <TableColumn className="text-[var(--muted-foreground)] font-semibold">Instagram</TableColumn>
+                <TableColumn className="text-[var(--muted-foreground)] font-semibold">Status</TableColumn>
+                <TableColumn className="text-[var(--muted-foreground)] font-semibold text-right">Actions</TableColumn>
               </TableHeader>
               <TableBody>
                 {creators.map((creator) => (
                   <TableRow key={creator._id} className="border-b-[var(--border)]/50">
                     <TableCell>
                       <div className="flex flex-col">
-                        <span className="font-medium">{creator.name}</span>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedCreator(creator)}
+                          className="font-medium text-left hover:underline text-primary"
+                        >
+                          {creator.name}
+                        </button>
                         <span className="text-xs text-[var(--muted-foreground)]">{creator.email}</span>
                       </div>
                     </TableCell>
@@ -216,41 +293,7 @@ export default function ApprovalsPage() {
                     <TableCell>
                       {getStatusBadge(creator.status)}
                     </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        {creator.status === 'pending' && (
-                          <>
-                            <Button
-                              size="sm"
-                              variant="primary"
-                              onClick={() => openDecisionDialog(creator._id, 'approved')}
-                              disabled={processingId === creator._id}
-                            >
-                              Approve
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              className="text-destructive hover:bg-destructive/10"
-                              onClick={() => openDecisionDialog(creator._id, 'rejected')}
-                              disabled={processingId === creator._id}
-                            >
-                              Reject
-                            </Button>
-                          </>
-                        )}
-                        {creator.status === 'approved' && (
-                          <Button
-                            size="sm"
-                            variant="secondary"
-                            onClick={() => handleResendEmail(creator._id)}
-                            disabled={processingId === creator._id}
-                          >
-                            <Mail className="w-3 h-3 mr-2" /> Resend Email
-                          </Button>
-                        )}
-                      </div>
-                    </TableCell>
+                    <TableCell>{renderActions(creator)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -300,6 +343,99 @@ export default function ApprovalsPage() {
               disabled={!selectedAction || processingId === selectedAction.id}
             >
               Confirm {selectedAction?.status === 'approved' ? 'Approval' : 'Rejection'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={Boolean(selectedCreator)}
+        onOpenChange={(open) => {
+          if (!open) setSelectedCreator(null)
+        }}
+      >
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Creator application details</DialogTitle>
+          </DialogHeader>
+          {selectedCreator && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div>
+                <p className="text-muted-foreground text-xs">Name</p>
+                <p className="font-medium">{selectedCreator.name}</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">Email</p>
+                <p className="font-medium break-all">{selectedCreator.email}</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">Instagram username</p>
+                <p className="font-medium">@{selectedCreator.instagramUsername}</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">Instagram URL</p>
+                <a
+                  href={selectedCreator.instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-primary hover:underline break-all"
+                >
+                  {selectedCreator.instagramUrl}
+                </a>
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">Country</p>
+                <p className="font-medium">{selectedCreator.country}</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">Follower range</p>
+                <p className="font-medium">{selectedCreator.followerRange}</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">Content niche</p>
+                <p className="font-medium">
+                  {selectedCreator.contentNiche === 'other' && selectedCreator.otherNiche
+                    ? `${selectedCreator.contentNiche} (${selectedCreator.otherNiche})`
+                    : selectedCreator.contentNiche}
+                </p>
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">Asks for comments</p>
+                <p className="font-medium">{selectedCreator.asksForComments ? 'Yes' : 'No'}</p>
+              </div>
+              <div className="md:col-span-2">
+                <p className="text-muted-foreground text-xs">Why they want to join</p>
+                <p className="font-medium whitespace-pre-wrap">
+                  {selectedCreator.whyJoin?.trim() || 'Not provided'}
+                </p>
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">Status</p>
+                <div className="font-medium">{getStatusBadge(selectedCreator.status)}</div>
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs">Applied at</p>
+                <p className="font-medium">
+                  {selectedCreator.appliedAt ? new Date(selectedCreator.appliedAt).toLocaleString() : 'N/A'}
+                </p>
+              </div>
+              {selectedCreator.reviewedAt && (
+                <div>
+                  <p className="text-muted-foreground text-xs">Reviewed at</p>
+                  <p className="font-medium">{new Date(selectedCreator.reviewedAt).toLocaleString()}</p>
+                </div>
+              )}
+              {selectedCreator.decisionReason && (
+                <div className="md:col-span-2">
+                  <p className="text-muted-foreground text-xs">Decision reason</p>
+                  <p className="font-medium whitespace-pre-wrap">{selectedCreator.decisionReason}</p>
+                </div>
+              )}
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setSelectedCreator(null)}>
+              Close
             </Button>
           </DialogFooter>
         </DialogContent>

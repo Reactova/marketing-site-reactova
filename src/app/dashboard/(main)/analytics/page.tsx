@@ -86,18 +86,18 @@ function StatCard({
   icon: React.ReactNode
 }) {
   return (
-    <Card className="rounded-(--radius) border-border bg-card shadow-sm hover:shadow-md transition-all duration-200 group p-4!">
-      <CardContent className="p-6">
-        <div className="flex items-start justify-between mb-4">
-          <p className="text-sm font-medium text-muted-foreground">{title}</p>
+    <Card className="rounded-[var(--radius)] border-border bg-card shadow-sm hover:shadow-md transition-all duration-200 group min-w-0">
+      <CardContent className="p-4 sm:p-6">
+        <div className="flex items-start justify-between gap-2 mb-3 sm:mb-4">
+          <p className="text-xs sm:text-sm font-medium text-muted-foreground leading-snug">{title}</p>
           <div className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold border bg-secondary text-primary border-primary/10">
             <TrendingUp className="w-2.5 h-2.5" />
             <span>+12.5%</span>
           </div>
         </div>
 
-        <div className="space-y-1">
-          <h3 className="text-3xl font-bold tracking-tight font-['Outfit'] text-foreground">
+        <div className="space-y-1 min-w-0">
+          <h3 className="text-2xl sm:text-3xl font-bold tracking-tight font-['Outfit'] text-foreground break-words">
             {value}
           </h3>
           {subtitle && (
@@ -309,9 +309,9 @@ export default function AnalyticsPage() {
   const totalDevices = totalMobile + totalDesktop
 
   const topContent = useMemo(() => (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4 sm:gap-6 min-w-0">
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
         <StatCard
           title="Total Sessions"
           value={pagination.total}
@@ -346,9 +346,9 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Device & Landing Page Breakdown */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card className="rounded-[var(--radius)] border-border bg-card shadow-sm hover:shadow-md transition-all duration-200 p-6!">
-          <CardContent className="p-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 min-w-0">
+        <Card className="rounded-[var(--radius)] border-border bg-card shadow-sm hover:shadow-md transition-all duration-200 min-w-0">
+          <CardContent className="p-4 sm:p-6">
             <h4 className="font-['Outfit'] font-semibold text-sm text-foreground mb-4">
               Device Breakdown
             </h4>
@@ -382,18 +382,18 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        <Card className="rounded-[var(--radius)] border-border bg-card shadow-sm hover:shadow-md transition-all duration-200 p-6!">
-          <CardContent className="p-6">
+        <Card className="rounded-[var(--radius)] border-border bg-card shadow-sm hover:shadow-md transition-all duration-200 min-w-0">
+          <CardContent className="p-4 sm:p-6">
             <h4 className="font-['Outfit'] font-semibold text-sm text-foreground mb-4">
               Top Landing Pages
             </h4>
             <div className="space-y-2">
               {stats?.landingPages?.slice(0, 5).map((page, i) => (
-                <div key={page._id || i} className="flex justify-between items-center">
-                  <span className="text-sm text-[var(--muted-foreground)]">
+                <div key={page._id || i} className="flex flex-col gap-1 sm:flex-row sm:justify-between sm:items-center min-w-0">
+                  <span className="text-sm text-[var(--muted-foreground)] min-w-0 break-all sm:truncate sm:pr-2">
                     {page._id || '/'}
                   </span>
-                  <Badge variant="secondary">
+                  <Badge variant="secondary" className="shrink-0 self-start sm:self-auto">
                     {page.count}
                   </Badge>
                 </div>
@@ -407,8 +407,8 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Timezones */}
-      <Card className="rounded-[var(--radius)] border-border bg-card shadow-sm hover:shadow-md transition-all duration-200 p-6!">
-        <CardContent className="p-6">
+      <Card className="rounded-[var(--radius)] border-border bg-card shadow-sm hover:shadow-md transition-all duration-200 min-w-0">
+        <CardContent className="p-4 sm:p-6">
           <h4 className="font-['Outfit'] font-semibold text-sm text-foreground mb-4 flex items-center gap-2">
             <Globe className="w-4 h-4" />
             Visitor Timezones
@@ -433,7 +433,7 @@ export default function AnalyticsPage() {
     const currentPage = pagination.page
 
     return (
-      <div className="flex justify-center py-2">
+      <div className="flex justify-center py-2 max-w-full overflow-x-auto px-1 [-webkit-overflow-scrolling:touch]">
         <Pagination>
           <PaginationContent>
             <PaginationItem>
@@ -471,24 +471,24 @@ export default function AnalyticsPage() {
   }, [pagination.page, pagination.totalPages])
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-w-0">
       {topContent}
 
-      <Card className="border-border bg-card shadow-sm rounded-xl mt-6!">
-        <CardHeader className="border-b border-border/50 bg-muted/20 rounded-t-xl! pb-4">
-          <div className="flex items-center justify-between px-6! bg-none!">
-            <div className="space-y-1">
-              <CardTitle className="font-['Outfit'] text-xl font-bold text-foreground">Session Details</CardTitle>
-              <CardContent className="text-muted-foreground">Detailed view of all visitor sessions.</CardContent>
+      <Card className="border-border bg-card shadow-sm rounded-xl mt-4 sm:mt-6 min-w-0 overflow-hidden">
+        <CardHeader className="border-b border-border/50 bg-muted/20 rounded-t-xl p-0">
+          <div className="flex flex-col gap-4 p-4 sm:p-6 lg:flex-row lg:items-center lg:justify-between min-w-0">
+            <div className="space-y-1 min-w-0">
+              <CardTitle className="font-['Outfit'] text-lg sm:text-xl font-bold text-foreground">Session Details</CardTitle>
+              <CardContent className="text-muted-foreground text-sm p-0">Detailed view of all visitor sessions.</CardContent>
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-col gap-2 sm:flex-row w-full lg:w-auto lg:shrink-0 min-w-0">
               <Select
                 value={deviceFilter === '' ? '__all__' : deviceFilter}
                 onValueChange={(v) =>
                   setDeviceFilter(v === '__all__' ? '' : v)
                 }
               >
-                <SelectTrigger className="h-10 min-w-[140px] bg-background">
+                <SelectTrigger className="h-10 w-full min-w-0 sm:min-w-[140px] sm:w-auto bg-background">
                   <SelectValue placeholder="Device" />
                 </SelectTrigger>
                 <SelectContent>
@@ -503,7 +503,7 @@ export default function AnalyticsPage() {
                   setConvertedFilter(v === '__all__' ? '' : v)
                 }
               >
-                <SelectTrigger className="h-10 min-w-[140px] bg-background">
+                <SelectTrigger className="h-10 w-full min-w-0 sm:min-w-[140px] sm:w-auto bg-background">
                   <SelectValue placeholder="Converted" />
                 </SelectTrigger>
                 <SelectContent>
@@ -525,7 +525,7 @@ export default function AnalyticsPage() {
               No sessions found
             </div>
           ) : (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
               <Table>
                 <TableHeader>
                   <TableRow className="border-b-border">

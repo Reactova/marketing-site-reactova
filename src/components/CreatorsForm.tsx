@@ -374,8 +374,11 @@ export default function CreatorsForm() {
             htmlFor="termsAndConditions"
             className="mb-0 text-sm leading-relaxed text-[var(--text-2)] font-medium cursor-pointer required:after:content-['*'] required:after:text-red-500 required:after:ml-1"
           >
-            I agree to the <a href="/terms-of-service" target="_blank" rel="noopener noreferrer" className="text-primary!">T&C</a>{" "}
-            , <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-primary!">Privacy Policy</a>{" "}
+            I agree to the <a href="/terms-of-service" target="_blank" rel="noopener noreferrer" className="text-primary!">T&C</a>
+            {", "}
+            <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-primary!">Privacy Policy</a>
+            {", "}
+            <a href="/creators-program-policy" target="_blank" rel="noopener noreferrer" className="text-primary!">Creators Program Policy</a>{" "}
             and <a href="/creators-policy" target="_blank" rel="noopener noreferrer" className="text-primary!">Creators Policy</a>*{" "} 
 
           </Label>

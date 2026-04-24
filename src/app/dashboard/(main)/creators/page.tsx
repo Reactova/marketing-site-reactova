@@ -255,17 +255,17 @@ export default function CreatorsPage() {
     switch (columnKey) {
       case 'name':
         return (
-          <div>
-            <span className="text-[var(--foreground)] font-medium">{item.name}</span>
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 min-w-0">
+            <span className="text-[var(--foreground)] font-medium break-words">{item.name}</span>
             {item.asksForComments && (
-              <Badge variant="outline" className="ml-2 text-[10px]">
+              <Badge variant="outline" className="text-[10px] shrink-0">
                 Asks for comments
               </Badge>
             )}
           </div>
         )
       case 'email':
-        return <span className="text-[var(--foreground)]">{item.email}</span>
+        return <span className="text-[var(--foreground)] break-all">{item.email}</span>
       case 'instagram':
         return (
           <div className="flex items-center gap-2">
@@ -355,9 +355,9 @@ export default function CreatorsPage() {
   }, [])
 
   const topContent = useMemo(() => (
-    <div className="flex flex-col gap-4">
-      <div className="flex gap-4 flex-wrap">
-        <InputGroup className="max-w-xs">
+    <div className="flex flex-col gap-3 sm:gap-4 w-full min-w-0">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+        <InputGroup className="w-full min-w-0 sm:max-w-xs sm:flex-1">
           <InputGroupInput
             placeholder="Search by name, email, or username..."
             value={search}
@@ -373,7 +373,7 @@ export default function CreatorsPage() {
           value={statusFilter === '' ? '__all__' : statusFilter}
           onValueChange={(v) => setStatusFilter(v === '__all__' ? '' : v)}
         >
-          <SelectTrigger className="h-10 w-[min(100%,220px)] max-w-xs bg-background">
+          <SelectTrigger className="h-10 w-full min-w-0 sm:w-[min(100%,220px)] sm:max-w-xs bg-background">
             <SelectValue placeholder="Filter by status" />
           </SelectTrigger>
           <SelectContent>
@@ -396,7 +396,7 @@ export default function CreatorsPage() {
     const currentPage = pagination.page
 
     return (
-      <div className="flex justify-center py-2">
+      <div className="flex justify-center py-2 max-w-full overflow-x-auto px-1 [-webkit-overflow-scrolling:touch]">
         <Pagination>
           <PaginationContent>
             <PaginationItem>
@@ -428,20 +428,20 @@ export default function CreatorsPage() {
   }, [pagination.page, pagination.totalPages])
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold font-['Outfit'] text-primary inline-block w-fit">Creator Applications</h1>
-        <p className="text-muted-foreground">Manage and review all incoming applications for the Creators Program.</p>
+    <div className="space-y-6 min-w-0">
+      <div className="flex flex-col gap-2 min-w-0">
+        <h1 className="text-2xl sm:text-3xl font-bold font-['Outfit'] text-primary inline-block w-fit">Creator Applications</h1>
+        <p className="text-muted-foreground text-sm sm:text-base">Manage and review all incoming applications for the Creators Program.</p>
       </div>
 
-      <Card className="border-border bg-card shadow-sm rounded-xl">
-        <CardHeader className="border-b border-border/50 bg-muted/20 pb-4">
-          <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <CardTitle className="font-['Outfit'] text-xl font-bold text-foreground">Applications</CardTitle>
-              <CardContent className="text-muted-foreground">Total of {pagination.total} applications.</CardContent>
+      <Card className="border-border bg-card shadow-sm rounded-xl min-w-0 overflow-hidden">
+        <CardHeader className="border-b border-border/50 bg-muted/20 p-4 sm:p-6 pb-4">
+          <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between min-w-0">
+            <div className="space-y-1 min-w-0 shrink-0">
+              <CardTitle className="font-['Outfit'] text-lg sm:text-xl font-bold text-foreground">Applications</CardTitle>
+              <CardContent className="text-muted-foreground text-sm p-0">Total of {pagination.total} applications.</CardContent>
             </div>
-            {topContent}
+            <div className="w-full min-w-0 xl:max-w-xl">{topContent}</div>
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -458,7 +458,7 @@ export default function CreatorsPage() {
               <p className="text-sm text-muted-foreground mt-1">Try adjusting your filters or search query.</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -495,24 +495,24 @@ export default function CreatorsPage() {
           }
         }}
       > 
-          <DialogContent className="max-w-2xl gap-0 overflow-hidden p-6! rounded-xl!">
-            <DialogHeader className="border-b border-border px-6! py-4! text-left rounded-t-xl!">
-              <DialogTitle className="font-['Outfit'] text-lg font-bold text-foreground p-4! rounded-t-xl!">
+          <DialogContent className="w-[calc(100vw-1.5rem)] max-w-2xl gap-0 overflow-hidden p-0 rounded-xl sm:max-w-2xl">
+            <DialogHeader className="border-b border-border px-4 py-3 sm:px-6 sm:py-4 text-left rounded-t-xl">
+              <DialogTitle className="font-['Outfit'] text-base sm:text-lg font-bold text-foreground">
                 Review Application
               </DialogTitle>
             </DialogHeader>
-            <div className="max-h-[min(70vh,560px)] overflow-y-auto px-6 py-6 rounded-b-xl!">
+            <div className="max-h-[min(70vh,560px)] overflow-y-auto px-4 py-4 sm:px-6 sm:py-6 rounded-b-xl">
               {selectedCreator && (
                 <div className="space-y-6 text-foreground">
                   <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <p className="text-sm text-muted-foreground">Name</p>
                         <p className="font-medium">{selectedCreator.name}</p>
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">Email</p>
-                        <p>{selectedCreator.email}</p>
+                        <p className="break-all">{selectedCreator.email}</p>
                       </div>
                     </div>
                     <div>
@@ -585,11 +585,12 @@ export default function CreatorsPage() {
               )}
             </div>
 
-            <DialogFooter className="border-t border-border px-6! py-4! sm:justify-end sm:gap-3">
+            <DialogFooter className="border-t border-border px-4 py-3 sm:px-6 sm:py-4 flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-3">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => setIsModalOpen(false)}
+                className="w-full sm:w-auto"
               >
                 Cancel
               </Button>
@@ -598,6 +599,7 @@ export default function CreatorsPage() {
                 variant="primary"
                 onClick={handleStatusUpdate}
                 isLoading={updating}
+                className="w-full sm:w-auto"
               >
                 Update Status
               </Button>
@@ -605,6 +607,6 @@ export default function CreatorsPage() {
           </DialogContent>
         
       </Dialog>
-    </div >
+    </div>
   )
 }

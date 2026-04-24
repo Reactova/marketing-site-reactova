@@ -147,7 +147,7 @@ export default function ApprovalsPage() {
     const isProcessing = processingId === creator._id
 
     return (
-      <div className="flex items-center justify-end gap-2">
+      <div className="flex flex-wrap items-center justify-end gap-2">
         <Button
           size="sm"
           variant="outline"
@@ -198,20 +198,20 @@ export default function ApprovalsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold font-['Outfit'] text-primary inline-block w-fit">Creator Approvals</h1>
-        <p className="text-muted-foreground">Approve new creators and manage their onboarding status.</p>
+    <div className="space-y-6 min-w-0">
+      <div className="flex flex-col gap-2 min-w-0">
+        <h1 className="text-2xl sm:text-3xl font-bold font-['Outfit'] text-primary inline-block w-fit">Creator Approvals</h1>
+        <p className="text-muted-foreground text-sm sm:text-base">Approve new creators and manage their onboarding status.</p>
       </div>
 
-      <Card className="border-border bg-card shadow-sm rounded-xl">
-        <CardHeader className="border-b-[var(--border)]/50 bg-muted/20 ">
-          <div className="flex items-center justify-between p-6! rounded-t-xl!">
-            <div className="space-y-1">
-              <CardTitle className="font-['Outfit'] text-xl font-bold text-foreground">Applications</CardTitle>
-              <CardDescription className="text-muted-foreground">Review and manage creator program applications.</CardDescription>
+      <Card className="border-border bg-card shadow-sm rounded-xl min-w-0 overflow-hidden">
+        <CardHeader className="border-b-[var(--border)]/50 bg-muted/20 p-0">
+          <div className="flex flex-col gap-4 p-4 sm:p-6 lg:flex-row lg:items-start lg:justify-between">
+            <div className="space-y-1 min-w-0">
+              <CardTitle className="font-['Outfit'] text-lg sm:text-xl font-bold text-foreground">Applications</CardTitle>
+              <CardDescription className="text-muted-foreground text-sm">Review and manage creator program applications.</CardDescription>
             </div>
-            <div className="relative w-72">
+            <div className="relative w-full min-w-0 sm:max-w-sm lg:w-72 lg:max-w-none shrink-0">
               <InputGroup>
                 <InputGroupInput
                   type="search"
@@ -228,7 +228,7 @@ export default function ApprovalsPage() {
             </div>
           </div>
         </CardHeader>
-        <CardContent className="p-6!">
+        <CardContent className="p-4 sm:p-6">
           {loading ? (
             <div className="flex justify-center py-12">
               <Spinner className="w-8 h-8" />
@@ -238,6 +238,7 @@ export default function ApprovalsPage() {
               No applications found matching your search.
             </div>
           ) : (
+            <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
             <Table aria-label="Creator approvals table">
               <TableHeader>
                 <TableColumn className="text-[var(--muted-foreground)] font-semibold">Creator</TableColumn>
@@ -279,6 +280,7 @@ export default function ApprovalsPage() {
                 )}
               </TableBody>
             </Table>
+            </div>
           )}
         </CardContent>
       </Card>
@@ -292,7 +294,7 @@ export default function ApprovalsPage() {
           }
         }}
       >
-        <DialogContent className="max-w-lg">
+        <DialogContent className="w-[calc(100vw-1.5rem)] max-w-lg sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>
               {selectedAction?.status === 'approved' ? 'Approve creator request' : 'Reject creator request'}
@@ -313,13 +315,13 @@ export default function ApprovalsPage() {
               className="min-h-[120px]"
             />
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setSelectedAction(null)}>
+          <DialogFooter className="flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-0">
+            <Button variant="outline" onClick={() => setSelectedAction(null)} className="w-full sm:w-auto">
               Cancel
             </Button>
             <Button
               variant={selectedAction?.status === 'rejected' ? 'ghost' : 'primary'}
-              className={selectedAction?.status === 'rejected' ? 'text-destructive hover:bg-destructive/10' : undefined}
+              className={`w-full sm:w-auto ${selectedAction?.status === 'rejected' ? 'text-destructive hover:bg-destructive/10' : ''}`}
               onClick={submitDecision}
               disabled={!selectedAction || processingId === selectedAction.id}
             >
@@ -335,7 +337,7 @@ export default function ApprovalsPage() {
           if (!open) setSelectedCreator(null)
         }}
       >
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="w-[calc(100vw-1.5rem)] max-w-2xl sm:max-w-2xl max-h-[90dvh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Creator application details</DialogTitle>
           </DialogHeader>
@@ -414,8 +416,8 @@ export default function ApprovalsPage() {
               )}
             </div>
           )}
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setSelectedCreator(null)}>
+          <DialogFooter className="flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-0">
+            <Button variant="outline" onClick={() => setSelectedCreator(null)} className="w-full sm:w-auto">
               Close
             </Button>
           </DialogFooter>

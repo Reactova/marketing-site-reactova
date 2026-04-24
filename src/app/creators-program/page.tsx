@@ -5,7 +5,6 @@ import CreatorsForm from '@/components/CreatorsForm'
 import Navbar from '@/components/Navbar'
 import { Button } from '@/components/ui'
 import { siteConfig } from '@/config/site.config'
-import Link from 'next/link'
 
 const BENEFITS = [
   {

@@ -176,9 +176,9 @@ export default function RegistrationsPage() {
         )
       case 'email':
         return (
-          <div className="flex items-center gap-2">
-            <Mail className="w-3 h-3 text-[var(--muted-foreground)]" />
-            <span className="text-[var(--foreground)]">{item.email}</span>
+          <div className="flex items-start gap-2 min-w-0">
+            <Mail className="w-3 h-3 shrink-0 mt-0.5 text-[var(--muted-foreground)]" />
+            <span className="text-[var(--foreground)] break-all text-sm min-w-0">{item.email}</span>
             <CopyButton text={item.email} />
           </div>
         )
@@ -228,7 +228,7 @@ export default function RegistrationsPage() {
     const currentPage = pagination.page
 
     return (
-      <div className="flex justify-center py-2">
+      <div className="flex justify-center py-2 max-w-full overflow-x-auto px-1 [-webkit-overflow-scrolling:touch]">
         <Pagination>
           <PaginationContent>
             <PaginationItem>
@@ -266,21 +266,21 @@ export default function RegistrationsPage() {
   }, [pagination.page, pagination.totalPages])
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold font-['Outfit'] text-primary inline-block w-fit">Pre-Registrations</h1>
-        <p className="text-muted-foreground">Monitor and manage waitlist signups.</p>
+    <div className="space-y-6 min-w-0">
+      <div className="flex flex-col gap-2 min-w-0">
+        <h1 className="text-2xl sm:text-3xl font-bold font-['Outfit'] text-primary inline-block w-fit">Pre-Registrations</h1>
+        <p className="text-muted-foreground text-sm sm:text-base">Monitor and manage waitlist signups.</p>
       </div>
 
-      <Card className="border-border bg-card shadow-sm rounded-xl">
-        <CardHeader className="border-b border-border/50 bg-muted/20 pb-4">
-          <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <CardTitle className="font-['Outfit'] text-xl font-bold text-foreground">Waitlist Entries</CardTitle>
-              <CardDescription className="text-muted-foreground">Total of {pagination.total} registrations collected.</CardDescription>
+      <Card className="border-border bg-card shadow-sm rounded-xl min-w-0 overflow-hidden">
+        <CardHeader className="border-b border-border/50 bg-muted/20 p-4 sm:p-6 pb-4">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between min-w-0">
+            <div className="space-y-1 min-w-0">
+              <CardTitle className="font-['Outfit'] text-lg sm:text-xl font-bold text-foreground">Waitlist Entries</CardTitle>
+              <CardDescription className="text-muted-foreground text-sm">Total of {pagination.total} registrations collected.</CardDescription>
             </div>
-            <div className="flex gap-3">
-              <div className="relative w-64">
+            <div className="w-full min-w-0 sm:max-w-sm lg:w-72 lg:max-w-none shrink-0">
+              <div className="relative w-full">
                 <InputGroup>
                   <InputGroupInput
                     placeholder="Search by name or email..."
@@ -311,7 +311,7 @@ export default function RegistrationsPage() {
               <p className="text-sm text-muted-foreground mt-1">Try adjusting your search query.</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
               <Table>
                 <TableHeader>
                   <TableRow>

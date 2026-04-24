@@ -16,10 +16,10 @@ import { useEffect, useState } from 'react'
 
 function StatCard({ title, value, subtitle, icon, trend }: any) {
   return (
-    <Card className="rounded-[var(--radius)] border-border bg-card shadow-sm hover:shadow-md transition-all duration-200 group">
-      <CardContent className="p-6">
-        <div className="flex items-start justify-between mb-4">
-          <p className="text-sm font-medium text-muted-foreground">{title}</p>
+    <Card className="rounded-[var(--radius)] border-border bg-card shadow-sm hover:shadow-md transition-all duration-200 group min-w-0">
+      <CardContent className="p-4 sm:p-6">
+        <div className="flex items-start justify-between gap-2 mb-3 sm:mb-4">
+          <p className="text-xs sm:text-sm font-medium text-muted-foreground leading-snug">{title}</p>
           {trend && (
             <div className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold border ${
               trend.positive 
@@ -32,8 +32,8 @@ function StatCard({ title, value, subtitle, icon, trend }: any) {
           )}
         </div>
         
-        <div className="space-y-1">
-          <h3 className="text-3xl font-bold tracking-tight font-['Outfit'] text-foreground">
+        <div className="space-y-1 min-w-0">
+          <h3 className="text-2xl sm:text-3xl font-bold tracking-tight font-['Outfit'] text-foreground truncate">
             {value}
           </h3>
           {subtitle && (
@@ -55,8 +55,8 @@ function StatCard({ title, value, subtitle, icon, trend }: any) {
 
 function StatCardSkeleton() {
   return (
-    <Card className="rounded-[var(--radius)] bg-white border-border shadow-sm">
-      <CardContent className="p-6">
+    <Card className="rounded-[var(--radius)] bg-white border-border shadow-sm min-w-0">
+      <CardContent className="p-4 sm:p-6">
         <div className="flex items-start justify-between mb-4">
           <Skeleton className="h-4 w-24" />
           <Skeleton className="h-5 w-12 rounded-full" />
@@ -92,13 +92,13 @@ export default function DashboardOverviewPage() {
 
   if (loading) {
     return (
-      <div className="space-y-8 animate-in fade-in duration-500">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="space-y-6 sm:space-y-8 animate-in fade-in duration-500 min-w-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
           {[...Array(4)].map((_, i) => (
             <StatCardSkeleton key={i} />
           ))}
         </div>
-        <Card className="h-[400px] rounded-[var(--radius)] border-border">
+        <Card className="h-[280px] sm:h-[340px] md:h-[400px] rounded-[var(--radius)] border-border min-w-0">
           <CardContent className="h-full flex items-center justify-center">
             <Skeleton className="h-full w-full" />
           </CardContent>
@@ -108,9 +108,9 @@ export default function DashboardOverviewPage() {
   }
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 min-w-0">
       {/* Stats Cards Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
         <StatCard
           title="Total Registrations"
           value={data?.registrations?.total || 0}
@@ -142,17 +142,18 @@ export default function DashboardOverviewPage() {
       </div>
 
       {/* Main Chart Section */}
-      <Card className="rounded-[var(--radius)] border-border bg-card shadow-sm overflow-hidden">
-        <CardHeader className="p-6 border-b border-border flex flex-row items-center justify-between">
-          <div>
-            <CardTitle className="text-lg font-bold text-foreground">Total Visitors</CardTitle>
+      <Card className="rounded-[var(--radius)] border-border bg-card shadow-sm overflow-hidden min-w-0">
+        <CardHeader className="p-4 sm:p-6 border-b border-border flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0">
+            <CardTitle className="text-base sm:text-lg font-bold text-foreground">Total Visitors</CardTitle>
             <p className="text-xs text-muted-foreground">Total for the last 3 months</p>
           </div>
-          <div className="flex items-center gap-1 p-1 bg-[var(--background)] rounded-lg border border-[var(--border)]">
+          <div className="flex w-full sm:w-auto items-center gap-1 p-1 bg-[var(--background)] rounded-lg border border-[var(--border)] overflow-x-auto [-webkit-overflow-scrolling:touch] shrink-0">
             {['Last 3 months', 'Last 30 days', 'Last 7 days'].map((tab) => (
               <button
                 key={tab}
-                className={`px-3 py-1.5 text-[10px] font-bold rounded-md transition-all ${
+                type="button"
+                className={`shrink-0 px-2.5 sm:px-3 py-1.5 text-[10px] font-bold rounded-md transition-all whitespace-nowrap ${
                   tab === 'Last 30 days' 
                     ? 'bg-[var(--accent)] text-white shadow-sm' 
                     : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
@@ -164,7 +165,7 @@ export default function DashboardOverviewPage() {
           </div>
         </CardHeader>
         <CardContent className="p-0">
-          <div className="h-[350px] w-full relative">
+          <div className="h-[220px] sm:h-[280px] md:h-[320px] lg:h-[350px] w-full min-w-0 relative">
             {/* Area Chart Placeholder SVG */}
             <svg className="w-full h-full" viewBox="0 0 1000 350" preserveAspectRatio="none">
               <defs>
@@ -205,7 +206,7 @@ export default function DashboardOverviewPage() {
             </svg>
             
             {/* X-Axis Labels */}
-            <div className="absolute bottom-4 left-0 right-0 px-8 flex justify-between text-[10px] font-bold text-[var(--muted-foreground)] opacity-60 uppercase tracking-widest">
+            <div className="absolute bottom-2 sm:bottom-4 left-0 right-0 px-2 sm:px-6 md:px-8 flex justify-between gap-1 overflow-x-auto text-[8px] sm:text-[10px] font-bold text-[var(--muted-foreground)] opacity-60 uppercase tracking-widest">
               <span>Jun 1</span>
               <span>Jun 5</span>
               <span>Jun 10</span>

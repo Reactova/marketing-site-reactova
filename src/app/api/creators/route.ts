@@ -211,7 +211,8 @@ export async function GET() {
       total,
       pending,
       approved,
-      spotsRemaining: Math.max(0, 50 - approved),
+      // Public “spots left” reflects the review queue (pending), not yet-approved seats
+      spotsRemaining: Math.max(0, 50 - pending),
     })
   } catch (error) {
     console.error('Failed to get creator stats:', error)

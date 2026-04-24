@@ -78,14 +78,16 @@ export default function Sidebar() {
   return (
     <>
       {/* Mobile Toggle */}
-      <button
-        type="button"
-        onClick={() => setMobileOpen(!mobileOpen)}
-        className="fixed left-4 top-4 z-50 rounded-lg border border-input bg-background p-2 shadow-sm transition-colors hover:bg-muted/50 lg:hidden"
-        aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-      >
-        {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-      </button>
+      <div className="max-md:flex max-md:justify-end max-md:items-center max-md:p-4">
+        <button
+          type="button"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="fixed right-4 bottom-4 z-50 rounded-lg border border-input bg-background p-2! shadow-sm transition-colors hover:bg-muted/50 lg:hidden bg-black text-white"
+          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+        >
+          {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
+      </div>
 
       {/* Mobile Overlay */}
       {mobileOpen && (
@@ -93,10 +95,10 @@ export default function Sidebar() {
       )}
 
       <aside className={`
-        fixed lg:static inset-y-0 left-0 z-40
+        fixed lg:static inset-y-0 right-0 z-40
         w-64 bg-sidebar border-r border-sidebar-border
         flex flex-col h-full transform transition-transform duration-200
-        ${mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        ${mobileOpen ? '-translate-x-0' : 'translate-x-full lg:translate-x-0'}
       `}>
         {/* Logo */}
         <div className="p-3! flex items-center gap-3">

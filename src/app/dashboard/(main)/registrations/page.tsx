@@ -303,10 +303,7 @@ export default function RegistrationsPage() {
               <Spinner />
             </div>
           ) : registrations.length === 0 ? (
-            <div className="text-center py-16 px-4">
-              <div className="mx-auto w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
-                <Search className="w-8 h-8 text-muted-foreground opacity-50" />
-              </div>
+            <div className="text-center py-16 px-4"> 
               <p className="text-lg font-medium text-foreground">No registrations found</p>
               <p className="text-sm text-muted-foreground mt-1">Try adjusting your search query.</p>
             </div>

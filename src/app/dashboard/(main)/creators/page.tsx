@@ -434,9 +434,9 @@ export default function CreatorsPage() {
         <p className="text-muted-foreground text-sm sm:text-base">Manage and review all incoming applications for the Creators Program.</p>
       </div>
 
-      <Card className="border-border bg-card shadow-sm rounded-xl min-w-0 overflow-hidden">
+      <Card className="border-border bg-card shadow-sm rounded-xl min-w-0 overflow-hidden mt-6!">
         <CardHeader className="border-b border-border/50 bg-muted/20 p-4 sm:p-6 pb-4">
-          <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between min-w-0">
+          <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between min-w-0 p-4!">
             <div className="space-y-1 min-w-0 shrink-0">
               <CardTitle className="font-['Outfit'] text-lg sm:text-xl font-bold text-foreground">Applications</CardTitle>
               <CardContent className="text-muted-foreground text-sm p-0">Total of {pagination.total} applications.</CardContent>
@@ -450,10 +450,7 @@ export default function CreatorsPage() {
               <Spinner />
             </div>
           ) : creators.length === 0 ? (
-            <div className="text-center py-16 px-4">
-              <div className="mx-auto w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
-                <Search className="w-8 h-8 text-muted-foreground opacity-50" />
-              </div>
+            <div className="text-center py-16 px-4"> 
               <p className="text-lg font-medium text-foreground">No applications found</p>
               <p className="text-sm text-muted-foreground mt-1">Try adjusting your filters or search query.</p>
             </div>

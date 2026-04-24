@@ -151,6 +151,7 @@ export default function ApprovalsPage() {
 
   const renderActions = (creator: CreatorData) => {
     const isProcessing = processingId === creator._id
+    const canShowMenu = creator.status === 'pending' || creator.status === 'approved'
 
     return (
       <div className="flex items-center justify-end gap-2">
@@ -169,49 +170,50 @@ export default function ApprovalsPage() {
           <Tooltip.Content>View application details</Tooltip.Content>
         </Tooltip>
 
-        <Dropdown>
-          <DropdownTrigger>
-            <Button size="sm" variant="ghost" disabled={isProcessing} className="px-2! min-w-0">
-              <MoreVertical className="w-4 h-4" />
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu aria-label="Creator actions">
-            {creator.status === 'pending' && (
-              <DropdownItem
-                key="approve"
-                onClick={() => openDecisionDialog(creator._id, 'approved')}
-              >
-                <span className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-success" />
-                  Approve
-                </span>
-              </DropdownItem>
-            )}
-            {creator.status === 'pending' && (
-              <DropdownItem
-                key="reject"
-                className="text-danger"
-                onClick={() => openDecisionDialog(creator._id, 'rejected')}
-              >
-                <span className="flex items-center gap-2">
-                  <XCircle className="w-4 h-4" />
-                  Reject
-                </span>
-              </DropdownItem>
-            )}
-            {creator.status === 'approved' && (
-              <DropdownItem
-                key="resend"
-                onClick={() => handleResendEmail(creator._id)}
-              >
-                <span className="flex items-center gap-2">
-                  <Mail className="w-4 h-4" />
-                  Resend approval email
-                </span>
-              </DropdownItem>
-            )}
-          </DropdownMenu>
-        </Dropdown>
+        {canShowMenu && (
+          <Dropdown>
+            <DropdownTrigger>
+              <Button size="sm" variant="ghost" disabled={isProcessing} className="px-2! min-w-0">
+                <MoreVertical className="w-4 h-4" />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Creator actions">
+              {creator.status === 'pending' ? (
+                <DropdownItem
+                  key="approve"
+                  onClick={() => openDecisionDialog(creator._id, 'approved')}
+                >
+                  <span className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-success" />
+                    Approve
+                  </span>
+                </DropdownItem>
+              ) : (
+                <DropdownItem
+                  key="resend"
+                  onClick={() => handleResendEmail(creator._id)}
+                >
+                  <span className="flex items-center gap-2">
+                    <Mail className="w-4 h-4" />
+                    Resend approval email
+                  </span>
+                </DropdownItem>
+              )}
+              {creator.status === 'pending' && (
+                <DropdownItem
+                  key="reject"
+                  className="text-danger"
+                  onClick={() => openDecisionDialog(creator._id, 'rejected')}
+                >
+                  <span className="flex items-center gap-2">
+                    <XCircle className="w-4 h-4" />
+                    Reject
+                  </span>
+                </DropdownItem>
+              )}
+            </DropdownMenu>
+          </Dropdown>
+        )}
       </div>
     )
   }

@@ -27,11 +27,6 @@ import {
   TableColumn,
   TableRow,
   TableCell,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Tooltip,
 } from '@/components/ui'
 import {
   CheckCircle,
@@ -42,7 +37,6 @@ import {
   RefreshCw,
   Clock,
   Eye,
-  MoreVertical,
 } from 'lucide-react'
 import type { CreatorApplication, ApplicationStatus } from '@/lib/types'
 
@@ -151,68 +145,53 @@ export default function ApprovalsPage() {
 
   const renderActions = (creator: CreatorData) => {
     const isProcessing = processingId === creator._id
-    const canShowMenu = creator.status === 'pending' || creator.status === 'approved'
 
     return (
       <div className="flex items-center justify-end gap-2">
-        <Tooltip>
-          <Tooltip.Trigger>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => setSelectedCreator(creator)}
+          disabled={isProcessing}
+        >
+          <Eye className="w-4 h-4 mr-1" />
+          View
+        </Button>
+
+        {creator.status === 'pending' && (
+          <>
             <Button
               size="sm"
-              variant="outline"
-              onClick={() => setSelectedCreator(creator)}
+              variant="primary"
+              onClick={() => openDecisionDialog(creator._id, 'approved')}
               disabled={isProcessing}
             >
-              <Eye className="w-4 h-4 mr-1" />
-              View
+              <CheckCircle className="w-4 h-4 mr-1" />
+              Approve
             </Button>
-          </Tooltip.Trigger>
-          <Tooltip.Content>View application details</Tooltip.Content>
-        </Tooltip>
+            <Button
+              size="sm"
+              variant="ghost"
+              className="text-destructive hover:bg-destructive/10"
+              onClick={() => openDecisionDialog(creator._id, 'rejected')}
+              disabled={isProcessing}
+            >
+              <XCircle className="w-4 h-4 mr-1" />
+              Reject
+            </Button>
+          </>
+        )}
 
-        {canShowMenu && (
-          <Dropdown>
-            <DropdownTrigger>
-              <Button size="sm" variant="ghost" disabled={isProcessing} className="px-2! min-w-0">
-                <MoreVertical className="w-4 h-4" />
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu aria-label="Creator actions">
-              {creator.status === 'pending' ? (
-                <DropdownItem
-                  key="approve"
-                  onClick={() => openDecisionDialog(creator._id, 'approved')}
-                >
-                  <span className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-success" />
-                    Approve
-                  </span>
-                </DropdownItem>
-              ) : (
-                <DropdownItem
-                  key="resend"
-                  onClick={() => handleResendEmail(creator._id)}
-                >
-                  <span className="flex items-center gap-2">
-                    <Mail className="w-4 h-4" />
-                    Resend approval email
-                  </span>
-                </DropdownItem>
-              )}
-              {creator.status === 'pending' && (
-                <DropdownItem
-                  key="reject"
-                  className="text-danger"
-                  onClick={() => openDecisionDialog(creator._id, 'rejected')}
-                >
-                  <span className="flex items-center gap-2">
-                    <XCircle className="w-4 h-4" />
-                    Reject
-                  </span>
-                </DropdownItem>
-              )}
-            </DropdownMenu>
-          </Dropdown>
+        {creator.status === 'approved' && (
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={() => handleResendEmail(creator._id)}
+            disabled={isProcessing}
+          >
+            <Mail className="w-4 h-4 mr-1" />
+            Resend
+          </Button>
         )}
       </div>
     )
@@ -226,8 +205,8 @@ export default function ApprovalsPage() {
       </div>
 
       <Card className="border-border bg-card shadow-sm rounded-xl">
-        <CardHeader className="border-b border-border/50 bg-muted/20 pb-4">
-          <div className="flex items-center justify-between">
+        <CardHeader className="border-b-[var(--border)]/50 bg-muted/20 ">
+          <div className="flex items-center justify-between p-6! rounded-t-xl!">
             <div className="space-y-1">
               <CardTitle className="font-['Outfit'] text-xl font-bold text-foreground">Applications</CardTitle>
               <CardDescription className="text-muted-foreground">Review and manage creator program applications.</CardDescription>

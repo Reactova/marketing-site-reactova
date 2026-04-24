@@ -48,19 +48,13 @@ export default function DashboardLogin() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--bg)] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[var(--bg)] flex items-center justify-center p-4! ">
       <div className="orb orb-1" />
       <div className="orb orb-2" />
       <div className="grid-lines" />
       
-      <Card className="w-full max-w-md bg-white border border-slate-200 shadow-xl">
-        <CardHeader className="flex flex-col gap-2 pt-8 pb-4 px-8">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="font-['Outfit'] font-extrabold text-xl text-slate-900">
-              Reactova
-            </span>
-            <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-          </div>
+      <Card className="w-full max-w-md bg-white border border-slate-200 shadow-xl p-6! space-y-6!">
+        <CardHeader className="flex flex-col gap-2 pt-8 pb-4 px-8"> 
           <h1 className="font-['Outfit'] font-bold text-2xl text-slate-900">
             Dashboard Login
           </h1>
@@ -70,7 +64,7 @@ export default function DashboardLogin() {
         </CardHeader>
         
         <CardContent className="px-8 pb-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6!">
             {error && (
               <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 text-red-400 text-sm text-center">
                 {error}
@@ -86,7 +80,7 @@ export default function DashboardLogin() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-                <InputGroupAddon align="inline-start">
+                <InputGroupAddon align="inline-start" className="p-2.5!">
                   <Mail className="w-4 h-4 text-muted-foreground" />
                 </InputGroupAddon>
               </InputGroup>
@@ -101,10 +95,10 @@ export default function DashboardLogin() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-                <InputGroupAddon align="inline-start">
+                <InputGroupAddon align="inline-start" className="p-2.5!">
                   <Lock className="w-4 h-4 text-muted-foreground" />
                 </InputGroupAddon>
-                <InputGroupAddon align="inline-end">
+                <InputGroupAddon align="inline-end" className="p-2.5!">
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}

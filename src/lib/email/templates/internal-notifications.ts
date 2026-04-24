@@ -15,7 +15,7 @@ interface PreRegistrationAlertData {
   tier: 'tier1' | 'tier2' | 'tier3'
 }
 
-const approvalsUrl = 'https://reactova.com/dashboard/approvals'
+const approvalsUrl = 'https://reactova.com/dashboard/creators'
 const registrationsUrl = 'https://reactova.com/dashboard/registrations'
 
 export function getCreatorApplicationAlertSubject({ name, instagramUsername }: CreatorApplicationAlertData): string {

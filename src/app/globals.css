@@ -10,11 +10,10 @@ svg {
   max-width: none;
 }
 
-/* ── Keep HeroUI surfaces neutral in this theme ── */
-/* Force HeroUI card/surface components to light */
-[data-slot="base"],
-[data-slot="input-wrapper"],
-[data-slot="innerWrapper"] {
+/* ── Keep hero section surfaces neutral only on creators-program page ── */
+.cp-wrap [data-slot="base"],
+.cp-wrap [data-slot="input-wrapper"],
+.cp-wrap [data-slot="innerWrapper"] {
   background: transparent !important;
 }
 /* Fix grad-text inside stat num */

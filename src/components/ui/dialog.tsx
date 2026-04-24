@@ -41,7 +41,7 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        'fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border border-border bg-card p-6 shadow-lg',
+        'fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border border-border bg-card p-6! shadow-lg',
         'rounded-xl',
         'transition-[opacity,transform] duration-200 data-[state=closed]:scale-[0.98] data-[state=closed]:opacity-0 data-[state=open]:opacity-100 data-[state=open]:scale-100',
         className
@@ -50,7 +50,7 @@ const DialogContent = React.forwardRef<
     >
       {children}
       <DialogPrimitive.Close
-        className="absolute right-4 top-4 rounded-md p-1.5 text-muted-foreground opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
+        className="absolute right-4 top-4 rounded-md p-1.5! text-muted-foreground opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
         aria-label="Close"
       >
         <X className="h-4 w-4" />
@@ -66,7 +66,7 @@ const DialogHeader = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      'flex flex-col space-y-1.5 text-center sm:text-left pr-8',
+      'flex! flex-col space-y-1.5! text-center sm:text-left p-6!',
       className
     )}
     {...props}

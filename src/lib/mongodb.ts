@@ -31,7 +31,11 @@ export async function connectToDatabase(): Promise<{ client: MongoClient; db: Db
   }
 
   if (!cached.promise) {
-    cached.promise = MongoClient.connect(MONGODB_URI)
+    cached.promise = MongoClient.connect(MONGODB_URI, {
+      maxPoolSize: 10,
+      retryWrites: true,
+      w: 'majority',
+    })
   }
 
   cached.client = await cached.promise

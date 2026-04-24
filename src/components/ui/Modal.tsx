@@ -69,13 +69,13 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
           )}
         >
           {title != null && title !== '' && (
-            <DialogHeader className="border-b border-border px-6 py-4 text-left">
+            <DialogHeader className="border-b border-border px-6! py-4! text-left">
               <DialogTitle>{title}</DialogTitle>
             </DialogHeader>
           )}
           <div className="px-6 py-6 text-muted-foreground">{children}</div>
           {footer != null && (
-            <DialogFooter className="border-t border-border px-6 py-4 sm:justify-end">
+            <DialogFooter className="border-t border-border px-6! py-4! sm:justify-end">
               {footer}
             </DialogFooter>
           )}

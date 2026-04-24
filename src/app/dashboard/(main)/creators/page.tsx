@@ -485,7 +485,7 @@ export default function CreatorsPage() {
         </CardContent>
       </Card>
 
-      <Dialog
+      <Dialog 
         open={isModalOpen}
         onOpenChange={(open) => {
           setIsModalOpen(open)
@@ -494,116 +494,116 @@ export default function CreatorsPage() {
             setReviewNotes('')
           }
         }}
-      >
-        <DialogContent className="max-w-2xl gap-0 overflow-hidden p-0 sm:rounded-xl">
-          <DialogHeader className="border-b border-border px-6 py-4 text-left">
-            <DialogTitle className="font-['Outfit'] text-lg font-bold text-foreground">
-              Review Application
-            </DialogTitle>
-          </DialogHeader>
+      > 
+          <DialogContent className="max-w-2xl gap-0 overflow-hidden p-6! rounded-xl!">
+            <DialogHeader className="border-b border-border px-6! py-4! text-left rounded-t-xl!">
+              <DialogTitle className="font-['Outfit'] text-lg font-bold text-foreground p-4! rounded-t-xl!">
+                Review Application
+              </DialogTitle>
+            </DialogHeader>
+            <div className="max-h-[min(70vh,560px)] overflow-y-auto px-6 py-6 rounded-b-xl!">
+              {selectedCreator && (
+                <div className="space-y-6 text-foreground">
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-sm text-muted-foreground">Name</p>
+                        <p className="font-medium">{selectedCreator.name}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-muted-foreground">Email</p>
+                        <p>{selectedCreator.email}</p>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Instagram</p>
+                      <a
+                        href={selectedCreator.instagramUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline"
+                      >
+                        @{selectedCreator.instagramUsername}
+                      </a>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Followers</p>
+                      <p>{followerRangeLabels[selectedCreator.followerRange]}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Niche</p>
+                      <p>
+                        {nicheLabels[selectedCreator.contentNiche]}
+                        {selectedCreator.otherNiche && ` (${selectedCreator.otherNiche})`}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Asks for Comments</p>
+                      <p>{selectedCreator.asksForComments ? 'Yes' : 'No'}</p>
+                    </div>
+                  </div>
 
-          <div className="max-h-[min(70vh,560px)] overflow-y-auto px-6 py-6">
-            {selectedCreator && (
-              <div className="space-y-6 text-foreground">
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Name</p>
-                      <p className="font-medium">{selectedCreator.name}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Email</p>
-                      <p>{selectedCreator.email}</p>
-                    </div>
-                  </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Instagram</p>
-                    <a
-                      href={selectedCreator.instagramUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline"
-                    >
-                      @{selectedCreator.instagramUsername}
-                    </a>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Followers</p>
-                    <p>{followerRangeLabels[selectedCreator.followerRange]}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Niche</p>
-                    <p>
-                      {nicheLabels[selectedCreator.contentNiche]}
-                      {selectedCreator.otherNiche && ` (${selectedCreator.otherNiche})`}
+                    <p className="mb-1 text-sm text-muted-foreground">Why they want to join</p>
+                    <p className="rounded-lg bg-muted/50 p-3 text-sm leading-relaxed">
+                      {selectedCreator.whyJoin || '—'}
                     </p>
                   </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Asks for Comments</p>
-                    <p>{selectedCreator.asksForComments ? 'Yes' : 'No'}</p>
+
+                  <div className="space-y-2 border-t border-border pt-4">
+                    <span className="text-sm font-medium text-muted-foreground">
+                      Status
+                    </span>
+                    <Select
+                      value={newStatus}
+                      onValueChange={(v) => setNewStatus(v as ApplicationStatus)}
+                    >
+                      <SelectTrigger className="h-10 w-full bg-background">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="pending">Pending</SelectItem>
+                        <SelectItem value="approved">Approved</SelectItem>
+                        <SelectItem value="rejected">Rejected</SelectItem>
+                        <SelectItem value="waitlisted">Waitlisted</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <span className="text-sm font-medium text-muted-foreground">
+                      Review Notes (also sent in decision email)
+                    </span>
+                    <Textarea
+                      placeholder="Add notes about this application..."
+                      value={reviewNotes}
+                      onChange={(e) => setReviewNotes(e.target.value)}
+                      className="min-h-[100px]"
+                    />
                   </div>
                 </div>
+              )}
+            </div>
 
-                <div>
-                  <p className="mb-1 text-sm text-muted-foreground">Why they want to join</p>
-                  <p className="rounded-lg bg-muted/50 p-3 text-sm leading-relaxed">
-                    {selectedCreator.whyJoin || '—'}
-                  </p>
-                </div>
-
-                <div className="space-y-2 border-t border-border pt-4">
-                  <span className="text-sm font-medium text-muted-foreground">
-                    Status
-                  </span>
-                  <Select
-                    value={newStatus}
-                    onValueChange={(v) => setNewStatus(v as ApplicationStatus)}
-                  >
-                    <SelectTrigger className="h-10 w-full bg-background">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="pending">Pending</SelectItem>
-                      <SelectItem value="approved">Approved</SelectItem>
-                      <SelectItem value="rejected">Rejected</SelectItem>
-                      <SelectItem value="waitlisted">Waitlisted</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <span className="text-sm font-medium text-muted-foreground">
-                    Review Notes (also sent in decision email)
-                  </span>
-                  <Textarea
-                    placeholder="Add notes about this application..."
-                    value={reviewNotes}
-                    onChange={(e) => setReviewNotes(e.target.value)}
-                    className="min-h-[100px]"
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-
-          <DialogFooter className="border-t border-border px-6 py-4 sm:justify-end sm:gap-3">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setIsModalOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              type="button"
-              variant="primary"
-              onClick={handleStatusUpdate}
-              isLoading={updating}
-            >
-              Update Status
-            </Button>
-          </DialogFooter>
-        </DialogContent>
+            <DialogFooter className="border-t border-border px-6! py-4! sm:justify-end sm:gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="button"
+                variant="primary"
+                onClick={handleStatusUpdate}
+                isLoading={updating}
+              >
+                Update Status
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        
       </Dialog>
     </div >
   )

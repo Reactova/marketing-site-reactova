@@ -2,6 +2,14 @@ import nodemailer from 'nodemailer'
 import { siteConfig } from '@/config/site.config'
 import { getWelcomeEmailHtml, getWelcomeEmailText, getWelcomeEmailSubject } from './templates/welcome'
 import { getCreatorsEmailHtml, getCreatorsEmailText, getCreatorsEmailSubject } from './templates/creators'
+import {
+  getCreatorApplicationAlertHtml,
+  getCreatorApplicationAlertSubject,
+  getCreatorApplicationAlertText,
+  getPreRegistrationAlertHtml,
+  getPreRegistrationAlertSubject,
+  getPreRegistrationAlertText,
+} from './templates/internal-notifications'
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -86,6 +94,69 @@ export async function sendCreatorsEmail({ name, email, instagramUsername, status
     return { success: true }
   } catch (error) {
     console.error('Failed to send creators email:', error)
+    return { success: false, error }
+  }
+}
+
+interface SendCreatorApplicationAlertParams {
+  name: string
+  email: string
+  instagramUsername: string
+  followerRange: string
+  contentNiche: string
+}
+
+export async function sendCreatorApplicationAlert(params: SendCreatorApplicationAlertParams) {
+  const { brand } = siteConfig
+  const to = process.env.SMTP_FROM || process.env.SMTP_USER
+
+  if (!to) {
+    console.error('Failed to send creator application alert: SMTP_FROM/SMTP_USER is not configured')
+    return { success: false }
+  }
+
+  try {
+    await transporter.sendMail({
+      from: `"${brand.name} Notifications" <${to}>`,
+      to,
+      subject: getCreatorApplicationAlertSubject(params),
+      text: getCreatorApplicationAlertText(params),
+      html: getCreatorApplicationAlertHtml(params),
+    })
+    return { success: true }
+  } catch (error) {
+    console.error('Failed to send creator application alert:', error)
+    return { success: false, error }
+  }
+}
+
+interface SendPreRegistrationAlertParams {
+  name: string
+  email: string
+  spotNumber: number
+  tier: OfferTier
+}
+
+export async function sendPreRegistrationAlert(params: SendPreRegistrationAlertParams) {
+  const { brand } = siteConfig
+  const to = process.env.SMTP_FROM || process.env.SMTP_USER
+
+  if (!to) {
+    console.error('Failed to send preregistration alert: SMTP_FROM/SMTP_USER is not configured')
+    return { success: false }
+  }
+
+  try {
+    await transporter.sendMail({
+      from: `"${brand.name} Notifications" <${to}>`,
+      to,
+      subject: getPreRegistrationAlertSubject(params),
+      text: getPreRegistrationAlertText(params),
+      html: getPreRegistrationAlertHtml(params),
+    })
+    return { success: true }
+  } catch (error) {
+    console.error('Failed to send preregistration alert:', error)
     return { success: false, error }
   }
 }

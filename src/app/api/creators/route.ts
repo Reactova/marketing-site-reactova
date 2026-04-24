@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getCollection } from '@/lib/mongodb'
-import { sendCreatorsEmail } from '@/lib/email/index'
+import { sendCreatorApplicationAlert, sendCreatorsEmail } from '@/lib/email/index'
 import { CreatorApplication, FollowerRange, ContentNiche } from '@/lib/types'
 
 function getClientIP(request: NextRequest): string {
@@ -164,6 +164,16 @@ export async function POST(request: NextRequest) {
       name: application.name,
       email: application.email,
       instagramUsername: application.instagramUsername,
+    })
+
+    await sendCreatorApplicationAlert({
+      name: application.name,
+      email: application.email,
+      instagramUsername: application.instagramUsername,
+      followerRange: application.followerRange,
+      contentNiche: application.contentNiche === 'other' && application.otherNiche
+        ? application.otherNiche
+        : application.contentNiche,
     })
 
     if (emailResult.success) {

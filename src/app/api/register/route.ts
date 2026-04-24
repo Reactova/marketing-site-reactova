@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getCollection } from '@/lib/mongodb'
-import { sendWelcomeEmail, getOfferTier, getOfferDetails } from '@/lib/email/index'
+import {
+  sendWelcomeEmail,
+  getOfferTier,
+  getOfferDetails,
+  sendPreRegistrationAlert,
+} from '@/lib/email/index'
 import { PreRegistration } from '@/lib/types'
 import { siteConfig } from '@/config/site.config'
 
@@ -92,6 +97,13 @@ export async function POST(request: NextRequest) {
       name: registration.name,
       email: registration.email,
       discountCode,
+      spotNumber,
+      tier,
+    })
+
+    await sendPreRegistrationAlert({
+      name: registration.name,
+      email: registration.email,
       spotNumber,
       tier,
     })

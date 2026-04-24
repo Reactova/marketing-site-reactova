@@ -15,10 +15,10 @@ export function getCreatorsEmailSubject({ name, status }: CreatorsEmailData): st
   const resolvedStatus = normalizeStatus(status)
 
   if (resolvedStatus === 'approved') {
-    return `✅ ${name}, you are approved for the Creators Program!`
+    return `🎉 ${name}, welcome to the ${siteConfig.brand.name} Creators Program`
   }
   if (resolvedStatus === 'rejected') {
-    return `Update on your ${siteConfig.brand.name} Creators Program application`
+    return `${siteConfig.brand.name} Creators Program application update`
   }
   return `🎯 ${name}, your Creators Program application is received!`
 }
@@ -33,7 +33,10 @@ Hi ${name},
 
 Great news - your Creators Program application for @${instagramUsername} has been approved.
 
-Your onboarding instructions will be shared by our team shortly.
+What happens next:
+- Our onboarding team will contact you with setup instructions
+- You will get full Business plan access after onboarding
+- You can reply to this email if you want to share context before onboarding
 
 ${reason?.trim() ? `Additional note from our team:\n${reason.trim()}\n` : ''}
 Questions? Reply to this email - we read every message.
@@ -53,7 +56,7 @@ After review, we are unable to approve this application right now.
 Reason:
 ${reason?.trim() || 'Your current profile does not match the acceptance criteria at this time.'}
 
-You are welcome to improve your profile and apply again in the future.
+You are welcome to improve your profile and apply again in the future. Strong engagement consistency and clear comment-to-DM intent usually improve approval odds.
 
 Questions? Reply to this email - we read every message.
 
@@ -118,9 +121,16 @@ export function getCreatorsEmailHtml({ name, instagramUsername, status, reason }
           <tr>
             <td style="padding:32px;">
               <p style="margin:0 0 12px 0;font-size:12px;letter-spacing:.08em;color:#16A34A;font-weight:700;">CREATORS PROGRAM</p>
-              <h1 style="margin:0 0 16px 0;font-size:28px;color:#111827;">You are approved, ${name}! ✅</h1>
+              <h1 style="margin:0 0 16px 0;font-size:28px;color:#111827;">Welcome aboard, ${name}! ✅</h1>
               <p style="margin:0 0 12px 0;color:#374151;line-height:1.6;">Your application for <strong>@${instagramUsername}</strong> has been approved.</p>
-              <p style="margin:0 0 16px 0;color:#374151;line-height:1.6;">Our team will send onboarding instructions shortly.</p>
+              <div style="margin:18px 0 0;padding:14px;border:1px solid #DCFCE7;background:#F0FDF4;border-radius:10px;">
+                <p style="margin:0 0 8px 0;font-size:12px;color:#166534;font-weight:700;letter-spacing:.06em;">WHAT HAPPENS NEXT</p>
+                <ul style="margin:0;padding-left:18px;color:#14532D;line-height:1.6;">
+                  <li>Our team sends onboarding instructions shortly</li>
+                  <li>You receive full Business plan access after onboarding</li>
+                  <li>Reply to this email if you have onboarding questions</li>
+                </ul>
+              </div>
               ${reason?.trim()
       ? `<div style="margin-top:20px;padding:14px;border:1px solid #DCFCE7;background:#F0FDF4;border-radius:10px;">
                    <p style="margin:0 0 8px 0;font-size:12px;color:#166534;font-weight:700;letter-spacing:.06em;">NOTE FROM TEAM</p>
@@ -157,13 +167,13 @@ export function getCreatorsEmailHtml({ name, instagramUsername, status, reason }
           <tr>
             <td style="padding:32px;">
               <p style="margin:0 0 12px 0;font-size:12px;letter-spacing:.08em;color:#DC2626;font-weight:700;">APPLICATION UPDATE</p>
-              <h1 style="margin:0 0 16px 0;font-size:28px;color:#111827;">Thanks for applying, ${name}</h1>
+              <h1 style="margin:0 0 16px 0;font-size:28px;color:#111827;">Thank you for applying, ${name}</h1>
               <p style="margin:0 0 12px 0;color:#374151;line-height:1.6;">We reviewed your application for <strong>@${instagramUsername}</strong> and are unable to approve it at this time.</p>
               <div style="margin-top:20px;padding:14px;border:1px solid #FECACA;background:#FEF2F2;border-radius:10px;">
                 <p style="margin:0 0 8px 0;font-size:12px;color:#991B1B;font-weight:700;letter-spacing:.06em;">REASON</p>
                 <p style="margin:0;color:#7F1D1D;line-height:1.6;">${reason?.trim() || 'Your current profile does not match the acceptance criteria at this time.'}</p>
               </div>
-              <p style="margin:20px 0 0 0;color:#4B5563;line-height:1.6;">You are welcome to improve your profile and apply again in the future.</p>
+              <p style="margin:20px 0 0 0;color:#4B5563;line-height:1.6;">You are welcome to improve your profile and apply again in the future. Stronger consistency in engagement and clear comment-driven offers generally increase approval chances.</p>
               <p style="margin:24px 0 0 0;color:#6B7280;font-size:14px;">Questions? Reply to this email.</p>
             </td>
           </tr>

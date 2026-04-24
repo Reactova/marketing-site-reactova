@@ -20,14 +20,14 @@ export default function LegalPage({ title, lastUpdated, content }: LegalPageProp
       
       <main className="legal-wrap py-20!">
         <div className="container max-w-4xl!">
-          <div className="legal-header mb-12!">
+          <div className="legal-header">
             <h1 className="legal-title text-4xl! font-extrabold! mb-4! grad-text inline-block">{title}</h1>
             <p className="legal-meta text-sm! text-slate-400! font-mono! uppercase! letter-spacing-0.05em">
               Last Updated: {lastUpdated}
             </p>
           </div>
 
-          <div className="legal-content glass-card p-10! md:p-16! leading-relaxed!">
+          <div className="legal-content glass-card p-10! md:p-16! md:pt-6! leading-relaxed!">
             {paragraphs.map((p, i) => {
               // Check if it's a section header (starts with a number or matches certain patterns)
               const isHeader = /^\d+\./.test(p.trim()) || p.trim().length < 40 && p.trim().endsWith(':')

@@ -37,7 +37,7 @@ export default function Footer() {
                 <li><Link href="/cookie-policy">Cookie Policy</Link></li>
                 <li><Link href="/refund-policy">Refund Policy</Link></li>
                 <li><Link href="/acceptable-use-policy">Acceptable Use</Link></li>
-                <li><Link href="/creators-program-policy">Creators Program Policy</Link></li>
+                <li><Link href="/creators-policy">Creators Program Policy</Link></li>
               </ul>
             </div>
 

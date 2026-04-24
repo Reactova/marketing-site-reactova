@@ -178,7 +178,7 @@ export default function RegistrationsPage() {
         return (
           <div className="flex items-start gap-2 min-w-0">
             <Mail className="w-3 h-3 shrink-0 mt-0.5 text-[var(--muted-foreground)]" />
-            <span className="text-[var(--foreground)] break-all text-sm min-w-0">{item.email}</span>
+            <span className="text-[var(--foreground)] text-sm min-w-0">{item.email}</span>
             <CopyButton text={item.email} />
           </div>
         )

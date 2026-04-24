@@ -265,7 +265,7 @@ export default function CreatorsPage() {
           </div>
         )
       case 'email':
-        return <span className="text-[var(--foreground)] break-all">{item.email}</span>
+        return <span className="text-[var(--foreground)]">{item.email}</span>
       case 'instagram':
         return (
           <div className="flex items-center gap-2">

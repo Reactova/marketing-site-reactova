@@ -3,6 +3,66 @@ import { getCollection } from '@/lib/mongodb'
 import { sendCreatorApplicationAlert, sendCreatorsEmail } from '@/lib/email/index'
 import { CreatorApplication, FollowerRange, ContentNiche } from '@/lib/types'
 
+const SPOTS_SETTINGS_ID = 'spots'
+const SPOTS_SETTINGS_COLLECTION = 'creator_program_settings'
+
+function getSpotsCap(): number {
+  const n = parseInt(process.env.CREATOR_PROGRAM_INITIAL_SPOTS || '50', 10)
+  return Number.isFinite(n) && n > 0 ? n : 50
+}
+
+/** Stored counter — decremented on each new application (not derived from counts). */
+async function ensureSpotsCounterSeeded(): Promise<{ spotsRemaining: number; spotsCap: number }> {
+  const cap = getSpotsCap()
+  const counters = await getCollection<{ _id: string; spotsRemaining: number }>(SPOTS_SETTINGS_COLLECTION)
+  const applications = await getCollection<any>('creator_applications')
+
+  const existing = await counters.findOne({ _id: SPOTS_SETTINGS_ID })
+  if (existing && typeof existing.spotsRemaining === 'number') {
+    return { spotsRemaining: Math.max(0, existing.spotsRemaining), spotsCap: cap }
+  }
+
+  const total = await applications.countDocuments()
+  const seed = Math.max(0, cap - total)
+  await counters.updateOne(
+    { _id: SPOTS_SETTINGS_ID },
+    { $set: { spotsRemaining: seed } },
+    { upsert: true }
+  )
+  return { spotsRemaining: seed, spotsCap: cap }
+}
+
+async function decrementSpotsAfterNewApplication(): Promise<{ spotsRemaining: number; spotsCap: number }> {
+  const cap = getSpotsCap()
+  const counters = await getCollection<{ _id: string; spotsRemaining: number }>(SPOTS_SETTINGS_COLLECTION)
+
+  const updated = await counters.findOneAndUpdate(
+    { _id: SPOTS_SETTINGS_ID },
+    [
+      {
+        $set: {
+          spotsRemaining: {
+            $max: [
+              0,
+              {
+                $subtract: [{ $ifNull: ['$spotsRemaining', cap] }, 1],
+              },
+            ],
+          },
+        },
+      },
+    ],
+    { upsert: true, returnDocument: 'after' }
+  )
+
+  const spotsRemaining =
+    updated && typeof updated.spotsRemaining === 'number'
+      ? Math.max(0, updated.spotsRemaining)
+      : Math.max(0, cap - 1)
+
+  return { spotsRemaining, spotsCap: cap }
+}
+
 function getClientIP(request: NextRequest): string {
   const forwarded = request.headers.get('x-forwarded-for')
   const realIP = request.headers.get('x-real-ip')
@@ -122,6 +182,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    await ensureSpotsCounterSeeded()
+
     const clientIP = getClientIP(request)
 
     const application: CreatorApplication = {
@@ -184,11 +246,14 @@ export async function POST(request: NextRequest) {
     }
 
     const totalApplications = await collection.countDocuments()
+    const { spotsRemaining, spotsCap } = await decrementSpotsAfterNewApplication()
 
     return NextResponse.json({
       success: true,
       applicationNumber: totalApplications,
       emailSent: emailResult.success,
+      spotsRemaining,
+      spotsCap,
     })
   } catch (error) {
     console.error('Creator application error:', error)
@@ -202,17 +267,18 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   try {
     const collection = await getCollection<any>('creator_applications')
-    
+
     const total = await collection.countDocuments()
     const pending = await collection.countDocuments({ status: 'pending' })
     const approved = await collection.countDocuments({ status: 'approved' })
+    const { spotsRemaining, spotsCap } = await ensureSpotsCounterSeeded()
 
     return NextResponse.json({
       total,
       pending,
       approved,
-      // Public “spots left” reflects the review queue (pending), not yet-approved seats
-      spotsRemaining: Math.max(0, 50 - pending),
+      spotsRemaining,
+      spotsCap,
     })
   } catch (error) {
     console.error('Failed to get creator stats:', error)

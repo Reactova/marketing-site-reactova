@@ -57,8 +57,6 @@ function getSourceInfo() {
   }
 }
 
-const MAX_SPOTS = 50
-
 export default function CreatorsForm() {
   const [formData, setFormData] = useState({
     name: '',
@@ -79,12 +77,16 @@ export default function CreatorsForm() {
   const [error, setError] = useState<string | null>(null)
   const [fieldErrors, setFieldErrors] = useState<Record<string, boolean>>({})
   const [spotsRemaining, setSpotsRemaining] = useState<number | null>(null)
+  const [spotsCap, setSpotsCap] = useState(50)
   const { markConversion } = useAnalytics()
 
   useEffect(() => {
     fetch('/api/creators')
       .then((res) => res.json())
       .then((data) => {
+        if (typeof data.spotsCap === 'number' && data.spotsCap > 0) {
+          setSpotsCap(data.spotsCap)
+        }
         if (typeof data.spotsRemaining === 'number') {
           setSpotsRemaining(data.spotsRemaining)
         }
@@ -144,6 +146,16 @@ export default function CreatorsForm() {
         return
       }
 
+      if (typeof data.spotsCap === 'number' && data.spotsCap > 0) {
+        setSpotsCap(data.spotsCap)
+      }
+      if (typeof data.spotsRemaining === 'number') {
+        setSpotsRemaining(Math.max(0, data.spotsRemaining))
+        window.dispatchEvent(
+          new CustomEvent('creators-spots-remaining', { detail: data.spotsRemaining })
+        )
+      }
+
       setSubmitted(true)
       markConversion()
     } catch {
@@ -195,7 +207,7 @@ export default function CreatorsForm() {
         <div className="creators-spots-counter">
           <span className="creators-spots-dot" />
           {spotsRemaining > 0
-            ? String(spotsRemaining) + ' of ' + String(MAX_SPOTS) + ' spots remaining'
+            ? `${spotsRemaining} of ${spotsCap} spots remaining`
             : 'All spots have been claimed'}
         </div>
       )}

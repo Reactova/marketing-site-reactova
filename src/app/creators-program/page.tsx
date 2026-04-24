@@ -98,6 +98,7 @@ export default function CreatorsView() {
   const { brand } = siteConfig
   const [showFab, setShowFab] = useState(true)
   const [spotsRemaining, setSpotsRemaining] = useState(50)
+  const [spotsCap, setSpotsCap] = useState(50)
   const [isSpotsLoading, setIsSpotsLoading] = useState(true)
 
   useEffect(() => {
@@ -127,12 +128,15 @@ export default function CreatorsView() {
         if (!response.ok) return
 
         const data = await response.json()
+        const cap =
+          typeof data?.spotsCap === 'number' && data.spotsCap > 0 ? data.spotsCap : 50
         const nextValue =
           typeof data?.spotsRemaining === 'number'
-            ? Math.max(0, Math.min(50, data.spotsRemaining))
-            : 50
+            ? Math.max(0, Math.min(cap, data.spotsRemaining))
+            : cap
 
         if (isMounted) {
+          setSpotsCap(cap)
           setSpotsRemaining(nextValue)
         }
       } catch {
@@ -145,8 +149,17 @@ export default function CreatorsView() {
     }
 
     loadSpotsRemaining()
+
+    function onSpotsUpdated(e: Event) {
+      const detail = (e as CustomEvent<number>).detail
+      if (typeof detail === 'number') {
+        setSpotsRemaining(Math.max(0, detail))
+      }
+    }
+    window.addEventListener('creators-spots-remaining', onSpotsUpdated as EventListener)
     return () => {
       isMounted = false
+      window.removeEventListener('creators-spots-remaining', onSpotsUpdated as EventListener)
     }
   }, [])
 
@@ -180,7 +193,7 @@ export default function CreatorsView() {
           <section className="cp-hero">
             <div className="badge creators-badge text-primary!">
               <span className="badge-dot" />
-              Creators Program · Only 50 Spots
+              Creators Program · Only {spotsCap} Spots
             </div>
 
             <h1 className="cp-headline">
@@ -189,7 +202,7 @@ export default function CreatorsView() {
             </h1>
 
             <p className="cp-subhead">
-              We are selecting 50 creators who already drive Instagram engagement
+              We are selecting {spotsCap} creators who already drive Instagram engagement
               to use Reactova at zero cost — in exchange for real usage that
               helps us grow organically.
             </p>

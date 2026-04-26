@@ -244,10 +244,10 @@ export default function CreatorsView() {
                     </svg>
                   </span>
                 ) : (
-                  <span className="">{spotsRemaining}</span>
+                  <span className="">{spotsRemaining}/{spotsCap}</span>
                 )}
               </span>
-              <span className="cp-stat-label">Spots remaining out of {spotsCap}</span>
+              <span className="cp-stat-label">Spots remaining</span>
             </div>
             <div className="cp-stat">
               <span className="cp-stat-num">$79<span style={{ fontSize: 14, fontWeight: 500 }}>/mo</span></span>

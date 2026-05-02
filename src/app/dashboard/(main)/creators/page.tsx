@@ -60,6 +60,7 @@ import {
   Users,
 } from 'lucide-react'
 import type { CreatorApplication, ApplicationStatus, FollowerRange, ContentNiche } from '@/lib/types'
+import { TEAM_CODES } from '@/lib/teamCodes'
 
 interface CreatorData extends CreatorApplication {
   _id: string
@@ -72,12 +73,19 @@ interface PaginationData {
   totalPages: number
 }
 
+// Reverse lookup: code → display name (e.g. "xk9m2" → "Shivam")
+function getInviterName(utmSource: string | null | undefined): string | null {
+  if (!utmSource) return null
+  return TEAM_CODES[utmSource] ?? null
+}
+
 const columns = [
   { id: 'name', label: 'Name', sortable: true },
   { id: 'email', label: 'Email', sortable: true },
   { id: 'instagram', label: 'Instagram', sortable: false },
   { id: 'followers', label: 'Followers', sortable: true },
   { id: 'niche', label: 'Niche', sortable: true },
+  { id: 'invitedBy', label: 'Invited By', sortable: false },
   { id: 'status', label: 'Status', sortable: true },
   { id: 'device', label: 'Device', sortable: false },
   { id: 'appliedAt', label: 'Applied', sortable: true },
@@ -215,31 +223,21 @@ export default function CreatorsPage() {
 
   const getStatusVariant = (status: ApplicationStatus): "success" | "destructive" | "warning" | "default" | "info" => {
     switch (status) {
-      case 'pending':
-        return 'warning'
-      case 'approved':
-        return 'success'
-      case 'rejected':
-        return 'destructive'
-      case 'waitlisted':
-        return 'info'
-      default:
-        return 'default'
+      case 'pending': return 'warning'
+      case 'approved': return 'success'
+      case 'rejected': return 'destructive'
+      case 'waitlisted': return 'info'
+      default: return 'default'
     }
   }
 
   const getStatusIcon = (status: ApplicationStatus) => {
     switch (status) {
-      case 'pending':
-        return <Clock className="w-3 h-3" />
-      case 'approved':
-        return <CheckCircle className="w-3 h-3" />
-      case 'rejected':
-        return <XCircle className="w-3 h-3" />
-      case 'waitlisted':
-        return <Users className="w-3 h-3" />
-      default:
-        return null
+      case 'pending': return <Clock className="w-3 h-3" />
+      case 'approved': return <CheckCircle className="w-3 h-3" />
+      case 'rejected': return <XCircle className="w-3 h-3" />
+      case 'waitlisted': return <Users className="w-3 h-3" />
+      default: return null
     }
   }
 
@@ -296,11 +294,19 @@ export default function CreatorsPage() {
             {item.otherNiche && ` (${item.otherNiche})`}
           </span>
         )
+      case 'invitedBy': {
+        const inviter = getInviterName(item.source?.utmSource)
+        return inviter ? (
+          <Badge variant="outline" className="text-[10px] font-semibold capitalize">
+            {inviter}
+          </Badge>
+        ) : (
+          <span className="text-[var(--muted-foreground)] text-xs">—</span>
+        )
+      }
       case 'status':
         return (
-          <Badge
-            variant={getStatusVariant(item.status)}
-          >
+          <Badge variant={getStatusVariant(item.status)}>
             <span className="flex items-center gap-1">
               {getStatusIcon(item.status)}
               {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
@@ -450,7 +456,7 @@ export default function CreatorsPage() {
               <Spinner />
             </div>
           ) : creators.length === 0 ? (
-            <div className="text-center py-16 px-4"> 
+            <div className="text-center py-16 px-4">
               <p className="text-lg font-medium text-foreground">No applications found</p>
               <p className="text-sm text-muted-foreground mt-1">Try adjusting your filters or search query.</p>
             </div>
@@ -482,7 +488,7 @@ export default function CreatorsPage() {
         </CardContent>
       </Card>
 
-      <Dialog 
+      <Dialog
         open={isModalOpen}
         onOpenChange={(open) => {
           setIsModalOpen(open)
@@ -491,118 +497,130 @@ export default function CreatorsPage() {
             setReviewNotes('')
           }
         }}
-      > 
-          <DialogContent className="w-[calc(100vw-1.5rem)] max-w-2xl gap-0 overflow-hidden p-0 rounded-xl sm:max-w-2xl">
-            <DialogHeader className="border-b border-border px-4 py-3 sm:px-6 sm:py-4 text-left rounded-t-xl">
-              <DialogTitle className="font-['Outfit'] text-base sm:text-lg font-bold text-foreground">
-                Review Application
-              </DialogTitle>
-            </DialogHeader>
-            <div className="max-h-[min(70vh,560px)] overflow-y-auto px-4 py-4 sm:px-6 sm:py-6 rounded-b-xl">
-              {selectedCreator && (
-                <div className="space-y-6 text-foreground">
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-sm text-muted-foreground">Name</p>
-                        <p className="font-medium">{selectedCreator.name}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">Email</p>
-                        <p className="break-all">{selectedCreator.email}</p>
-                      </div>
+      >
+        <DialogContent className="w-[calc(100vw-1.5rem)] max-w-2xl gap-0 overflow-hidden p-0 rounded-xl sm:max-w-2xl">
+          <DialogHeader className="border-b border-border px-4 py-3 sm:px-6 sm:py-4 text-left rounded-t-xl">
+            <DialogTitle className="font-['Outfit'] text-base sm:text-lg font-bold text-foreground">
+              Review Application
+            </DialogTitle>
+          </DialogHeader>
+          <div className="max-h-[min(70vh,560px)] overflow-y-auto px-4 py-4 sm:px-6 sm:py-6 rounded-b-xl">
+            {selectedCreator && (
+              <div className="space-y-6 text-foreground">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Name</p>
+                      <p className="font-medium">{selectedCreator.name}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Instagram</p>
-                      <a
-                        href={selectedCreator.instagramUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline"
-                      >
-                        @{selectedCreator.instagramUsername}
-                      </a>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Followers</p>
-                      <p>{followerRangeLabels[selectedCreator.followerRange]}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Niche</p>
-                      <p>
-                        {nicheLabels[selectedCreator.contentNiche]}
-                        {selectedCreator.otherNiche && ` (${selectedCreator.otherNiche})`}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Asks for Comments</p>
-                      <p>{selectedCreator.asksForComments ? 'Yes' : 'No'}</p>
+                      <p className="text-sm text-muted-foreground">Email</p>
+                      <p className="break-all">{selectedCreator.email}</p>
                     </div>
                   </div>
-
                   <div>
-                    <p className="mb-1 text-sm text-muted-foreground">Why they want to join</p>
-                    <p className="rounded-lg bg-muted/50 p-3 text-sm leading-relaxed">
-                      {selectedCreator.whyJoin || '—'}
+                    <p className="text-sm text-muted-foreground">Instagram</p>
+                    <a
+                      href={selectedCreator.instagramUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      @{selectedCreator.instagramUsername}
+                    </a>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Followers</p>
+                    <p>{followerRangeLabels[selectedCreator.followerRange]}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Niche</p>
+                    <p>
+                      {nicheLabels[selectedCreator.contentNiche]}
+                      {selectedCreator.otherNiche && ` (${selectedCreator.otherNiche})`}
                     </p>
                   </div>
-
-                  <div className="space-y-2 border-t border-border pt-4">
-                    <span className="text-sm font-medium text-muted-foreground">
-                      Status
-                    </span>
-                    <Select
-                      value={newStatus}
-                      onValueChange={(v) => setNewStatus(v as ApplicationStatus)}
-                    >
-                      <SelectTrigger className="h-10 w-full bg-background">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="pending">Pending</SelectItem>
-                        <SelectItem value="approved">Approved</SelectItem>
-                        <SelectItem value="rejected">Rejected</SelectItem>
-                        <SelectItem value="waitlisted">Waitlisted</SelectItem>
-                      </SelectContent>
-                    </Select>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Asks for Comments</p>
+                    <p>{selectedCreator.asksForComments ? 'Yes' : 'No'}</p>
                   </div>
 
-                  <div className="space-y-2">
-                    <span className="text-sm font-medium text-muted-foreground">
-                      Review Notes (also sent in decision email)
-                    </span>
-                    <Textarea
-                      placeholder="Add notes about this application..."
-                      value={reviewNotes}
-                      onChange={(e) => setReviewNotes(e.target.value)}
-                      className="min-h-[100px]"
-                    />
+                  {/* ── Invited By ── */}
+                  <div>
+                    <p className="text-sm text-muted-foreground">Invited By</p>
+                    {(() => {
+                      const inviter = getInviterName(selectedCreator.source?.utmSource)
+                      return inviter ? (
+                        <Badge variant="outline" className="mt-1 capitalize font-semibold">
+                          {inviter}
+                        </Badge>
+                      ) : (
+                        <p className="text-muted-foreground">Organic / Direct</p>
+                      )
+                    })()}
                   </div>
                 </div>
-              )}
-            </div>
 
-            <DialogFooter className="border-t border-border px-4 py-3 sm:px-6 sm:py-4 flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-3">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setIsModalOpen(false)}
-                className="w-full sm:w-auto"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="button"
-                variant="primary"
-                onClick={handleStatusUpdate}
-                isLoading={updating}
-                className="w-full sm:w-auto"
-              >
-                Update Status
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        
+                <div>
+                  <p className="mb-1 text-sm text-muted-foreground">Why they want to join</p>
+                  <p className="rounded-lg bg-muted/50 p-3 text-sm leading-relaxed">
+                    {selectedCreator.whyJoin || '—'}
+                  </p>
+                </div>
+
+                <div className="space-y-2 border-t border-border pt-4">
+                  <span className="text-sm font-medium text-muted-foreground">Status</span>
+                  <Select
+                    value={newStatus}
+                    onValueChange={(v) => setNewStatus(v as ApplicationStatus)}
+                  >
+                    <SelectTrigger className="h-10 w-full bg-background">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="pending">Pending</SelectItem>
+                      <SelectItem value="approved">Approved</SelectItem>
+                      <SelectItem value="rejected">Rejected</SelectItem>
+                      <SelectItem value="waitlisted">Waitlisted</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <span className="text-sm font-medium text-muted-foreground">
+                    Review Notes (also sent in decision email)
+                  </span>
+                  <Textarea
+                    placeholder="Add notes about this application..."
+                    value={reviewNotes}
+                    onChange={(e) => setReviewNotes(e.target.value)}
+                    className="min-h-[100px]"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+
+          <DialogFooter className="border-t border-border px-4 py-3 sm:px-6 sm:py-4 flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsModalOpen(false)}
+              className="w-full sm:w-auto"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              variant="primary"
+              onClick={handleStatusUpdate}
+              isLoading={updating}
+              className="w-full sm:w-auto"
+            >
+              Update Status
+            </Button>
+          </DialogFooter>
+        </DialogContent>
       </Dialog>
     </div>
   )

@@ -16,7 +16,7 @@ export default function Footer() {
               <Logo variant='light' />
             </div>
             <p className="footer-tagline">
-              The world's most advanced Instagram DM automation for creators and agencies.
+              The only Instagram automation that tracks comment → DM → click → sale in one dashboard.
             </p>
           </div>
 

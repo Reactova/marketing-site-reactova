@@ -166,7 +166,7 @@ export default function CreatorsView() {
     <>
       <Background />
       <Navbar
-        ctaHref="/comingsoon"
+        ctaHref="/"
         ctaLabel="← Back to waitlist"
         ctaVariant="ghost"
       />

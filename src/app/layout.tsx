@@ -3,6 +3,7 @@ import { defaultMetadata, viewport } from '@/config/metadata'
 import AnalyticsTracker from '@/components/AnalyticsTracker'
 import { Providers } from './providers'
 import Footer from '@/components/Footer'
+import Script from 'next/script'
 
 export const metadata = defaultMetadata
 export { viewport }
@@ -22,6 +23,19 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600;700&display=swap"
           rel="stylesheet"
         />
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-3XNMJ422QQ"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-3XNMJ422QQ');
+          `}
+        </Script>
       </head>
       <body>
         <Providers>
